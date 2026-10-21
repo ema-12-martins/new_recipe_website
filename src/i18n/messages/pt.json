@@ -1,0 +1,10 @@
+{
+  "common": {
+    "appName": "Livro de Receitas da Família",
+    "tagline": "As receitas da nossa família, guardadas com cuidado e fáceis de encontrar."
+  },
+  "auth": {},
+  "recipes": {},
+  "members": {},
+  "offline": {}
+}

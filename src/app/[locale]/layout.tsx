@@ -2,12 +2,20 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 
 import { isLocale, locales } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
 import "../globals.css";
 
-export const metadata: Metadata = {
-  title: "Family Recipe Cookbook",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const { common } = getDictionary(locale);
+  return { title: common.appName, description: common.tagline };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
