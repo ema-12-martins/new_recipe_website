@@ -14,7 +14,9 @@
     "db:push:dev": "node scripts/supabase-db.mjs push dev",
     "db:status:dev": "node scripts/supabase-db.mjs status dev",
     "db:push:prod": "node scripts/supabase-db.mjs push prod",
-    "db:status:prod": "node scripts/supabase-db.mjs status prod"
+    "db:status:prod": "node scripts/supabase-db.mjs status prod",
+    "check:secrets": "node scripts/check-client-bundle.mjs",
+    "test:e2e:prod": "playwright test -c playwright.prod.config.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

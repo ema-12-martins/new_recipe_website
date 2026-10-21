@@ -71,10 +71,12 @@ test.describe("locale routing", () => {
 
 test.describe("home page", () => {
   for (const locale of ["pt", "en"] as const) {
-    test(`/${locale} shows the appName from ${locale}.json and does not scroll horizontally`, async ({
+    // The locale root now routes onward (setup / recipes / sign-in); the setup page's
+    // heading is the app name in both of its states.
+    test(`/${locale}/setup shows the appName from ${locale}.json and does not scroll horizontally`, async ({
       page,
     }) => {
-      await page.goto(`/${locale}`);
+      await page.goto(`/${locale}/setup`);
       const heading = page.getByRole("heading", { level: 1 });
       await expect(heading).toHaveText(messages[locale].common.appName);
       await expect(heading).not.toHaveText(LOCALE_NAMES[locale]);

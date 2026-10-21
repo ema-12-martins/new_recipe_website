@@ -26,7 +26,8 @@ export default defineConfig({
   },
   webServer: {
     command: `npm run build && npm run start -- --port ${PORT}`,
-    url: baseURL,
+    // A page that always answers 200 (the root now redirects onward).
+    url: `${baseURL}/pt/setup`,
     reuseExistingServer: false,
     timeout: 180_000,
   },
