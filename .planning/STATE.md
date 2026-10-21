@@ -1,11 +1,11 @@
 ---
 gsd_state_version: "1.0"
 status: planning
-stopped_at: Plan 01-08 superseded by user decision (2026-10-21); Phase 1 needs replanning as the real web app after the production web stack is selected and approved via /gsd-discuss-phase 1
-last_updated: "2026-10-21T09:44:58.377Z"
+stopped_at: Phase 1 context gathered (production web stack approved)
+last_updated: "2026-10-21T10:00:56.655Z"
 last_activity: 2026-10-21
 last_activity_desc: "Completed quick task 261021-g0i: Retire Plan 01-08 validation gate and record decision to replan Phase 1 as the real web app"
-state_head: 11479679ef4b36ac43b42e21d4e0098fb09074a9
+state_head: 1df12c8b15fc26c539ac4c3873d663908b72f16c
 progress:
   total_phases: 3
   completed_phases: 0
@@ -31,7 +31,7 @@ progress:
 - **Milestone:** Initial v1
 - **Phase:** 1 — Decisions and Shared Cookbook; needs replanning as the real web app (Plan 01-01 is completed historical decision/provenance work only).
 - **Plan:** None — Plan 01-08 superseded (retired, not executed)
-- **Status:** Next step is `/gsd-discuss-phase 1` to select and explicitly approve the production web stack, then `/gsd-plan-phase 1`; no interim browser-validation evidence is required.
+- **Status:** Production web stack approved in `/gsd-discuss-phase 1` (2026-10-21; see 01-CONTEXT.md D-24..D-41). Next step is `/gsd-plan-phase 1`.
 - **Progress:** 0 / 3 phases complete
 
 ## Performance Metrics
@@ -51,24 +51,22 @@ progress:
 - Manual entry remains available if recognition is unavailable or unusable.
 - Search and browsing cover recipe names, ingredients, and categories; family members can rename suggested categories and add categories.
 - Do not include public publishing/community features, meal planning, shopping lists, favorites, recipe notes, live co-editing, or offline-first assumptions in this MVP.
-- Production stack and OCR provider remain unapproved. Research confidence is LOW overall; cited stack/version recommendations are not verified. Family handwriting has not been benchmarked.
-- Plan 01-01 is completed historical decision/provenance work, not production delivery. Candidate A was approved only for a reversible feasibility spike, and that approval is now moot because the spike/validation gate was dropped on 2026-10-21; no production framework, backend, identity/email, hosting/deployment, cache strategy, or source layout is approved.
-- The product target is one responsive browser-based web app across desktop, tablet, and phone, with no separate native app, app-store distribution, or installable PWA. Before locking production architecture, resolve account and membership policy, locale/source fidelity, image retention, and actual online/offline needs. Before selecting an OCR provider, benchmark permissioned family samples and compare field-critical quality, privacy, region, latency, quotas, and cost.
+- Production web stack approved 2026-10-21 (01-CONTEXT.md D-24..D-41): Next.js (React + TypeScript), Tailwind + shadcn/ui, locale in URL (/pt, /en; Portuguese fallback); Supabase (Postgres + Auth + RLS, later Storage); Vercel + Supabase Cloud free tiers in an EU region on a vercel.app address; service-worker offline reading of opened recipes (no installable PWA). Exact package versions are recorded at install time. The OCR provider remains unapproved; family handwriting has not been benchmarked.
+- No emails in v1: one-time invite links (7-day, revocable) shared by the owner; email + password sign-in with unverified email; no in-app password reset (members are removed and re-invited; the owner is reset by the operator in the Supabase dashboard); no in-app account self-deletion.
+- Plan 01-01 is completed historical decision/provenance work, not production delivery. The Candidate A (Expo) spike approval is moot.
+- The product target is one responsive browser-based web app across desktop, tablet, and phone, with no separate native app, app-store distribution, or installable PWA. Before selecting an OCR provider, benchmark permissioned family samples and compare field-critical quality, privacy, region, latency, quotas, and cost.
 - The requirements source says “13 total,” but contains 14 distinct v1 requirement IDs. All 14 listed IDs are retained and mapped exactly once; the source coverage count is corrected to 14.
 
 ### Open decisions / next actions
 
-- Run `/gsd-discuss-phase 1` to select and explicitly approve the production framework, backend/identity/email services, hosting/deployment, cache approach, and directory layout, and to resolve the membership, image-retention, and offline-needs policy.
-- Then run `/gsd-plan-phase 1` to plan the real web app.
+- Run `/gsd-plan-phase 1` to plan the real web app from the updated 01-CONTEXT.md.
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
 - Phase 1 needs replanning as the real web app.
-- Production architecture remains unapproved: no production framework, backend/identity/email, hosting/deployment, cache strategy, or directory layout has been selected. Approval happens in `/gsd-discuss-phase 1`; the browser-based distribution target is already decided.
-- No family-material OCR benchmark exists yet.
-- Phase 1 production delivery has not started. Production implementation planning awaits only explicit user approval of production architecture choices and a new plan set from `/gsd-plan-phase 1`.
-- Cookbook-owner account deletion remains an open blocking human decision for the later account-policy work (Plan 01-06); no resolution is inferred here.
+- No family-material OCR benchmark exists yet (Phase 2).
+- Phase 1 production delivery has not started; it awaits a new plan set from `/gsd-plan-phase 1`.
 
 ### Quick Tasks Completed
 
@@ -85,16 +83,17 @@ progress:
 
 ## Session Continuity
 
-**Last session:** 2026-10-21T09:38:00Z
-**Stopped at:** Plan 01-08 superseded; Phase 1 awaiting `/gsd-discuss-phase 1`
-**Resume file:** None
+**Last session:** 2026-10-21T10:00:56.633Z
+**Stopped at:** Phase 1 context gathered (production web stack approved)
+**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-CONTEXT.md
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-discuss-phase 1` to lock the production web stack (do not pick a stack without explicit user approval), then `/gsd-plan-phase 1`.
 
 ## Decisions
 
 - [Phase 1]: Deliver one general browser-based web app across desktop, tablet, and phone sizes; no separate phone app, native apps, app stores, or installable PWA.
-- [Phase 1 / Plan 01-01]: Candidate A is approved only for a reversible feasibility spike; no production architecture is selected.
+- [Phase 1 / Plan 01-01]: Candidate A was approved only for a reversible feasibility spike (now moot).
 - [Phase 1 / 2026-10-21]: Plan 01-08 superseded by user decision — only a single responsive web app (desktop/tablet/phone browsers); no native app, app store, installable PWA, or throwaway validation service; interim browser evidence is no longer a prerequisite; replan Phase 1 directly as the real web app after the production stack is approved.
+- [Phase 1 / 2026-10-21 discuss]: Production stack approved — Next.js + TypeScript + Tailwind/shadcn, Supabase, Vercel + Supabase Cloud (EU, free tiers); no emails in v1 (invite links, no in-app password reset); service-worker offline reading of opened recipes; no in-app account self-deletion (resolves the owner-deletion blocker).
 
 Last activity: 2026-10-21 - Completed quick task 261021-g0i: Retire Plan 01-08 validation gate and record decision to replan Phase 1 as the real web app
