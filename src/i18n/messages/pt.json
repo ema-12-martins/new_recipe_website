@@ -3,8 +3,27 @@
     "appName": "Livro de Receitas da Família",
     "tagline": "As receitas da nossa família, guardadas com cuidado e fáceis de encontrar."
   },
-  "auth": {},
-  "recipes": {},
+  "auth": {
+    "setup": {
+      "intro": "Configure o livro de receitas da família. Quem o configurar fica como dono e pode depois convidar os familiares.",
+      "code": "Código de configuração",
+      "email": "Endereço de email",
+      "password": "Palavra-passe (mínimo 8 caracteres)",
+      "submit": "Criar o livro de receitas",
+      "alreadySetUp": "O livro de receitas da família já está configurado.",
+      "signInLink": "Entrar",
+      "errors": {
+        "invalid_input": "Verifique o endereço de email e use uma palavra-passe com 8 a 128 caracteres.",
+        "invalid_code": "O código de configuração não está correto.",
+        "already_set_up": "O livro de receitas já foi configurado por outra pessoa.",
+        "email_taken": "Já existe uma conta com este endereço de email.",
+        "error": "Não foi possível concluir a configuração. Tente novamente."
+      }
+    }
+  },
+  "recipes": {
+    "empty": "Ainda não há receitas neste livro."
+  },
   "members": {},
   "offline": {}
 }
