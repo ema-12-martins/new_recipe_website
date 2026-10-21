@@ -18,10 +18,9 @@
   2. An invited member can verify the invited email and view, add, and edit recipes in the same private family cookbook.
   3. Members can manually create, view, and edit recipes with a title, flexible ingredient lines, and ordered instructions while preserving Portuguese or English wording and units.
   4. Members can access the same saved cookbook in responsive web browsers across desktop, tablet, and phone screen sizes; Phase 1 includes no native app, app-store distribution, or installable PWA.
-**Decision gate before production stack is locked**: Run a browser-only validation spike across representative browser engines and desktop, tablet, and phone viewport sizes, without native apps, app-store routes, or PWA installation. Validate responsive web access, private account and exact-email invitation behavior, member removal, bilingual manual recipe create/edit, and the existing read-only offline/cache semantics. Record exact browser/OS versions, viewport sizes, and evidence; distinguish automated viewport emulation from browser/device evidence and do not infer results from availability or compatibility tables. Physical iPhone/Android testing is not a prerequisite. After evidence is recorded, ask the user to approve the production web framework, backend/identity services, hosting/deployment, cache approach, and directory layout. Research candidates and version snapshots remain unapproved until then.
-**Delivery status**: Phase 1 production delivery has not started. Historical Plan 01-01 is completed decision/provenance work only; interim responsive validation Plan 01-08 remains outstanding and does not complete the phase.
-**Current evidence**: All browser targets and all 20 UAT cases remain NOT RUN. Validation covers representative desktop, tablet, and phone browser/viewport classes; physical iPhone/Android testing is not a prerequisite.
-**Plans**: Replanning pending; retain Plan 01-01 as history and do not count either it or interim Plan 01-08 as completed production delivery.
+**Decision gate before production stack is locked**: Per the user decision of 2026-10-21, no interim validation spike or disposable validation service is required. The product is one responsive web app for desktop, tablet, and phone browsers (no native app, app store, installable PWA, or throwaway service). Before production plans are written, the production web framework, backend/identity/email services, hosting/deployment, cache approach, and directory layout must be selected and explicitly approved by the user in `/gsd-discuss-phase 1`; research candidates and version snapshots remain unapproved until then. Real-browser checks across desktop, tablet, and phone viewports belong in the production plans' own verification.
+**Delivery status**: Phase 1 production delivery has not started and the phase needs planning. Historical Plan 01-01 is completed decision/provenance work only. Plan 01-08 (interim responsive validation) is superseded by user decision on 2026-10-21 and will not be executed.
+**Plans**: Needs planning — run `/gsd-discuss-phase 1` to lock the production web stack, then `/gsd-plan-phase 1`. Plan 01-01 is retained as history; Plan 01-08 is superseded (retired, not counted).
 **UI hint**: yes
 
 ### Phase 2: Handwritten Recipe Capture
@@ -55,6 +54,6 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Decisions and Shared Cookbook | 0 / 7 | Not started — interim responsive validation pending; production replanning pending | - |
+| 1. Decisions and Shared Cookbook | 0 / TBD | Not started — needs planning (lock production web stack via /gsd-discuss-phase 1) | - |
 | 2. Handwritten Recipe Capture | 0 / TBD | Not started | - |
 | 3. Search and Categories | 0 / TBD | Not started | - |
