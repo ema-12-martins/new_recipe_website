@@ -1,12 +1,14 @@
 # Phase 1 — User Setup Required
 
-**Status:** Incomplete (needed to resume Plan 01-15, Task 1)
+**Status:** DEV complete (verified 2026-10-21); PRODUCTION deferred by user decision — needed before Plan 01-17's production deploy.
 
 ## Supabase (D-28, D-29, D-30, D-35)
 
 Two free-plan projects in an EU region (e.g. Frankfurt `eu-central-1`): **DEV** (development + tests; tests reset it) and **PRODUCTION** (deployed app; never touched by tests). This uses the free tier's two-active-project allowance.
 
 ### Dashboard checklist (do in BOTH projects)
+
+DEV: all items done and verified live via `GET /auth/v1/settings` (`disable_signup=true`, `mailer_autoconfirm=true`), which the data-boundary test now checks on every run. PRODUCTION: not yet created/configured; `SUPABASE_PROD_DB_URL` is empty in `.env.local`.
 
 - [ ] Project created in an EU region
 - [ ] Authentication → Sign In / Providers → Email: **Allow new users to sign up = OFF**
