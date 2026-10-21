@@ -1,7 +1,7 @@
 # API Coverage — Supabase (Auth, PostgREST/RPC, CLI) and Vercel
 
 > Full coverage by default. Opt-outs are explicit, reasoned decisions.
-> Replaces the stale Expo-era coverage file (2026-10-21 replan; plans 01-09..01-14).
+> Replaces the stale Expo-era coverage file (2026-10-21 replan; plans 01-09..01-18, revised after plan check iteration 1). Supabase is called only from server code; no browser Supabase client is created in Phase 1.
 
 | capability | decision | reason |
 |---|---|---|
