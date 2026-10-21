@@ -1,12 +1,14 @@
 ---
 gsd_state_version: "1.0"
-status: unknown
-stopped_at: Phase 1 interim browser-validation gate planned; delivery paused pending actual phone-browser UAT and production choices
-last_updated: "2026-10-21T08:29:03.890Z"
+status: paused
+stopped_at: Phase 1 interim responsive browser validation (Plan 01-08) remains pending; production delivery has not started and replanning awaits evidence and explicit architecture approval
+last_updated: "2026-10-21T09:20:00Z"
 progress:
   total_phases: 3
   completed_phases: 0
-  total_plans: 1
+  # Current Phase 1 artifact inventory only: historical 01-01 summary + pending interim 01-08 plan.
+  # This is not the production-plan denominator; ROADMAP.md tracks production at 0 / 7.
+  total_plans: 2
   completed_plans: 1
   percent: 0
 ---
@@ -20,19 +22,21 @@ progress:
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
+- **Current delivery status:** Phase 1 production delivery has not started. Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 remains an outstanding interim responsive-browser validation gate.
 
 ## Current Position
 
 - **Milestone:** Initial v1
-- **Phase:** Roadmap proposed; Phase 1 not started
-- **Plan:** None
-- **Status:** Roadmap approved; project initialization is being finalized. Phase 1 has not started.
+- **Phase:** Phase 1 production delivery not started; Plan 01-01 is completed historical decision/provenance work, and interim validation Plan 01-08 is pending.
+- **Plan:** 01-08 — interim responsive browser validation (outstanding; evidence not run)
+- **Status:** Production replanning is pending responsive-browser evidence and explicit approval of production architecture; no production plan has started.
 - **Progress:** 0 / 3 phases complete
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Plans complete: 0
+- Production plans complete: 0 / 7 (ROADMAP.md; replanning pending)
+- Phase 1 plan-artifact inventory: 1 / 2 complete (01-01 historical summary complete; 01-08 interim validation plan outstanding). This inventory is not production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
 - v1 requirements completed: 0
 
@@ -45,22 +49,25 @@ progress:
 - Manual entry remains available if recognition is unavailable or unusable.
 - Search and browsing cover recipe names, ingredients, and categories; family members can rename suggested categories and add categories.
 - Do not include public publishing/community features, meal planning, shopping lists, favorites, recipe notes, live co-editing, or offline-first assumptions in this MVP.
-- Stack, distribution model, and OCR provider remain unapproved. Research confidence is LOW overall; cited stack/version recommendations are not verified. Family handwriting has not been benchmarked.
-- Before locking the stack, resolve app-install/platform choice, account and membership policy, locale/source fidelity, image retention, and actual online/offline needs. Before selecting an OCR provider, benchmark permissioned family samples and compare field-critical quality, privacy, region, latency, quotas, and cost.
+- Production stack and OCR provider remain unapproved. Research confidence is LOW overall; cited stack/version recommendations are not verified. Family handwriting has not been benchmarked.
+- Plan 01-01 is completed historical decision/provenance work, not production delivery. Candidate A was approved only for a reversible feasibility spike; no production framework, backend, identity/email, hosting/deployment, cache strategy, or source layout is approved.
+- The product target is one responsive browser-based web app across desktop, tablet, and phone, with no separate native app, app-store distribution, or installable PWA. Before locking production architecture, resolve account and membership policy, locale/source fidelity, image retention, and actual online/offline needs. Before selecting an OCR provider, benchmark permissioned family samples and compare field-critical quality, privacy, region, latency, quotas, and cost.
 - The requirements source says “13 total,” but contains 14 distinct v1 requirement IDs. All 14 listed IDs are retained and mapped exactly once; the source coverage count is corrected to 14.
 
 ### Open decisions / next actions
 
-- Obtain approval or revision feedback on the proposed roadmap.
-- In Phase 1, resolve product/platform and membership/image/offline decisions with targeted clarification and spikes before choosing a stack.
+- In Phase 1, complete the outstanding interim Plan 01-08 validation across representative desktop, tablet, and phone browser/viewport coverage, then resolve the remaining membership/image/offline decisions before choosing production architecture. Physical phone testing is not a prerequisite.
+- After evidence is recorded, obtain explicit user approval of the production framework, backend/identity services, hosting/deployment, cache approach, and directory layout; production replanning is pending until then.
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Roadmap approval is pending.
-- No stack, app distribution model, or OCR provider is approved.
+- The roadmap is approved, but Phase 1 production replanning is pending.
+- Interim responsive browser validation Plan 01-08 is outstanding. All browser targets and all 20 UAT cases remain NOT RUN; required coverage includes desktop, tablet, and phone viewports. Physical phone testing is not a prerequisite.
+- Production architecture remains unapproved: no production framework, backend/identity/email, hosting/deployment, cache strategy, or directory layout has been selected. The approved Candidate A decision is only for a reversible feasibility spike; the browser-based distribution target is already decided.
 - No family-material OCR benchmark exists yet.
-- Phase 1 delivery remains paused: the interim browser-validation matrix has not been run across representative browsers and desktop, tablet, and phone viewports; production implementation planning awaits this evidence and explicit user approval of production architecture choices. Physical iPhone/Android testing is not required.
+- Phase 1 production delivery has not started; ROADMAP.md remains at 0 / 7 production plans complete. Production implementation planning awaits interim browser evidence and explicit user approval of production architecture choices.
+- Cookbook-owner account deletion remains an open blocking human decision for the later account-policy work (Plan 01-06); no resolution is inferred here.
 
 ### Roadmap Evolution
 
@@ -69,12 +76,13 @@ progress:
 
 ## Session Continuity
 
-**Last session:** 2026-10-21T08:16:50.906Z
-**Stopped at:** Phase 1 interim browser-validation gate planned; delivery paused pending actual phone-browser UAT and production choices
+**Last session:** 2026-10-21T09:20:00Z
+**Stopped at:** Status records reconciled; Plan 01-08 responsive browser validation remains outstanding, with all target and UAT evidence NOT RUN; production delivery and replanning remain pending
 **Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-08-PLAN.md
 
-The initial roadmap is approved. After project initialization is committed, begin with Phase 1 planning and its explicit decision gate; keep implementation choices open until that gate resolves the relevant user decisions and validation.
+The roadmap is approved. Plan 01-01 remains completed historical decision/provenance work only. Resume with the interim Plan 01-08 validation gate; cover representative desktop, tablet, and phone browser/viewport classes without requiring physical phone testing. Do not treat this gate as production delivery; retain production architecture choices as unapproved until evidence is recorded and the user explicitly approves them.
 
 ## Decisions
 
-- [Phase ?]: Deliver one general browser-based web app across desktop, tablet, and phone sizes; no separate phone app, native apps, app stores, or installable PWA.
+- [Phase 1]: Deliver one general browser-based web app across desktop, tablet, and phone sizes; no separate phone app, native apps, app stores, or installable PWA.
+- [Phase 1 / Plan 01-01]: Candidate A is approved only for a reversible feasibility spike; no production architecture is selected.
