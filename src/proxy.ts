@@ -1,13 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { LOCALE_COOKIE, detectLocale, isLocale } from "@/i18n/config";
+import { updateSession } from "@/lib/supabase/proxy";
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const firstSegment = pathname.split("/")[1];
 
   if (isLocale(firstSegment)) {
-    return NextResponse.next();
+    return updateSession(request);
   }
 
   const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
