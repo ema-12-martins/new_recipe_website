@@ -18,17 +18,22 @@
   2. An invited member can join through an owner-shared one-time invite link (single use, expires 7 days after it is created, revocable by the owner; no email is sent or verified, and the email is only an unverified sign-in identifier) and can view, add, and edit recipes in the same private family cookbook.
   3. Members can manually create, view, and edit recipes with a title, flexible ingredient lines, and ordered instructions while preserving Portuguese or English wording and units.
   4. Members can access the same saved cookbook in responsive web browsers across desktop, tablet, and phone screen sizes; Phase 1 includes no native app, app-store distribution, or installable PWA.
-**Decision gate before production stack is locked**: Per the user decision of 2026-10-21, no interim validation spike or disposable validation service is required. The product is one responsive web app for desktop, tablet, and phone browsers (no native app, app store, installable PWA, or throwaway service). Before production plans are written, the production web framework, backend/identity/email services, hosting/deployment, cache approach, and directory layout must be selected and explicitly approved by the user in `/gsd-discuss-phase 1`; research candidates and version snapshots remain unapproved until then. Real-browser checks across desktop, tablet, and phone viewports belong in the production plans' own verification.
-**Delivery status**: Phase 1 production delivery has not started and the phase needs planning. Historical Plan 01-01 is completed decision/provenance work only. Plan 01-08 (interim responsive validation) is superseded by user decision on 2026-10-21 and will not be executed.
-**Plans:** 6 plans (Plan 01-01 is retained as history; Plan 01-08 is superseded, retired, and not counted)
+**Decision gate (resolved 2026-10-21)**: The production stack was selected and explicitly approved in `/gsd-discuss-phase 1` (01-CONTEXT.md D-24..D-41): Next.js + TypeScript + Tailwind/shadcn, Supabase (Postgres + Auth + RLS), Vercel + Supabase Cloud (EU, free tiers), no emails in v1, service-worker offline reading of opened recipes (no installable PWA). No interim validation spike is required; real-browser checks across desktop, tablet, and phone viewports are part of the production plans' own verification.
+**Delivery status**: Phase 1 is planned and ready to execute. Historical Plan 01-01 is completed decision/provenance work only. Plan 01-08 (interim responsive validation) is superseded by user decision on 2026-10-21 and will not be executed.
+**Plans:** 11 plans (Plan 01-01 is retained as history; Plan 01-08 is superseded, retired, and not counted)
 
-Plans:
-- [ ] 01-09-PLAN.md — Wave 1: package legitimacy gate; scaffold Next.js + Supabase; first person sets up the cookbook as owner; locale routing; deploy to Vercel (EU) — AUTH-01
-- [ ] 01-10-PLAN.md — Wave 2: manual recipes — create, view, list, edit, reorder steps, byte-faithful text, conflict-safe saves, RLS — RECP-01, RECP-03, AUTH-03
-- [ ] 01-11-PLAN.md — Wave 3: sign-in/out on any device, same cookbook across devices, remembered interface language — AUTH-01, AUTH-04
-- [ ] 01-12-PLAN.md — Wave 4: one-time invite links (7-day, revocable, single use) and guided join; invited members view/add/edit — AUTH-02, AUTH-03
-- [ ] 01-14-PLAN.md — Wave 4: offline reading of opened recipes (service worker + IndexedDB, no PWA), purge on sign-out/account switch, reauthorize on reconnect — AUTH-04
-- [ ] 01-13-PLAN.md — Wave 5: owner removes a member via keep/remove recipe review; email freed for re-invite — AUTH-02
+Plans (sequential, one per wave):
+- [ ] 01-09-PLAN.md — Wave 1: package legitimacy gate (human), Next.js scaffold, /pt and /en locale routing, Playwright — AUTH-04
+- [ ] 01-15-PLAN.md — Wave 2: Supabase DEV/PROD setup (human), first migration, RLS, public sign-up refused — AUTH-01, AUTH-03
+- [ ] 01-16-PLAN.md — Wave 3: first person sets up the cookbook as the single owner (idempotent, race-safe) — AUTH-01
+- [ ] 01-17-PLAN.md — Wave 4: Vercel link (human), production deploy on vercel.app backed by EU production database — AUTH-01
+- [ ] 01-10-PLAN.md — Wave 5: manual recipes — create, view, list, edit, reorder steps, byte-faithful text, conflict-safe saves — RECP-01, RECP-03, AUTH-03
+- [ ] 01-11-PLAN.md — Wave 6: sign-in/out on any device, same cookbook across devices, remembered interface language — AUTH-01, AUTH-04
+- [ ] 01-12-PLAN.md — Wave 7: one-time invite links (7-day, revocable, single use) and guided join — AUTH-02, AUTH-03
+- [ ] 01-13-PLAN.md — Wave 8: owner removes a member via keep/remove recipe review; email freed for re-invite (DEV only, ships with 01-19) — AUTH-02
+- [ ] 01-19-PLAN.md — Wave 9: no-access guard on every page and "server unavailable" state; ships 01-13 + 01-19 — AUTH-02
+- [ ] 01-14-PLAN.md — Wave 10: offline reading of opened recipes (service worker + IndexedDB, no PWA; not shipped alone) — AUTH-04
+- [ ] 01-18-PLAN.md — Wave 11: purge offline cache on sign-out/account switch, reauthorize on reconnect; ships 01-14 + 01-18 — AUTH-04
 **UI hint**: yes
 
 ### Phase 2: Handwritten Recipe Capture
@@ -62,6 +67,6 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Decisions and Shared Cookbook | 0 / TBD | Not started — needs planning (lock production web stack via /gsd-discuss-phase 1) | - |
+| 1. Decisions and Shared Cookbook | 0 / 11 | Planned — ready to execute | - |
 | 2. Handwritten Recipe Capture | 0 / TBD | Not started | - |
 | 3. Search and Categories | 0 / TBD | Not started | - |

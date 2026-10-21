@@ -1,18 +1,19 @@
 ---
 gsd_state_version: "1.0"
-status: planning
-stopped_at: Phase 1 context gathered (production web stack approved)
-last_updated: "2026-10-21T10:00:56.655Z"
+status: ready-to-execute
+stopped_at: Phase 1 planned (11 plans, 01-09..01-19; plan check passed)
+last_updated: "2026-10-21T11:45:00.672Z"
 last_activity: 2026-10-21
 last_activity_desc: "Completed quick task 261021-g0i: Retire Plan 01-08 validation gate and record decision to replan Phase 1 as the real web app"
-state_head: 1df12c8b15fc26c539ac4c3873d663908b72f16c
+state_head: b73898eb68f6f8bdc2d0625e84327f348a1aed45
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
-  total_plans: 0
+  total_plans: 11
   completed_plans: 0
   percent: 0
+current_phase_name: Decisions and Shared Cookbook
 ---
 
 # Project State
@@ -24,20 +25,20 @@ progress:
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 production delivery has not started, and Phase 1 needs planning. Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 is planned (11 plans, 01-09..01-19) and ready to execute; production delivery has not started. Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
-- **Phase:** 1 — Decisions and Shared Cookbook; needs replanning as the real web app (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** None — Plan 01-08 superseded (retired, not executed)
-- **Status:** Production web stack approved in `/gsd-discuss-phase 1` (2026-10-21; see 01-CONTEXT.md D-24..D-41). Next step is `/gsd-plan-phase 1`.
+- **Phase:** 1 — Decisions and Shared Cookbook; planned, ready to execute (Plan 01-01 is completed historical decision/provenance work only).
+- **Plan:** 01-09 is next (wave 1 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). Plan 01-08 is superseded.
+- **Status:** Ready to execute. Plans 01-09, 01-15, and 01-17 pause for human steps (package approval; Supabase DEV/PROD EU projects + `.env.local`; Vercel link). Next step is `/gsd-execute-phase 1`.
 - **Progress:** 0 / 3 phases complete
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 0 / TBD (Phase 1 replanning pending)
+- Production plans complete: 0 / 11 (Phase 1)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
 - v1 requirements completed: 0
@@ -59,14 +60,13 @@ progress:
 
 ### Open decisions / next actions
 
-- Run `/gsd-plan-phase 1` to plan the real web app from the updated 01-CONTEXT.md.
+- Run `/gsd-execute-phase 1` to build the web app (11 sequential plans; human steps in 01-09, 01-15, 01-17).
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Phase 1 needs replanning as the real web app.
+- Phase 1 production delivery has not started; plans are ready (`/gsd-execute-phase 1`). Execution needs the user's Supabase and Vercel accounts at the 01-15 and 01-17 checkpoints.
 - No family-material OCR benchmark exists yet (Phase 2).
-- Phase 1 production delivery has not started; it awaits a new plan set from `/gsd-plan-phase 1`.
 
 ### Quick Tasks Completed
 
@@ -84,10 +84,10 @@ progress:
 ## Session Continuity
 
 **Last session:** 2026-10-21T10:00:56.633Z
-**Stopped at:** Phase 1 context gathered (production web stack approved)
-**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-CONTEXT.md
+**Stopped at:** Phase 1 planned (11 plans, 01-09..01-19; plan check passed)
+**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-09-PLAN.md
 
-Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-discuss-phase 1` to lock the production web stack (do not pick a stack without explicit user approval), then `/gsd-plan-phase 1`.
+Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, starting at Plan 01-09.
 
 ## Decisions
 
