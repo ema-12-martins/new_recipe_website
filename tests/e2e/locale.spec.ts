@@ -1,6 +1,17 @@
 import { expect, test, type Browser, type BrowserContextOptions } from "@playwright/test";
 
 import { LOCALE_NAMES } from "../../src/i18n/config";
+import en from "../../src/i18n/messages/en.json";
+import pt from "../../src/i18n/messages/pt.json";
+
+const messages = { pt, en } as const;
+
+function keyPaths(value: unknown, prefix = ""): string[] {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) return [prefix];
+  const entries = Object.entries(value as Record<string, unknown>);
+  if (entries.length === 0) return [prefix];
+  return entries.flatMap(([key, child]) => keyPaths(child, prefix ? `${prefix}.${key}` : key)).sort();
+}
 
 async function openRoot(
   browser: Browser,
@@ -60,13 +71,23 @@ test.describe("locale routing", () => {
 
 test.describe("home page", () => {
   for (const locale of ["pt", "en"] as const) {
-    test(`/${locale} shows the locale endonym and does not scroll horizontally`, async ({ page }) => {
+    test(`/${locale} shows the appName from ${locale}.json and does not scroll horizontally`, async ({
+      page,
+    }) => {
       await page.goto(`/${locale}`);
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText(LOCALE_NAMES[locale]);
+      const heading = page.getByRole("heading", { level: 1 });
+      await expect(heading).toHaveText(messages[locale].common.appName);
+      await expect(heading).not.toHaveText(LOCALE_NAMES[locale]);
       const overflows = await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
       );
       expect(overflows).toBe(false);
     });
   }
+
+  test("pt and en message files have identical namespaces and keys", () => {
+    expect(Object.keys(pt).sort()).toEqual(["auth", "common", "members", "offline", "recipes"]);
+    expect(keyPaths(en)).toEqual(keyPaths(pt));
+    expect(pt.common.appName).not.toBe(en.common.appName);
+  });
 });
