@@ -20,7 +20,15 @@
   4. Members can access the same saved cookbook in responsive web browsers across desktop, tablet, and phone screen sizes; Phase 1 includes no native app, app-store distribution, or installable PWA.
 **Decision gate before production stack is locked**: Per the user decision of 2026-10-21, no interim validation spike or disposable validation service is required. The product is one responsive web app for desktop, tablet, and phone browsers (no native app, app store, installable PWA, or throwaway service). Before production plans are written, the production web framework, backend/identity/email services, hosting/deployment, cache approach, and directory layout must be selected and explicitly approved by the user in `/gsd-discuss-phase 1`; research candidates and version snapshots remain unapproved until then. Real-browser checks across desktop, tablet, and phone viewports belong in the production plans' own verification.
 **Delivery status**: Phase 1 production delivery has not started and the phase needs planning. Historical Plan 01-01 is completed decision/provenance work only. Plan 01-08 (interim responsive validation) is superseded by user decision on 2026-10-21 and will not be executed.
-**Plans**: Needs planning — run `/gsd-discuss-phase 1` to lock the production web stack, then `/gsd-plan-phase 1`. Plan 01-01 is retained as history; Plan 01-08 is superseded (retired, not counted).
+**Plans:** 6 plans (Plan 01-01 is retained as history; Plan 01-08 is superseded, retired, and not counted)
+
+Plans:
+- [ ] 01-09-PLAN.md — Wave 1: package legitimacy gate; scaffold Next.js + Supabase; first person sets up the cookbook as owner; locale routing; deploy to Vercel (EU) — AUTH-01
+- [ ] 01-10-PLAN.md — Wave 2: manual recipes — create, view, list, edit, reorder steps, byte-faithful text, conflict-safe saves, RLS — RECP-01, RECP-03, AUTH-03
+- [ ] 01-11-PLAN.md — Wave 3: sign-in/out on any device, same cookbook across devices, remembered interface language — AUTH-01, AUTH-04
+- [ ] 01-12-PLAN.md — Wave 4: one-time invite links (7-day, revocable, single use) and guided join; invited members view/add/edit — AUTH-02, AUTH-03
+- [ ] 01-14-PLAN.md — Wave 4: offline reading of opened recipes (service worker + IndexedDB, no PWA), purge on sign-out/account switch, reauthorize on reconnect — AUTH-04
+- [ ] 01-13-PLAN.md — Wave 5: owner removes a member via keep/remove recipe review; email freed for re-invite — AUTH-02
 **UI hint**: yes
 
 ### Phase 2: Handwritten Recipe Capture
