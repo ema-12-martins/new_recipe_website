@@ -1,18 +1,17 @@
 ---
 gsd_state_version: "1.0"
-status: ready-to-execute
-stopped_at: Phase 1 planned (11 plans, 01-09..01-19; plan check passed)
-last_updated: "2026-10-21T11:45:00.672Z"
+status: executing
+stopped_at: Completed 01-09-PLAN.md
+last_updated: "2026-10-21T12:23:14.146Z"
 last_activity: 2026-10-21
-last_activity_desc: "Completed quick task 261021-g0i: Retire Plan 01-08 validation gate and record decision to replan Phase 1 as the real web app"
-state_head: b73898eb68f6f8bdc2d0625e84327f348a1aed45
+state_head: 4b461e0da92f2dfb6897b136db13616fbdcf26d7
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 11
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 9
 current_phase_name: Decisions and Shared Cookbook
 ---
 
@@ -25,23 +24,29 @@ current_phase_name: Decisions and Shared Cookbook
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 is planned (11 plans, 01-09..01-19) and ready to execute; production delivery has not started. Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 production delivery is in progress (1 / 11 plans complete: 01-09 web shell). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
-- **Phase:** 1 — Decisions and Shared Cookbook; planned, ready to execute (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** 01-09 is next (wave 1 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). Plan 01-08 is superseded.
-- **Status:** Ready to execute. Plans 01-09, 01-15, and 01-17 pause for human steps (package approval; Supabase DEV/PROD EU projects + `.env.local`; Vercel link). Next step is `/gsd-execute-phase 1`.
-- **Progress:** 0 / 3 phases complete
+- **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
+- **Plan:** 01-15 is next (2 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09 complete. Plan 01-08 is superseded.
+- **Status:** Executing. Plan 01-15 pauses for the human to create Supabase DEV/PROD EU projects + `.env.local`; 01-17 pauses for the Vercel link.
+- **Progress:** 0 / 3 phases complete; Phase 1 plans 1 / 11
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 0 / 11 (Phase 1)
+- Production plans complete: 1 / 11 (Phase 1)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
 - v1 requirements completed: 0
+
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P09 | 27 min | 3 tasks | 24 files |
 
 ## Accumulated Context
 
@@ -65,7 +70,7 @@ current_phase_name: Decisions and Shared Cookbook
 
 ### Blockers
 
-- Phase 1 production delivery has not started; plans are ready (`/gsd-execute-phase 1`). Execution needs the user's Supabase and Vercel accounts at the 01-15 and 01-17 checkpoints.
+- Phase 1 execution in progress (01-09 done). The 01-15 and 01-17 checkpoints need the user's Supabase and Vercel accounts.
 - No family-material OCR benchmark exists yet (Phase 2).
 
 ### Quick Tasks Completed
@@ -83,9 +88,9 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-21T10:00:56.633Z
-**Stopped at:** Phase 1 planned (11 plans, 01-09..01-19; plan check passed)
-**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-09-PLAN.md
+**Last session:** 2026-10-21T12:23:14.106Z
+**Stopped at:** Completed 01-09-PLAN.md
+**Resume file:** None
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, starting at Plan 01-09.
 
@@ -96,4 +101,5 @@ Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. 
 - [Phase 1 / 2026-10-21]: Plan 01-08 superseded by user decision — only a single responsive web app (desktop/tablet/phone browsers); no native app, app store, installable PWA, or throwaway validation service; interim browser evidence is no longer a prerequisite; replan Phase 1 directly as the real web app after the production stack is approved.
 - [Phase 1 / 2026-10-21 discuss]: Production stack approved — Next.js + TypeScript + Tailwind/shadcn, Supabase, Vercel + Supabase Cloud (EU, free tiers); no emails in v1 (invite links, no in-app password reset); service-worker offline reading of opened recipes; no in-app account self-deletion (resolves the owner-deletion blocker).
 
-Last activity: 2026-10-21 - Completed quick task 261021-g0i: Retire Plan 01-08 validation gate and record decision to replan Phase 1 as the real web app
+Last activity: 2026-10-21
+- [Phase 01]: Plan 01-09: package legitimacy approved with clsx + tailwind-merge instead of cn; later shadcn steps must rewrite imports from 'cn' to @/lib/utils and never install cn — Human rejected the reassigned 'cn' npm package at the 01-09 gate
