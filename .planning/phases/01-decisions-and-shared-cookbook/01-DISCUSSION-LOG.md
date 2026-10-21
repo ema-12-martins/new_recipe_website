@@ -111,3 +111,78 @@ The cookbook owner's own account-deletion behavior remains unresolved and must b
 
 **User's choice:** Mobile-first browser web app only; no native apps, app-store distribution, or PWA.
 **Notes:** Phone-only support remains the v1 target. Existing read-only offline/cache and account decisions carry forward for revalidation in the browser-only context. Production framework, backend/identity, hosting/deployment, and cache approach remain unapproved.
+
+---
+
+# Session 2026-10-21 — Production stack approval (after Plan 01-08 was superseded)
+
+**Areas discussed:** Web framework; Backend, accounts & invite email; Hosting & running cost; Offline reading without an installable app; Owner account deletion
+
+---
+
+## Web framework
+
+| Question | Options presented | Selected |
+|----------|-------------------|----------|
+| Which web framework? | Next.js (React + TypeScript); SvelteKit; plain React SPA (Vite) + separate backend; you decide | Next.js (React + TypeScript) |
+| How should the UI be styled? | Tailwind + shadcn/ui; Tailwind only; full component library (MUI/Mantine); you decide | Tailwind + shadcn/ui |
+| How is the UI language chosen? | Locale in URL (/pt, /en) from browser, remembered per user; settings toggle only; you decide | Locale in URL |
+| Fallback when browser is neither PT nor EN? | Portuguese; English; always browser language | Portuguese |
+
+---
+
+## Backend, accounts & invite email
+
+| Question | Options presented | Selected |
+|----------|-------------------|----------|
+| Which backend? | Supabase; Firebase; own server + Postgres + Auth.js; you decide | Supabase |
+| What sends invitation/verification/reset emails? | Transactional service (Resend); personal Gmail/Outlook SMTP; you decide | Free text: "we don't need those emails for this version" |
+| Without email, how does the owner invite? | One-time invite link (7-day, revocable); owner creates account with temp password; reusable family join link | One-time invite link |
+| What do members sign in with? | Email + password (unverified identifier); username + password | Email + password (unverified) |
+| Forgotten member password? | Owner-generated reset link; owner sets temp password; no reset — remove and re-invite | No reset — remove and re-invite |
+| Forgotten owner password? | Operator resets via Supabase dashboard; owner recovery code; you decide | Operator resets via Supabase dashboard |
+
+**Notes:** Requirements (AUTH-01..04) do not mandate email, so the no-email choice supersedes D-07 and the email-verification part of D-19.
+
+---
+
+## Hosting & running cost
+
+| Question | Options presented | Selected |
+|----------|-------------------|----------|
+| Where should the app run? | Vercel + Supabase Cloud (free tiers); self-hosted VPS with Docker; Netlify/Cloudflare + Supabase; you decide | Vercel + Supabase Cloud |
+| Supabase free-tier inactivity pause? | Accept, upgrade if annoying; keep-alive ping; paid plan from start | Accept |
+| Region? | EU (Frankfurt/Paris); US; São Paulo; you decide | EU |
+| Web address? | Free vercel.app; existing domain; buy a domain | Free vercel.app for now |
+
+---
+
+## Offline reading without an installable app
+
+| Question | Options presented | Selected |
+|----------|-------------------|----------|
+| How far should offline reading go? | Survives reloads (service worker, no install); only while page stays open; drop offline reading | Survives reloads |
+| Which recipes are kept offline? | Only recipes the user opened; whole cookbook after sign-in; you decide | Only recipes opened by the user |
+
+---
+
+## Owner account deletion
+
+| Question | Options presented | Selected |
+|----------|-------------------|----------|
+| Owner wants to delete own account? | Not offered in-app, operator handles manually; transfer ownership then delete; deleting owner deletes cookbook | Not offered in-app |
+| Regular member in-app self-deletion? | No in-app self-deletion for anyone; members can self-delete per D-17 | No in-app self-deletion |
+
+**Notes:** Resolves the previously open owner-account-deletion blocker.
+
+---
+
+## the agent's Discretion (this session)
+
+- Directory layout, Supabase integration pattern, schema/migration and test tooling.
+- Service-worker library and local storage choice for offline reading.
+- Invite-token design; freeing a removed member's email so they can be re-invited.
+
+## Deferred Ideas (this session)
+
+- Email delivery (invites, verification, reset); in-app account self-deletion and owner transfer; custom domain.
