@@ -1,8 +1,8 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: Completed 01-12-PLAN.md
-last_updated: "2026-10-22T08:58:00.000Z"
+stopped_at: Completed 01-13-PLAN.md
+last_updated: "2026-10-22T09:31:21.000Z"
 last_activity: 2026-10-22
 state_head: a879cb9672746d1ccf14907fbc9e0cf7ba486dbc
 progress:
@@ -10,8 +10,8 @@ progress:
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 11
-  completed_plans: 7
-  percent: 64
+  completed_plans: 8
+  percent: 73
 current_phase_name: Decisions and Shared Cookbook
 ---
 
@@ -24,23 +24,23 @@ current_phase_name: Decisions and Shared Cookbook
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 production delivery is in progress (7 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes, 01-11 sign-in/out per device and remembered language, 01-12 one-time invite links and guided join). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 production delivery is in progress (8 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes, 01-11 sign-in/out per device and remembered language, 01-12 one-time invite links and guided join, 01-13 owner removes a member via keep/remove recipe review — committed locally and on DEV only, shipped by 01-19). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
 - **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** 01-13 is next (8 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16, 01-17, 01-10, 01-11 and 01-12 complete. Plan 01-08 is superseded.
-- **Status:** Ready for Plan 01-13. The owner creates one-time invite links (single use, 7-day expiry, revocable, no email) on the Members page; relatives join in one guided flow and view, add and edit recipes on the live site https://newrecipewebsite.vercel.app, which runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
-- **Progress:** 0 / 3 phases complete; Phase 1 plans 7 / 11
+- **Plan:** 01-19 is next (9 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12 and 01-13 complete. Plan 01-08 is superseded.
+- **Status:** Ready for Plan 01-19. 01-13 (member removal via keep/remove review; email freed for re-invite; getMembershipStatus member | none | unavailable) is committed locally only and its migration 20261021120400 is on DEV only: 01-19 adds the page-level no-access guard and then ships both plans to main (and to the production database once one exists). The live site https://newrecipewebsite.vercel.app still serves 01-12 and runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
+- **Progress:** 0 / 3 phases complete; Phase 1 plans 8 / 11
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 7 / 11 (Phase 1)
+- Production plans complete: 8 / 11 (Phase 1)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
-- v1 requirements completed: 4 (RECP-01, RECP-03, AUTH-01, AUTH-03); AUTH-04 (01-11) and AUTH-02 (invite half delivered by 01-12) stay pending until every plan declaring them is complete
+- v1 requirements completed: 4 (RECP-01, RECP-03, AUTH-01, AUTH-03); AUTH-04 (01-11) and AUTH-02 (invite half by 01-12, removal half by 01-13) stay pending until every plan declaring them is complete (AUTH-02 waits for 01-19)
 
 **Per-Plan Metrics:**
 
@@ -53,6 +53,7 @@ current_phase_name: Decisions and Shared Cookbook
 | Phase 01 P10 | 29 min | 3 tasks | 19 files |
 | Phase 01 P11 | 26 min | 2 tasks | 15 files |
 | Phase 01 P12 | 35 min | 2 tasks | 18 files |
+| Phase 01 P13 | 21 min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -71,13 +72,13 @@ current_phase_name: Decisions and Shared Cookbook
 
 ### Open decisions / next actions
 
-- Run `/gsd-execute-phase 1` to continue at Plan 01-13.
+- Run `/gsd-execute-phase 1` to continue at Plan 01-19 (it ships 01-13 too: push main, wait for Vercel, test:e2e:prod).
 - Before real family use: create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill `SUPABASE_PROD_DB_URL`, and run db:push:prod.
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12 done). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
+- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13 done; 01-13 is local and DEV-only until 01-19 ships it). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
 - No family-material OCR benchmark exists yet (Phase 2).
 
 ### Quick Tasks Completed
@@ -95,11 +96,11 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-22T09:05:09.502Z
-**Stopped at:** Session resumed, proceeding to execute Plan 01-13 (/gsd-execute-phase 1)
+**Last session:** 2026-10-22T09:31:21.000Z
+**Stopped at:** Completed 01-13-PLAN.md
 **Resume file:** .planning/phases/01-decisions-and-shared-cookbook/.continue-here.md
 
-Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-13. End-of-phase human checks so far: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends).
+Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-19; 01-19 ships 01-13 and 01-19 together (01-13 commits are local, not on origin/main). End-of-phase human checks so far: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13 the owner removes that relative after the keep/remove review, then re-invites the same email.
 
 ## Decisions
 
@@ -125,3 +126,7 @@ Last activity: 2026-10-22
 - [Phase 01]: Plan 01-12: invite links carry a 256-bit base64url token; only its SHA-256 is stored; redeem_invite (service_role only) is one conditional UPDATE plus the membership insert, and a losing redemption deletes the auth user it created — T-01-20, T-01-21, T-01-24
 - [Phase 01]: Plan 01-12: the invite link's scheme comes from x-forwarded-proto (http only for localhost), not a hard-coded https, so local e2e and Vercel both get working links
 - [Phase 01]: Plan 01-12: a signed-in visitor on a join link signs out through a join-specific action that returns to the same invite, instead of the generic sign-out that lands on sign-in — T-01-25
+- [Phase 01]: Plan 01-13: member removal = owner-only delete_member_recipes RPC (deletes only reviewed ids the member created) then admin deleteUser; the account deletion cascades the membership, nulls recipe creators and invites.used_by, and frees the email — D-10, D-17, D-21, D-31, T-01-26..T-01-30
+- [Phase 01]: Plan 01-13: removeMember(input, deps?) derives the caller only from the injected client's own session (getMembershipStatus(client)); there is no caller-id parameter — T-01-45
+- [Phase 01]: Plan 01-13: getMembershipStatus classifies AuthRetryableFetchError (network, 5xx incl. 500) and any membership-query error as unavailable, never none; AuthSessionMissingError and deleted users are none — D-34, consumed by 01-19
+- [Phase 01]: Plan 01-13: user decision — git.allow_default_branch_commits: true in .planning/config.json, keeping plan commits on main as in 01-09..01-12
