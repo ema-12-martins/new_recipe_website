@@ -27,6 +27,39 @@ async function countRecipesTitled(title: string): Promise<number> {
   return count ?? 0;
 }
 
+type SeedRecipe = { title: string; ingredients?: string[]; steps?: string[] };
+
+async function seedRecipe(recipe: SeedRecipe): Promise<string> {
+  const admin = adminClient();
+  const { data: cookbook, error: cookbookError } = await admin
+    .from("cookbooks")
+    .select("id")
+    .single();
+  if (cookbookError) throw cookbookError;
+  const { data, error } = await admin
+    .from("recipes")
+    .insert({
+      cookbook_id: cookbook.id,
+      title: recipe.title,
+      ingredients: recipe.ingredients ?? [],
+      steps: recipe.steps ?? [],
+    })
+    .select("id")
+    .single();
+  if (error) throw error;
+  return data.id;
+}
+
+async function storedRecipe(id: string) {
+  const { data, error } = await adminClient()
+    .from("recipes")
+    .select("title, ingredients, steps")
+    .eq("id", id)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
 async function fillLines(page: Page, label: string, addButton: string, lines: string[]) {
   for (const [index, text] of lines.entries()) {
     if (index > 0) await page.getByRole("button", { name: addButton, exact: true }).click();
@@ -83,5 +116,110 @@ test.describe("manual recipes", () => {
     // Give a possible second submission time to land before counting.
     await page.waitForTimeout(1500);
     expect(await countRecipesTitled(title)).toBe(1);
+  });
+
+  test("the cookbook lists recipes alphabetically with a New recipe button", async ({
+    page,
+  }, testInfo) => {
+    const tag = `${testInfo.project.name}-${Date.now()}`;
+    // Inserted out of order; dictionary order ignores case and accents.
+    for (const title of [`Zeta ${tag}`, `arroz ${tag}`, `Ábacaxi ${tag}`]) {
+      await seedRecipe({ title });
+    }
+
+    await page.goto("/pt/recipes");
+    await expect(page.getByRole("link", { name: pt.recipes.newRecipe })).toHaveAttribute(
+      "href",
+      "/pt/recipes/new",
+    );
+    const titles = page.getByRole("listitem").getByRole("link").filter({ hasText: tag });
+    await expect(titles).toHaveText([`Ábacaxi ${tag}`, `arroz ${tag}`, `Zeta ${tag}`]);
+
+    await titles.first().click();
+    await page.waitForURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(`Ábacaxi ${tag}`);
+  });
+
+  test("a member edits text, lines and step order of a saved recipe", async ({
+    page,
+  }, testInfo) => {
+    const id = await seedRecipe({
+      title: `Sopa ${testInfo.project.name}`,
+      ingredients: ["2 cenouras", "1 cebola", "sal q.b."],
+      steps: ["Descascar.", "Cozer 20 minutos.", "Lavar os legumes."],
+    });
+
+    await page.goto(`/pt/recipes/${id}`);
+    await expect(page.getByRole("button", { name: /eliminar|apagar|delete/i })).toHaveCount(0);
+    await page.getByRole("link", { name: pt.recipes.edit }).click();
+    await page.waitForURL(`**/pt/recipes/${id}/edit`);
+    await expect(page.getByRole("button", { name: /eliminar|apagar|delete/i })).toHaveCount(0);
+
+    const newTitle = `Sopa de legumes ${testInfo.project.name}`;
+    await page.getByLabel(form.title, { exact: true }).fill(newTitle);
+    await page.getByRole("button", { name: fill(form.removeIngredient, 2), exact: true }).click();
+    await page.getByRole("button", { name: form.addIngredient, exact: true }).click();
+    await page.getByLabel(fill(form.ingredientLine, 3), { exact: true }).fill("1 fio de azeite");
+    await page.getByLabel(fill(form.stepLabel, 2), { exact: true }).fill("Cozer 25 minutos.");
+    await page.getByRole("button", { name: fill(form.moveStepUp, 3), exact: true }).click();
+    await page.getByRole("button", { name: fill(form.moveStepUp, 2), exact: true }).click();
+    await page.getByRole("button", { name: form.save }).click();
+
+    await page.waitForURL(`**/pt/recipes/${id}`);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(newTitle);
+    await expect(page.locator("article ul > li")).toHaveText([
+      "2 cenouras",
+      "sal q.b.",
+      "1 fio de azeite",
+    ]);
+    await expect(page.locator("article ol > li")).toHaveText([
+      "Lavar os legumes.",
+      "Descascar.",
+      "Cozer 25 minutos.",
+    ]);
+  });
+
+  test("a stale save shows a conflict and keeps the member's edits", async ({
+    page,
+    context,
+  }, testInfo) => {
+    const id = await seedRecipe({
+      title: `Pudim ${testInfo.project.name}`,
+      ingredients: ["4 ovos"],
+      steps: ["Bater os ovos."],
+    });
+    const pageB = await context.newPage();
+    await page.goto(`/pt/recipes/${id}/edit`);
+    await pageB.goto(`/pt/recipes/${id}/edit`);
+
+    const titleA = `Pudim A ${testInfo.project.name}`;
+    await page.getByLabel(form.title, { exact: true }).fill(titleA);
+    await page.getByRole("button", { name: form.save }).click();
+    await page.waitForURL(`**/pt/recipes/${id}`);
+
+    const titleB = `Pudim B ${testInfo.project.name}`;
+    await pageB.getByLabel(form.title, { exact: true }).fill(titleB);
+    await pageB.getByLabel(fill(form.ingredientLine, 1), { exact: true }).fill("5 ovos");
+    await pageB.getByRole("button", { name: form.save }).click();
+
+    await expect(
+      pageB.getByRole("alert").filter({ hasText: pt.recipes.errors.conflict }),
+    ).toBeVisible();
+    await expect(pageB.getByRole("link", { name: pt.recipes.errors.reloadLatest })).toHaveAttribute(
+      "href",
+      `/pt/recipes/${id}/edit`,
+    );
+    expect(new URL(pageB.url()).pathname).toBe(`/pt/recipes/${id}/edit`);
+    await expect(pageB.getByLabel(form.title, { exact: true })).toHaveValue(titleB);
+    await expect(pageB.getByLabel(fill(form.ingredientLine, 1), { exact: true })).toHaveValue(
+      "5 ovos",
+    );
+
+    expect(await storedRecipe(id)).toEqual({
+      title: titleA,
+      ingredients: ["4 ovos"],
+      steps: ["Bater os ovos."],
+    });
+    await pageB.close();
   });
 });
