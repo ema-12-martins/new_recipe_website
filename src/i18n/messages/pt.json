@@ -66,6 +66,7 @@
       "removeStep": "Retirar o passo {n}",
       "moveStepUp": "Mover o passo {n} para cima",
       "moveStepDown": "Mover o passo {n} para baixo",
+      "editingNeedsConnection": "A edição precisa de ligação à internet.",
       "save": "Guardar receita"
     },
     "errors": {
@@ -147,5 +148,7 @@
       }
     }
   },
-  "offline": {}
+  "offline": {
+    "notice": "Está sem ligação à internet."
+  }
 }

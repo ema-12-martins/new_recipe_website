@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { useOnlineStatus } from "@/lib/offline/use-online-status";
 import type { RecipeFormValues } from "@/lib/recipes/schema";
 
 type Line = { key: number; text: string };
@@ -70,6 +71,7 @@ export function RecipeForm(props: RecipeFormProps) {
 
   const { form } = labels;
   const hydrated = useHydrated();
+  const isOnline = useOnlineStatus();
 
   return (
     <form action={formAction} noValidate>
@@ -231,7 +233,10 @@ export function RecipeForm(props: RecipeFormProps) {
           </Button>
         </fieldset>
 
-        <Button type="submit" disabled={pending} className="h-11 w-full sm:w-auto">
+        {!isOnline ? (
+          <p className="text-sm text-muted-foreground">{form.editingNeedsConnection}</p>
+        ) : null}
+        <Button type="submit" disabled={pending || !isOnline} className="h-11 w-full sm:w-auto">
           {form.save}
         </Button>
       </fieldset>

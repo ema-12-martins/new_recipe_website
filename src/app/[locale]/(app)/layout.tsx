@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { AppHeader } from "@/components/app-header";
+import { OfflineNotice } from "@/components/offline-notice";
+import { ServiceWorkerRegistrar } from "@/components/service-worker-registrar";
 import { isLocale } from "@/i18n/config";
 import { requireMembership } from "@/lib/auth/require-membership";
 
@@ -21,6 +23,8 @@ export default async function MemberLayout({
 
   return (
     <>
+      <ServiceWorkerRegistrar />
+      <OfflineNotice locale={locale} />
       <AppHeader locale={locale} />
       <main className="space-y-6">{children}</main>
     </>

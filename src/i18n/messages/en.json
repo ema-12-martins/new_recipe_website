@@ -66,6 +66,7 @@
       "removeStep": "Remove step {n}",
       "moveStepUp": "Move step {n} up",
       "moveStepDown": "Move step {n} down",
+      "editingNeedsConnection": "Editing needs an internet connection.",
       "save": "Save recipe"
     },
     "errors": {
@@ -147,5 +148,7 @@
       }
     }
   },
-  "offline": {}
+  "offline": {
+    "notice": "You are offline."
+  }
 }

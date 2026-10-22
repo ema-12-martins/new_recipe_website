@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button";
+import { RememberRecipeOffline } from "@/components/remember-recipe-offline";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { requireMembership } from "@/lib/auth/require-membership";
@@ -15,7 +16,7 @@ export default async function RecipePage({
   const { locale, id } = await params;
   if (!isLocale(locale)) notFound();
 
-  await requireMembership(locale);
+  const membership = await requireMembership(locale);
 
   const recipe = await getRecipe(id);
   if (!recipe) notFound();
@@ -25,6 +26,7 @@ export default async function RecipePage({
   // Recipe text is rendered as plain React text exactly as stored (D-11); no creator info.
   return (
     <article className="space-y-6">
+      <RememberRecipeOffline userId={membership.userId} recipe={recipe} />
       <Link
         href={`/${locale}/recipes`}
         className="inline-block py-2 text-sm font-medium underline underline-offset-4"
