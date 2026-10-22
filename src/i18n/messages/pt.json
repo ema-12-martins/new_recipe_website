@@ -1,7 +1,12 @@
 {
   "common": {
     "appName": "Livro de Receitas da Família",
-    "tagline": "As receitas da nossa família, guardadas com cuidado e fáceis de encontrar."
+    "tagline": "As receitas da nossa família, guardadas com cuidado e fáceis de encontrar.",
+    "languageSwitcher": {
+      "label": "Idioma da aplicação",
+      "pt": "Português",
+      "en": "English"
+    }
   },
   "auth": {
     "setup": {

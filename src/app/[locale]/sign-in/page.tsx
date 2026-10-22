@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { SignInForm } from "@/components/sign-in-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -27,6 +28,10 @@ export default async function SignInPage({
 
   return (
     <main className="space-y-6">
+      <div className="flex justify-end">
+        <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
+      </div>
+
       <div className="space-y-2">
         <p className="text-base text-muted-foreground">{common.appName}</p>
         <h1 className="text-2xl font-semibold">{auth.signIn.heading}</h1>

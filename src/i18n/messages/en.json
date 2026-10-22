@@ -1,7 +1,12 @@
 {
   "common": {
     "appName": "Family Recipe Cookbook",
-    "tagline": "Our family's recipes, carefully kept and easy to find."
+    "tagline": "Our family's recipes, carefully kept and easy to find.",
+    "languageSwitcher": {
+      "label": "App language",
+      "pt": "Português",
+      "en": "English"
+    }
   },
   "auth": {
     "setup": {
