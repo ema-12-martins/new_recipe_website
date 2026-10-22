@@ -104,10 +104,25 @@
       "member": "Member"
     },
     "joinedOn": "Joined {date}",
+    "remove": "Remove access",
+    "removeLabel": "Remove access for {email}",
+    "forgotPasswordNote": "If a member forgets their password, remove their access and send them a new invite. They can then create a new account with the same email.",
+    "removedNotice": "Access removed.",
+    "removal": {
+      "heading": "Remove access for {email}",
+      "intro": "Before removing access, decide what happens to each recipe this person added. This list is shown only now.",
+      "keep": "Keep in the cookbook",
+      "remove": "Remove from the cookbook",
+      "noRecipes": "This person has not added any recipes.",
+      "confirmNote": "{email} will lose access to the cookbook immediately. Recipes marked for removal are deleted and cannot be restored.",
+      "confirm": "Remove access",
+      "cancel": "Cancel"
+    },
     "errors": {
       "label": "Use a name of up to 80 characters.",
       "create": "The link could not be created. Please try again.",
-      "revoke": "The invite could not be revoked. Please try again."
+      "revoke": "The invite could not be revoked. Please try again.",
+      "remove": "Access could not be removed. Please try again."
     },
     "join": {
       "heading": "Join the family cookbook",

@@ -104,10 +104,25 @@
       "member": "Membro"
     },
     "joinedOn": "Entrou a {date}",
+    "remove": "Remover acesso",
+    "removeLabel": "Remover o acesso de {email}",
+    "forgotPasswordNote": "Se um membro se esquecer da palavra-passe, remova o acesso dele e envie-lhe um novo convite. Poderá então criar uma nova conta com o mesmo email.",
+    "removedNotice": "Acesso removido.",
+    "removal": {
+      "heading": "Remover o acesso de {email}",
+      "intro": "Antes de remover o acesso, decida o que acontece a cada receita que esta pessoa adicionou. Esta lista só é mostrada agora.",
+      "keep": "Manter no livro de receitas",
+      "remove": "Remover do livro de receitas",
+      "noRecipes": "Esta pessoa não adicionou receitas.",
+      "confirmNote": "{email} perde imediatamente o acesso ao livro de receitas. As receitas marcadas para remover são apagadas e não podem ser recuperadas.",
+      "confirm": "Remover acesso",
+      "cancel": "Cancelar"
+    },
     "errors": {
       "label": "Use um nome com até 80 caracteres.",
       "create": "Não foi possível criar o link. Tente novamente.",
-      "revoke": "Não foi possível revogar o convite. Tente novamente."
+      "revoke": "Não foi possível revogar o convite. Tente novamente.",
+      "remove": "Não foi possível remover o acesso. Tente novamente."
     },
     "join": {
       "heading": "Junte-se ao livro de receitas",

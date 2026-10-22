@@ -1,0 +1,62 @@
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+
+import { MemberRemovalForm } from "@/components/member-removal-form";
+import { isLocale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getCurrentMembership } from "@/lib/auth/membership";
+import { getMember, listMemberRecipesForReview } from "@/lib/members/queries";
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export default async function RemoveMemberPage({
+  params,
+}: {
+  params: Promise<{ locale: string; userId: string }>;
+}) {
+  const { locale, userId } = await params;
+  if (!isLocale(locale)) notFound();
+
+  const membership = await getCurrentMembership();
+  if (!membership) redirect(`/${locale}/sign-in`);
+  // Only the owner removes access (D-09), and never their own.
+  if (membership.role !== "owner") notFound();
+  if (!UUID.test(userId) || userId === membership.userId) notFound();
+
+  const member = await getMember(userId);
+  if (!member || member.role !== "member") notFound();
+
+  const recipes = await listMemberRecipesForReview(userId);
+  const { members } = getDictionary(locale);
+  const removal = members.removal;
+
+  return (
+    <>
+      <Link
+        href={`/${locale}/members`}
+        className="inline-block py-2 text-sm font-medium underline underline-offset-4"
+      >
+        {members.heading}
+      </Link>
+
+      <h1 className="text-2xl font-semibold break-all">
+        {removal.heading.replace("{email}", member.email)}
+      </h1>
+      <p className="text-base text-muted-foreground">{removal.intro}</p>
+
+      <MemberRemovalForm
+        locale={locale}
+        memberId={member.user_id}
+        recipes={recipes.map(({ id, title }) => ({ id, title }))}
+        labels={{
+          keep: removal.keep,
+          remove: removal.remove,
+          noRecipes: removal.noRecipes,
+          confirmNote: removal.confirmNote.replace("{email}", member.email),
+          confirm: removal.confirm,
+          cancel: removal.cancel,
+        }}
+      />
+    </>
+  );
+}
