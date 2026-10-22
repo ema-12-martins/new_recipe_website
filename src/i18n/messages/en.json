@@ -72,6 +72,60 @@
       "reloadLatest": "Open the latest version"
     }
   },
-  "members": {},
+  "members": {
+    "navLink": "Members",
+    "heading": "Members",
+    "invitesHeading": "Invites",
+    "invitesIntro": "Create an invite link and share it with a relative, for example on WhatsApp. No email is sent.",
+    "labelField": "Who is the invite for? (optional)",
+    "labelHint": "For example: Aunt Rosa. Only the owner sees this name.",
+    "createLink": "Create invite link",
+    "linkReady": "Invite link created",
+    "linkField": "Invite link",
+    "linkNote": "This link works once and expires after 7 days. Copy it now: it will not be shown again.",
+    "copy": "Copy link",
+    "copied": "Link copied.",
+    "copyFailed": "Could not copy. Select the link and copy it by hand.",
+    "noInvites": "You have not created any invites yet.",
+    "unlabelled": "Unnamed invite",
+    "createdOn": "Created {date}",
+    "status": {
+      "active": "Active",
+      "used": "Used",
+      "expired": "Expired",
+      "revoked": "Revoked"
+    },
+    "revoke": "Revoke",
+    "revokeLabel": "Revoke the invite {label}",
+    "revokeConfirm": "Revoke this invite? The link will stop working.",
+    "peopleHeading": "People with access",
+    "roles": {
+      "owner": "Owner",
+      "member": "Member"
+    },
+    "joinedOn": "Joined {date}",
+    "errors": {
+      "label": "Use a name of up to 80 characters.",
+      "create": "The link could not be created. Please try again.",
+      "revoke": "The invite could not be revoked. Please try again."
+    },
+    "join": {
+      "heading": "Join the family cookbook",
+      "intro": "You have been invited to the family cookbook. Create your account to join.",
+      "email": "Email address",
+      "emailNote": "Your email is only used to sign in. We will never send you anything.",
+      "password": "Password (at least 8 characters)",
+      "submit": "Create account and join",
+      "invalid": "This invite is no longer valid — ask the owner for a new link.",
+      "signedInAs": "You are signed in as {email}. Sign out to use this invite.",
+      "errors": {
+        "invalid_input": "Check the email address and use a password of 8 to 128 characters.",
+        "invalid_invite": "This invite is no longer valid — ask the owner for a new link.",
+        "email_taken": "An account with this email already exists. Sign in with it or ask the owner for help.",
+        "error": "The account could not be created. Please try again.",
+        "signed_in": "Sign out of the current account before using this invite."
+      }
+    }
+  },
   "offline": {}
 }

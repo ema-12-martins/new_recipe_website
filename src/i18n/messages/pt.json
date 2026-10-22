@@ -72,6 +72,60 @@
       "reloadLatest": "Abrir a versão mais recente"
     }
   },
-  "members": {},
+  "members": {
+    "navLink": "Membros",
+    "heading": "Membros",
+    "invitesHeading": "Convites",
+    "invitesIntro": "Crie um link de convite e partilhe-o com um familiar, por exemplo pelo WhatsApp. Não é enviado nenhum email.",
+    "labelField": "Para quem é o convite? (opcional)",
+    "labelHint": "Por exemplo: Tia Rosa. Só o dono vê este nome.",
+    "createLink": "Criar link de convite",
+    "linkReady": "Link de convite criado",
+    "linkField": "Link de convite",
+    "linkNote": "Este link só funciona uma vez e expira ao fim de 7 dias. Copie-o agora: não voltará a ser mostrado.",
+    "copy": "Copiar link",
+    "copied": "Link copiado.",
+    "copyFailed": "Não foi possível copiar. Selecione o link e copie-o manualmente.",
+    "noInvites": "Ainda não criou nenhum convite.",
+    "unlabelled": "Convite sem nome",
+    "createdOn": "Criado a {date}",
+    "status": {
+      "active": "Ativo",
+      "used": "Usado",
+      "expired": "Expirado",
+      "revoked": "Revogado"
+    },
+    "revoke": "Revogar",
+    "revokeLabel": "Revogar o convite {label}",
+    "revokeConfirm": "Revogar este convite? O link deixa de funcionar.",
+    "peopleHeading": "Pessoas com acesso",
+    "roles": {
+      "owner": "Dono",
+      "member": "Membro"
+    },
+    "joinedOn": "Entrou a {date}",
+    "errors": {
+      "label": "Use um nome com até 80 caracteres.",
+      "create": "Não foi possível criar o link. Tente novamente.",
+      "revoke": "Não foi possível revogar o convite. Tente novamente."
+    },
+    "join": {
+      "heading": "Junte-se ao livro de receitas",
+      "intro": "Foi convidado para o livro de receitas da família. Crie a sua conta para entrar.",
+      "email": "Endereço de email",
+      "emailNote": "O email serve apenas para entrar. Não lhe enviaremos nada.",
+      "password": "Palavra-passe (mínimo 8 caracteres)",
+      "submit": "Criar conta e entrar",
+      "invalid": "Este convite já não é válido — peça um novo link ao dono.",
+      "signedInAs": "Tem sessão iniciada como {email}. Termine a sessão para usar este convite.",
+      "errors": {
+        "invalid_input": "Verifique o endereço de email e use uma palavra-passe com 8 a 128 caracteres.",
+        "invalid_invite": "Este convite já não é válido — peça um novo link ao dono.",
+        "email_taken": "Já existe uma conta com este email. Entre com essa conta ou peça ajuda ao dono.",
+        "error": "Não foi possível criar a conta. Tente novamente.",
+        "signed_in": "Termine a sessão atual antes de usar este convite."
+      }
+    }
+  },
   "offline": {}
 }
