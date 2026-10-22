@@ -1,9 +1,14 @@
 "use client";
 
 import { ArrowDown, ArrowUp, Plus, X } from "lucide-react";
+import Link from "next/link";
 import { useActionState, useRef, useState, useSyncExternalStore } from "react";
 
-import { createRecipeAction, type RecipeFormState } from "@/app/[locale]/(app)/recipes/actions";
+import {
+  createRecipeAction,
+  updateRecipeAction,
+  type RecipeFormState,
+} from "@/app/[locale]/(app)/recipes/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,16 +33,16 @@ function useHydrated() {
 }
 
 export type RecipeFormProps = {
-  mode: "create";
   recipeId: string;
   initial: RecipeFormValues;
   locale: Locale;
   labels: Dictionary["recipes"];
-};
+} & ({ mode: "create" } | { mode: "edit"; version: number });
 
-export function RecipeForm({ recipeId, initial, locale, labels }: RecipeFormProps) {
+export function RecipeForm(props: RecipeFormProps) {
+  const { recipeId, initial, locale, labels } = props;
   const [state, formAction, pending] = useActionState<RecipeFormState, FormData>(
-    createRecipeAction,
+    props.mode === "create" ? createRecipeAction : updateRecipeAction,
     {},
   );
 
@@ -70,9 +75,25 @@ export function RecipeForm({ recipeId, initial, locale, labels }: RecipeFormProp
     <form action={formAction} noValidate>
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="id" value={recipeId} />
+      {props.mode === "edit" ? <input type="hidden" name="version" value={props.version} /> : null}
 
       {/* Text typed before hydration would be replaced by React state, so stay inert until then. */}
       <fieldset disabled={!hydrated} className="min-w-0 space-y-8">
+        {state.status === "conflict" ? (
+          <div
+            role="alert"
+            className="space-y-2 rounded-md border border-destructive/50 p-4 text-sm text-destructive"
+          >
+            <p>{labels.errors.conflict}</p>
+            <Link
+              href={`/${locale}/recipes/${recipeId}/edit`}
+              className="inline-block py-2 font-medium underline underline-offset-4"
+            >
+              {labels.errors.reloadLatest}
+            </Link>
+          </div>
+        ) : null}
+
         {state.errors?.form ? (
           <p role="alert" className="text-sm text-destructive">
             {state.errors.form}

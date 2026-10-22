@@ -1,11 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentMembership } from "@/lib/auth/membership";
 import { createRecipe } from "@/lib/recipes/create-recipe";
+import { getRecipe } from "@/lib/recipes/queries";
 import { readRecipeForm, recipeInputSchema, type RecipeFormValues } from "@/lib/recipes/schema";
 import { createClient } from "@/lib/supabase/server";
 
@@ -72,4 +73,45 @@ export async function createRecipeAction(
   }
 
   redirect(`/${locale}/recipes/${created.id}`);
+}
+
+/**
+ * Saves an edit only if the recipe is still at the version the form was loaded with. Title,
+ * ingredients and steps change in one row update, so a save is applied whole or not at all.
+ */
+export async function updateRecipeAction(
+  _prevState: RecipeFormState,
+  formData: FormData,
+): Promise<RecipeFormState> {
+  const locale = localeOf(formData);
+  const membership = await getCurrentMembership();
+  if (!membership) redirect(`/${locale}/sign-in`);
+
+  const result = validate(formData, locale);
+  if (!result.ok) return result.state;
+
+  const { id, title, ingredients, steps, version } = result.input;
+  const failed: RecipeFormState = {
+    status: "error",
+    errors: { form: getDictionary(locale).recipes.errors.error },
+    values: result.values,
+  };
+  if (version === undefined) return failed;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("recipes")
+    .update({ title, ingredients, steps })
+    .eq("id", id)
+    .eq("version", version)
+    .select("id, version");
+  if (error) return failed;
+
+  if (data.length === 0) {
+    // Nothing matched: either someone saved first (version moved on) or the recipe is gone.
+    if (await getRecipe(id)) return { status: "conflict", values: result.values };
+    notFound();
+  }
+
+  redirect(`/${locale}/recipes/${id}`);
 }
