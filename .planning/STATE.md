@@ -1,17 +1,17 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: "Completed 01-17-PLAN.md; 01-10 is next"
-last_updated: "2026-10-22T06:41:16.069Z"
-last_activity: 2026-10-21
-state_head: 5832beb070126a82e33949ab9472e1cdf5ef7c9f
+stopped_at: Completed 01-10-PLAN.md
+last_updated: "2026-10-22T07:18:26.422Z"
+last_activity: 2026-10-22
+state_head: 1a54fe956e966b1936f4dd625757090878fdd941
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 11
-  completed_plans: 4
-  percent: 36
+  completed_plans: 5
+  percent: 45
 current_phase_name: Decisions and Shared Cookbook
 ---
 
@@ -24,23 +24,23 @@ current_phase_name: Decisions and Shared Cookbook
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 production delivery is in progress (4 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 production delivery is in progress (5 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
 - **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** 01-10 is next (5 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16 and 01-17 complete. Plan 01-08 is superseded.
-- **Status:** Ready for Plan 01-10 (manual recipes; autonomous). The live site https://newrecipewebsite.vercel.app runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
-- **Progress:** 0 / 3 phases complete; Phase 1 plans 4 / 11
+- **Plan:** 01-11 is next (6 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16, 01-17 and 01-10 complete. Plan 01-08 is superseded.
+- **Status:** Ready for Plan 01-11. Members can create, browse, view and edit recipes on the live site https://newrecipewebsite.vercel.app, which runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
+- **Progress:** 0 / 3 phases complete; Phase 1 plans 5 / 11
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 4 / 11 (Phase 1)
+- Production plans complete: 5 / 11 (Phase 1)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
-- v1 requirements completed: 0
+- v1 requirements completed: 2 (RECP-01, RECP-03)
 
 **Per-Plan Metrics:**
 
@@ -50,6 +50,7 @@ current_phase_name: Decisions and Shared Cookbook
 | Phase 01 P15 | 25 min | 3 tasks | 17 files |
 | Phase 01 P16 | 12 min | 2 tasks | 17 files |
 | Phase 01 P17 | 45 min | 2 tasks | 8 files |
+| Phase 01 P10 | 29 min | 3 tasks | 19 files |
 
 ## Accumulated Context
 
@@ -68,13 +69,13 @@ current_phase_name: Decisions and Shared Cookbook
 
 ### Open decisions / next actions
 
-- Run `/gsd-execute-phase 1` to continue at Plan 01-10.
+- Run `/gsd-execute-phase 1` to continue at Plan 01-11.
 - Before real family use: create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill `SUPABASE_PROD_DB_URL`, and run db:push:prod.
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17 done). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
+- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17, 01-10 done). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
 - No family-material OCR benchmark exists yet (Phase 2).
 
 ### Quick Tasks Completed
@@ -92,11 +93,11 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-21T16:20:00Z
-**Stopped at:** Completed 01-17-PLAN.md
-**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-10-PLAN.md
+**Last session:** 2026-10-22T07:18:26.370Z
+**Stopped at:** Completed 01-10-PLAN.md
+**Resume file:** None
 
-Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-10.
+Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-11.
 
 ## Decisions
 
@@ -105,7 +106,7 @@ Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. 
 - [Phase 1 / 2026-10-21]: Plan 01-08 superseded by user decision — only a single responsive web app (desktop/tablet/phone browsers); no native app, app store, installable PWA, or throwaway validation service; interim browser evidence is no longer a prerequisite; replan Phase 1 directly as the real web app after the production stack is approved.
 - [Phase 1 / 2026-10-21 discuss]: Production stack approved — Next.js + TypeScript + Tailwind/shadcn, Supabase, Vercel + Supabase Cloud (EU, free tiers); no emails in v1 (invite links, no in-app password reset); service-worker offline reading of opened recipes; no in-app account self-deletion (resolves the owner-deletion blocker).
 
-Last activity: 2026-10-21
+Last activity: 2026-10-22
 - [Phase 01]: Plan 01-09: package legitimacy approved with clsx + tailwind-merge instead of cn; later shadcn steps must rewrite imports from 'cn' to @/lib/utils and never install cn — Human rejected the reassigned 'cn' npm package at the 01-09 gate
 - [Phase 01]: Plan 01-15: Supabase PRODUCTION project deferred by user decision; it must be configured (same Auth settings) and SUPABASE_PROD_DB_URL filled before 01-17.
 - [Phase 01]: Plan 01-15: shadcn init performed by hand from registry JSON (CLI would install the rejected 'cn' and defaults to Base UI); components import cn from @/lib/utils.
@@ -113,3 +114,6 @@ Last activity: 2026-10-21
 - [Phase 01]: Plan 01-16: Portuguese UI copy uses European Portuguese (palavra-passe); shadcn components are copied from registry JSON with cn from @/lib/utils, never via shadcn add.
 - [Phase 01]: Plan 01-17 (user decision 2026-10-21): the Vercel live site runs on the DEV Supabase project as a temporary demo; tests wipe it, so no real family data until a PRODUCTION project exists. 01-17 uses DEV values in all Vercel scopes and db:*:dev instead of db:*:prod.
 - [Phase 01]: Plan 01-17: live at https://newrecipewebsite.vercel.app (Vercel Hobby, fra1, auto-deploy from main confirmed); ship loop uses db:*:dev while the live site is a DEV-backed demo.
+- [Phase 01]: Plan 01-10: client forms with controlled state stay disabled until hydrated (fieldset + useSyncExternalStore) — WebKit lost text typed before hydration; slow phones would too
+- [Phase 01]: Plan 01-10: recipe deletion is impossible for clients - DELETE granted, no policy, so deletes affect 0 rows; writes limited to content columns by column grants — D-15 and T-01-13; RLS stays the row gate
+- [Phase 01]: Plan 01-10: shadcn Textarea copied from registry JSON with cn from @/lib/utils (registry still depends on rejected 'cn') — T-01-SC; same approach as 01-15/01-16

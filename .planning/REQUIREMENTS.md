@@ -14,9 +14,9 @@
 
 ### Recipes
 
-- [ ] **RECP-01**: A family member can manually create, view, and edit a recipe with a title, ingredients, and ordered instructions.
+- [x] **RECP-01**: A family member can manually create, view, and edit a recipe with a title, ingredients, and ordered instructions.
 - [ ] **RECP-02**: A family member can retain the original handwritten source photo or photos with a saved recipe.
-- [ ] **RECP-03**: A family member can edit any saved recipe in the shared cookbook.
+- [x] **RECP-03**: A family member can edit any saved recipe in the shared cookbook.
 
 ### Recipe Capture
 
@@ -53,9 +53,9 @@
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Pending |
-| RECP-01 | Phase 1 | Pending |
+| RECP-01 | Phase 1 | Complete |
 | RECP-02 | Phase 2 | Pending |
-| RECP-03 | Phase 1 | Pending |
+| RECP-03 | Phase 1 | Complete |
 | CAPT-01 | Phase 2 | Pending |
 | CAPT-02 | Phase 2 | Pending |
 | CAPT-03 | Phase 2 | Pending |
