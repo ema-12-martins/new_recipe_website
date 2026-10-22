@@ -22,7 +22,7 @@
 
 **Decision gate (resolved 2026-10-21)**: The production stack was selected and explicitly approved in `/gsd-discuss-phase 1` (01-CONTEXT.md D-24..D-41): Next.js + TypeScript + Tailwind/shadcn, Supabase (Postgres + Auth + RLS), Vercel + Supabase Cloud (EU, free tiers), no emails in v1, service-worker offline reading of opened recipes (no installable PWA). No interim validation spike is required; real-browser checks across desktop, tablet, and phone viewports are part of the production plans' own verification.
 **Delivery status**: Phase 1 is planned and ready to execute. Historical Plan 01-01 is completed decision/provenance work only. Plan 01-08 (interim responsive validation) is superseded by user decision on 2026-10-21 and will not be executed.
-**Plans:** 5/11 plans executed (Plan 01-01 is retained as history; Plan 01-08 is superseded, retired, and not counted)
+**Plans:** 6/11 plans executed (Plan 01-01 is retained as history; Plan 01-08 is superseded, retired, and not counted)
 
 Plans (sequential, one per wave):
 - [x] 01-09-PLAN.md — Wave 1: package legitimacy gate (human), Next.js scaffold, /pt and /en locale routing, Playwright — AUTH-04
@@ -30,7 +30,7 @@ Plans (sequential, one per wave):
 - [x] 01-16-PLAN.md — Wave 3: first person sets up the cookbook as the single owner (idempotent, race-safe) — AUTH-01
 - [x] 01-17-PLAN.md — Wave 4: Vercel link (human), production deploy on vercel.app backed by EU production database — AUTH-01
 - [x] 01-10-PLAN.md — Wave 5: manual recipes — create, view, list, edit, reorder steps, byte-faithful text, conflict-safe saves — RECP-01, RECP-03, AUTH-03
-- [ ] 01-11-PLAN.md — Wave 6: sign-in/out on any device, same cookbook across devices, remembered interface language — AUTH-01, AUTH-04
+- [x] 01-11-PLAN.md — Wave 6: sign-in/out on any device, same cookbook across devices, remembered interface language — AUTH-01, AUTH-04
 - [ ] 01-12-PLAN.md — Wave 7: one-time invite links (7-day, revocable, single use) and guided join — AUTH-02, AUTH-03
 - [ ] 01-13-PLAN.md — Wave 8: owner removes a member via keep/remove recipe review; email freed for re-invite (DEV only, ships with 01-19) — AUTH-02
 - [ ] 01-19-PLAN.md — Wave 9: no-access guard on every page and "server unavailable" state; ships 01-13 + 01-19 — AUTH-02
@@ -74,6 +74,6 @@ Plans (sequential, one per wave):
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Decisions and Shared Cookbook | 5/11 | In Progress — ready to execute | - |
+| 1. Decisions and Shared Cookbook | 6/11 | In Progress — ready to execute | - |
 | 2. Handwritten Recipe Capture | 0 / TBD | Not started | - |
 | 3. Search and Categories | 0 / TBD | Not started | - |

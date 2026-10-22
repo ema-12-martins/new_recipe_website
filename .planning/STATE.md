@@ -1,17 +1,17 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: Completed 01-10-PLAN.md
-last_updated: "2026-10-22T07:18:26.422Z"
+stopped_at: Completed 01-11-PLAN.md
+last_updated: "2026-10-22T07:58:00.000Z"
 last_activity: 2026-10-22
-state_head: 1a54fe956e966b1936f4dd625757090878fdd941
+state_head: fec040fc3b74aef8c35a78e4641596e756867cc0
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 11
-  completed_plans: 5
-  percent: 45
+  completed_plans: 6
+  percent: 55
 current_phase_name: Decisions and Shared Cookbook
 ---
 
@@ -24,23 +24,23 @@ current_phase_name: Decisions and Shared Cookbook
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 production delivery is in progress (5 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 production delivery is in progress (6 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes, 01-11 sign-in/out per device and remembered language). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
 - **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** 01-11 is next (6 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16, 01-17 and 01-10 complete. Plan 01-08 is superseded.
-- **Status:** Ready for Plan 01-11. Members can create, browse, view and edit recipes on the live site https://newrecipewebsite.vercel.app, which runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
-- **Progress:** 0 / 3 phases complete; Phase 1 plans 5 / 11
+- **Plan:** 01-12 is next (7 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16, 01-17, 01-10 and 01-11 complete. Plan 01-08 is superseded.
+- **Status:** Ready for Plan 01-12. Members sign in and out per device, see the same cookbook on every device in their remembered language, and create, browse, view and edit recipes on the live site https://newrecipewebsite.vercel.app, which runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
+- **Progress:** 0 / 3 phases complete; Phase 1 plans 6 / 11
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 5 / 11 (Phase 1)
+- Production plans complete: 6 / 11 (Phase 1)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
-- v1 requirements completed: 2 (RECP-01, RECP-03)
+- v1 requirements completed: 3 (RECP-01, RECP-03, AUTH-01); AUTH-04 is delivered by 01-11 but stays pending until every plan declaring it is complete
 
 **Per-Plan Metrics:**
 
@@ -51,6 +51,7 @@ current_phase_name: Decisions and Shared Cookbook
 | Phase 01 P16 | 12 min | 2 tasks | 17 files |
 | Phase 01 P17 | 45 min | 2 tasks | 8 files |
 | Phase 01 P10 | 29 min | 3 tasks | 19 files |
+| Phase 01 P11 | 26 min | 2 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -69,13 +70,13 @@ current_phase_name: Decisions and Shared Cookbook
 
 ### Open decisions / next actions
 
-- Run `/gsd-execute-phase 1` to continue at Plan 01-11.
+- Run `/gsd-execute-phase 1` to continue at Plan 01-12.
 - Before real family use: create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill `SUPABASE_PROD_DB_URL`, and run db:push:prod.
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17, 01-10 done). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
+- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17, 01-10, 01-11 done). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
 - No family-material OCR benchmark exists yet (Phase 2).
 
 ### Quick Tasks Completed
@@ -93,11 +94,11 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-22T07:25:05.372Z
-**Stopped at:** Session resumed, proceeding to execute Plan 01-11 (/gsd-execute-phase 1)
-**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/.continue-here.md
+**Last session:** 2026-10-22T07:58:00.000Z
+**Stopped at:** Completed 01-11-PLAN.md
+**Resume file:** None
 
-Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-11.
+Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-12. End-of-phase human checks so far: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check.
 
 ## Decisions
 
@@ -117,3 +118,6 @@ Last activity: 2026-10-22
 - [Phase 01]: Plan 01-10: client forms with controlled state stay disabled until hydrated (fieldset + useSyncExternalStore) — WebKit lost text typed before hydration; slow phones would too
 - [Phase 01]: Plan 01-10: recipe deletion is impossible for clients - DELETE granted, no policy, so deletes affect 0 rows; writes limited to content columns by column grants — D-15 and T-01-13; RLS stays the row gate
 - [Phase 01]: Plan 01-10: shadcn Textarea copied from registry JSON with cn from @/lib/utils (registry still depends on rejected 'cn') — T-01-SC; same approach as 01-15/01-16
+- [Phase 01]: Plan 01-11: e2e "devices" opened with browser.newContext must pass storageState { cookies: [], origins: [] } — Playwright applies the project's owner storageState to new contexts
+- [Phase 01]: Plan 01-11: per-member preferences go through narrow security-definer RPCs (set_my_locale); memberships keeps no client write policy — T-01-18
+- [Phase 01]: Plan 01-11: sign-out is per device (scope local); there is no "sign out everywhere" control in Phase 1

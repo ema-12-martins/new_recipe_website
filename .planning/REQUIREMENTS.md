@@ -7,7 +7,7 @@
 
 ### Family Access
 
-- [ ] **AUTH-01**: A family member can create and use an individual account to access the cookbook.
+- [x] **AUTH-01**: A family member can create and use an individual account to access the cookbook.
 - [ ] **AUTH-02**: A cookbook owner can invite family members to the private shared cookbook and remove their access.
 - [ ] **AUTH-03**: An invited family member can view, add, and edit recipes in the shared cookbook.
 - [ ] **AUTH-04**: A family member can access the same shared cookbook and its saved recipes across their devices.
@@ -49,7 +49,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Pending |
