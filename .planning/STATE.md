@@ -96,8 +96,8 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-22T09:31:21.000Z
-**Stopped at:** Completed 01-13-PLAN.md
+**Last session:** 2026-10-22T09:39:03.368Z
+**Stopped at:** Session resumed, proceeding to execute Plan 01-19 (/gsd-execute-phase 1)
 **Resume file:** .planning/phases/01-decisions-and-shared-cookbook/.continue-here.md
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-19; 01-19 ships 01-13 and 01-19 together (01-13 commits are local, not on origin/main). End-of-phase human checks so far: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13 the owner removes that relative after the keep/remove review, then re-invites the same email.
