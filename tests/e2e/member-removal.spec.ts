@@ -133,10 +133,34 @@ test.describe("member removal", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(keptTitle);
     await expect(page.getByText(email.split("@")[0])).toHaveCount(0);
 
-    // Access ends at once: a full load sends the removed member out of the app.
+    // Access ends at once, even for an in-app link tap: the shared layout is not re-rendered on a
+    // soft navigation, so the page itself must turn the removed member away (T-01-43).
+    const noAccess = member.page.getByRole("status").filter({ hasText: signIn.errors.noAccess });
+    await member.page.evaluate(() => {
+      (window as unknown as { __softNav?: boolean }).__softNav = true;
+    });
+    await member.page.getByRole("link", { name: keepTitle, exact: true }).click();
+    await member.page.waitForURL(/\/pt\/sign-in\?reason=no-access$/);
+    await expect(noAccess).toBeVisible();
+    expect(
+      await member.page.evaluate(() => (window as unknown as { __softNav?: boolean }).__softNav),
+    ).toBe(true);
+
+    // A full load turns them away with the same message while their session is still presented.
     await member.page.goto("/pt/recipes");
-    await member.page.waitForURL("**/pt/sign-in");
+    await member.page.waitForURL(/\/pt\/sign-in\?reason=no-access$/);
+    await expect(noAccess).toBeVisible();
     await member.context.close();
+
+    // A visitor without any session gets the plain sign-in page.
+    const visitor = await openDevice(browser, baseURL, testInfo);
+    await visitor.page.goto("/pt/recipes");
+    await visitor.page.waitForURL(/\/pt\/sign-in$/);
+    await expect(
+      visitor.page.getByRole("heading", { level: 1, name: signIn.heading }),
+    ).toBeVisible();
+    await expect(visitor.page.getByText(signIn.errors.noAccess)).toHaveCount(0);
+    await visitor.context.close();
 
     // D-31: the same email can join again through a new invite.
     await page.goto("/pt/members");

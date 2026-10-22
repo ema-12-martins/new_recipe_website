@@ -1,8 +1,8 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { AppHeader } from "@/components/app-header";
 import { isLocale } from "@/i18n/config";
-import { getCurrentMembership } from "@/lib/auth/membership";
+import { requireMembership } from "@/lib/auth/require-membership";
 
 /** Member-only area: visitors without a cookbook membership are sent to sign-in. */
 export default async function MemberLayout({
@@ -17,8 +17,7 @@ export default async function MemberLayout({
 
   // Server Components cannot clear cookies, so a stale session is left alone;
   // every data path is RLS-gated regardless.
-  const membership = await getCurrentMembership();
-  if (!membership) redirect(`/${locale}/sign-in`);
+  await requireMembership(locale);
 
   return (
     <>
