@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { MemberRemovalForm } from "@/components/member-removal-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getCurrentMembership } from "@/lib/auth/membership";
+import { requireMembership } from "@/lib/auth/require-membership";
 import { getMember, listMemberRecipesForReview } from "@/lib/members/queries";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -17,8 +17,7 @@ export default async function RemoveMemberPage({
   const { locale, userId } = await params;
   if (!isLocale(locale)) notFound();
 
-  const membership = await getCurrentMembership();
-  if (!membership) redirect(`/${locale}/sign-in`);
+  const membership = await requireMembership(locale);
   // Only the owner removes access (D-09), and never their own.
   if (membership.role !== "owner") notFound();
   if (!UUID.test(userId) || userId === membership.userId) notFound();

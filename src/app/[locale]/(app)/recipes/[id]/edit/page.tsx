@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { RecipeForm } from "@/components/recipe-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getCurrentMembership } from "@/lib/auth/membership";
+import { requireMembership } from "@/lib/auth/require-membership";
 import { getRecipe } from "@/lib/recipes/queries";
 
 export default async function EditRecipePage({
@@ -15,8 +15,7 @@ export default async function EditRecipePage({
   const { locale, id } = await params;
   if (!isLocale(locale)) notFound();
 
-  const membership = await getCurrentMembership();
-  if (!membership) redirect(`/${locale}/sign-in`);
+  await requireMembership(locale);
 
   const recipe = await getRecipe(id);
   if (!recipe) notFound();

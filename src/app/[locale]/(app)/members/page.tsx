@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { CreateInviteForm } from "@/components/create-invite-form";
 import { RevokeInviteButton } from "@/components/revoke-invite-button";
 import { buttonVariants } from "@/components/ui/button";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getCurrentMembership } from "@/lib/auth/membership";
+import { requireMembership } from "@/lib/auth/require-membership";
 import { listMembers, type MemberRow } from "@/lib/members/queries";
 import { createClient } from "@/lib/supabase/server";
 
@@ -68,8 +68,7 @@ export default async function MembersPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const membership = await getCurrentMembership();
-  if (!membership) redirect(`/${locale}/sign-in`);
+  const membership = await requireMembership(locale);
   // Only the owner manages invitations and access (D-09).
   if (membership.role !== "owner") notFound();
 

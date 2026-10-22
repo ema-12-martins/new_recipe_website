@@ -1,19 +1,18 @@
 import { randomUUID } from "node:crypto";
 
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { RecipeForm } from "@/components/recipe-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getCurrentMembership } from "@/lib/auth/membership";
+import { requireMembership } from "@/lib/auth/require-membership";
 
 export default async function NewRecipePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const membership = await getCurrentMembership();
-  if (!membership) redirect(`/${locale}/sign-in`);
+  await requireMembership(locale);
 
   const { recipes } = getDictionary(locale);
   // Issued per render so every resubmit of this form carries the same id (idempotent create).
