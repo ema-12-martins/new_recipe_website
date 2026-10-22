@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 import pt from "../../src/i18n/messages/pt.json";
 
 // READ-ONLY: only GET navigations; never submits a form or writes data.
-test.use({ extraHTTPHeaders: { "Accept-Language": "pt-PT,pt;q=0.9" } });
+// The browser derives Accept-Language from the context locale.
+test.use({ locale: "pt-PT" });
 
 test.describe("deployed site smoke", () => {
   test("is served from a vercel.app address", async ({ baseURL }) => {
