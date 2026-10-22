@@ -152,14 +152,23 @@ test.describe("offline reading", () => {
     await expect(page.getByText("Misturar bem.")).toBeVisible();
     await expect(page.getByRole("status")).toContainText("Está sem ligação");
 
+    const listPage = await context.newPage();
+    await listPage.goto("/pt/recipes");
+    await expect(
+      listPage.getByRole("link", { name: `Offline recipe ${tag}`, exact: true }),
+    ).toBeVisible();
+    await expect(listPage.getByText(`Unopened recipe ${tag}`, { exact: true })).toHaveCount(0);
+    await listPage.close();
+
     const unopenedPage = await context.newPage();
     await unopenedPage.goto(unopenedUrl);
     await expect(unopenedPage.getByText("Esta receita não está disponível offline.")).toBeVisible();
     await expect(unopenedPage.getByText(`Unopened recipe ${tag}`, { exact: true })).toHaveCount(0);
 
-    await context.setOffline(false);
     await unopenedPage.close();
-    await page.waitForURL(openedUrl);
+    const onlineReload = page.waitForNavigation({ waitUntil: "domcontentloaded" });
+    await context.setOffline(false);
+    await onlineReload;
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(`Offline recipe ${tag}`);
   });
 });
