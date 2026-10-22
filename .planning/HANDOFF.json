@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-10-22T08:09:07.895Z",
+  "phase": "01",
+  "phase_name": "Decisions and Shared Cookbook",
+  "phase_dir": ".planning/phases/01-decisions-and-shared-cookbook",
+  "plan": 12,
+  "task": 0,
+  "total_tasks": 0,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": "01-11/1", "name": "Sign in on a second device and see the same cookbook (tracer): sign-in page/action, per-device sign-out, AppHeader, safeNextPath, cross-device e2e", "status": "done", "commit": "0148c2c"},
+    {"id": "01-11/2-red", "name": "Failing tests for remembered per-member language", "status": "done", "commit": "85fa5f5"},
+    {"id": "01-11/2-green", "name": "set_my_locale migration (pushed to DEV), setLocaleAction, LanguageSwitcher; shipped to main, Vercel deployed, prod smoke green", "status": "done", "commit": "fec040f"},
+    {"id": "01-11/close", "name": "01-11 SUMMARY, STATE, ROADMAP, REQUIREMENTS (AUTH-01 checked)", "status": "done", "commit": "3055aec"}
+  ],
+  "remaining_tasks": [
+    {"id": "01-12", "name": "Wave 7: one-time invite links (7-day, revocable, single use) and guided join (AUTH-02, AUTH-03)", "status": "not_started"},
+    {"id": "01-13", "name": "Wave 8: owner removes a member via keep/remove recipe review (AUTH-02)", "status": "not_started"},
+    {"id": "01-19", "name": "Wave 9: no-access guard on every page and server-unavailable state; ships 01-13 + 01-19 (AUTH-02)", "status": "not_started"},
+    {"id": "01-14", "name": "Wave 10", "status": "not_started"},
+    {"id": "01-18", "name": "Wave 11", "status": "not_started"}
+  ],
+  "blockers": [
+    {"description": "Live site is a DEV-backed demo; tests wipe DEV, so no real family data until a PRODUCTION Supabase project exists", "type": "human_action", "workaround": "Ship loop uses db:*:dev instead of db:*:prod (user decision in 01-17)"}
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it, fill SUPABASE_PROD_DB_URL, run db:push:prod", "context": "Required before real family use; not required to continue Phase 1 plans", "blocking": false},
+    {"action": "End-of-phase phone check (01-10): create a recipe with Portuguese accents, fractions and °C on a real phone and confirm it reads back exactly; reorder steps by tapping Move up/down", "context": "human_verify_mode end-of-phase", "blocking": false},
+    {"action": "End-of-phase check (01-11): on a phone and a laptop signed in as the same member, switch language on the laptop, then sign out/in on the phone and confirm the remembered language", "context": "human_verify_mode end-of-phase", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "e2e devices opened with browser.newContext pass storageState { cookies: [], origins: [] }", "rationale": "Playwright applies the project's use (owner storageState) to new contexts; every 'device' was otherwise already signed in as the owner", "phase": "01"},
+    {"decision": "Per-member preferences go through narrow security-definer RPCs (set_my_locale); memberships keeps no client write policy", "rationale": "T-01-18; the RLS boundary from 01-15 stays intact", "phase": "01"},
+    {"decision": "Sign-out is per device (scope local); no sign-out-everywhere control in Phase 1", "rationale": "Plan 01-11 flagged assumption for AUTH-04", "phase": "01"},
+    {"decision": "Language switcher is on sign-in and every member page, not on the one-time owner setup page", "rationale": "Plan file list; flagged in 01-11-SUMMARY for the phase verifier against the 'every page' truth", "phase": "01"}
+  ],
+  "uncommitted_files": [" M .planning/milestone.lock", "?? .planning/state.json"],
+  "next_action": "Run /gsd-execute-phase 1 from the main branch; it resumes at Plan 01-12 (depends on 01-11).",
+  "context_notes": "01-11 done in 26 min inline (Copilot sequential mode). Ship loop: build -> check:secrets -> local e2e (full suite 88 tests) -> commit -> git push origin HEAD:main -> wait for Vercel commit status (gh api .../commits/SHA/status) -> test:e2e:prod, with db:*:dev substituted for db:*:prod. gsd-tools roadmap.update-plan-progress and requirements.ready-ids/mark-complete work; STATE.md body/frontmatter must still be updated by hand. AUTH-04 is blocked by the shared-ID gate until the other plan declaring it finishes. Uncommitted milestone.lock and state.json are tool-generated and never committed."
+}
