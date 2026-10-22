@@ -8,8 +8,9 @@ import {
   type TestInfo,
 } from "@playwright/test";
 
+import { LOCALE_NAMES } from "../../src/i18n/config";
 import pt from "../../src/i18n/messages/pt.json";
-import { createTestUser } from "../helpers/supabase-admin";
+import { adminClient, createTestUser } from "../helpers/supabase-admin";
 
 const signIn = pt.auth.signIn;
 const PASSWORD = "Receitas-Membro-2026";
@@ -150,6 +151,90 @@ test.describe("signing in on several devices", () => {
     await page.waitForURL("**/pt/recipes");
     expect(new URL(page.url()).origin).toBe(new URL(baseURL!).origin);
 
+    await context.close();
+  });
+});
+
+async function seedRecipe(title: string): Promise<string> {
+  const admin = adminClient();
+  const { data: cookbook, error: cookbookError } = await admin
+    .from("cookbooks")
+    .select("id")
+    .single();
+  if (cookbookError) throw cookbookError;
+  const { data, error } = await admin
+    .from("recipes")
+    .insert({ cookbook_id: cookbook.id, title, ingredients: ["1 ovo"], steps: ["Bater."] })
+    .select("id")
+    .single();
+  if (error) throw error;
+  return data.id;
+}
+
+async function storedLocale(email: string): Promise<string> {
+  const { data, error } = await adminClient()
+    .from("memberships")
+    .select("locale")
+    .eq("email", email)
+    .single();
+  if (error) throw error;
+  return data.locale;
+}
+
+test.describe("remembered interface language", () => {
+  test("a member's language choice follows them to another browser", async ({
+    browser,
+    baseURL,
+  }, testInfo) => {
+    test.setTimeout(60_000);
+    const email = uniqueEmail(testInfo, "lang");
+    await createTestUser({ email, password: PASSWORD, role: "member", locale: "pt" });
+    const recipeId = await seedRecipe(`Arroz doce ${testInfo.project.name} ${Date.now()}`);
+
+    const deviceA = await openDevice(browser, baseURL, projectDevice(testInfo));
+    await signInThroughUi(deviceA.page, email, PASSWORD);
+    await deviceA.page.waitForURL("**/pt/recipes");
+
+    // The switcher keeps the rest of the path.
+    await deviceA.page.goto(`/pt/recipes/${recipeId}`);
+    const english = deviceA.page.getByRole("button", { name: LOCALE_NAMES.en, exact: true });
+    await expect(english).toHaveAttribute("aria-pressed", "false");
+    await english.click();
+    await deviceA.page.waitForURL(`**/en/recipes/${recipeId}`);
+    await expect(deviceA.page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(
+      deviceA.page.getByRole("button", { name: LOCALE_NAMES.en, exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect.poll(() => storedLocale(email)).toBe("en");
+
+    // A German browser would get Portuguese, but the member's remembered choice wins.
+    const deviceB = await browser.newContext({
+      ...DESKTOP,
+      locale: "de-DE",
+      baseURL,
+      storageState: { cookies: [], origins: [] },
+    });
+    const pageB = await deviceB.newPage();
+    await signInThroughUi(pageB, email, PASSWORD);
+    await pageB.waitForURL("**/en/recipes");
+    await expect(pageB.locator("html")).toHaveAttribute("lang", "en");
+
+    await deviceA.context.close();
+    await deviceB.close();
+  });
+
+  test("a signed-out visitor can switch language on the sign-in page", async ({
+    browser,
+    baseURL,
+  }, testInfo) => {
+    const { context, page } = await openDevice(browser, baseURL, projectDevice(testInfo));
+    await page.goto("/pt/sign-in");
+    await page.getByRole("button", { name: LOCALE_NAMES.en, exact: true }).click();
+    await page.waitForURL("**/en/sign-in");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+
+    const cookies = await context.cookies();
+    expect(cookies.find((cookie) => cookie.name === "NEXT_LOCALE")?.value).toBe("en");
     await context.close();
   });
 });
