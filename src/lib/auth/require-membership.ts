@@ -27,5 +27,7 @@ export async function requireMembership(locale: Locale): Promise<Membership> {
     redirect(`/${locale}/sign-in`);
   }
 
-  throw new Error("Supabase is unreachable");
+  // D-34: an unreachable or paused Supabase is not lost access, so show neither the no-access
+  // message nor the sign-in page (whose offline purge would clear cached recipes).
+  redirect(`/${locale}/unavailable`);
 }

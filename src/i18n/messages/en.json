@@ -6,6 +6,11 @@
       "label": "App language",
       "pt": "Português",
       "en": "English"
+    },
+    "unavailable": {
+      "title": "Can't reach the server",
+      "body": "Please try again in a moment.",
+      "retry": "Try again"
     }
   },
   "auth": {

@@ -6,6 +6,11 @@
       "label": "Idioma da aplicação",
       "pt": "Português",
       "en": "English"
+    },
+    "unavailable": {
+      "title": "Não foi possível contactar o servidor",
+      "body": "Tente novamente dentro de momentos.",
+      "retry": "Tentar novamente"
     }
   },
   "auth": {
