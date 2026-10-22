@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-10-22T09:02:42.969Z",
+  "phase": "01",
+  "phase_name": "Decisions and Shared Cookbook",
+  "phase_dir": ".planning/phases/01-decisions-and-shared-cookbook",
+  "plan": 13,
+  "task": 0,
+  "total_tasks": 0,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": "01-12/1", "name": "Owner shares an invite link, relative joins and adds/edits recipes (tracer): invites migration pushed to DEV, Members page, join flow, owner-only header link", "status": "done", "commit": "79e02d1"},
+    {"id": "01-12/2-red", "name": "Failing tests for the invite lifecycle and owner revocation", "status": "done", "commit": "5ebf988"},
+    {"id": "01-12/2-green", "name": "revokeInviteAction + Revoke button; shipped to main, Vercel deployed, prod smoke green", "status": "done", "commit": "a879cb9"},
+    {"id": "01-12/close", "name": "01-12 SUMMARY, STATE, ROADMAP, REQUIREMENTS (AUTH-03 checked; AUTH-02 waits for 01-13)", "status": "done", "commit": "f9985fc"}
+  ],
+  "remaining_tasks": [
+    {"id": "01-13", "name": "Wave 8: owner removes a member via keep/remove recipe review (AUTH-02)", "status": "not_started"},
+    {"id": "01-19", "name": "Wave 9: no-access guard on every page and server-unavailable state; ships 01-13 + 01-19 (AUTH-02)", "status": "not_started"},
+    {"id": "01-14", "name": "Wave 10", "status": "not_started"},
+    {"id": "01-18", "name": "Wave 11", "status": "not_started"}
+  ],
+  "blockers": [
+    {"description": "Live site is a DEV-backed demo; tests wipe DEV, so no real family data until a PRODUCTION Supabase project exists", "type": "human_action", "workaround": "Ship loop uses db:*:dev instead of db:*:prod (user decision in 01-17)"}
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it, fill SUPABASE_PROD_DB_URL, run db:push:prod", "context": "Required before real family use; not required to continue Phase 1 plans", "blocking": false},
+    {"action": "End-of-phase phone check (01-10): create a recipe with Portuguese accents, fractions and °C on a real phone and confirm it reads back exactly; reorder steps by tapping Move up/down", "context": "human_verify_mode end-of-phase", "blocking": false},
+    {"action": "End-of-phase check (01-11): on a phone and a laptop signed in as the same member, switch language on the laptop, then sign out/in on the phone and confirm the remembered language", "context": "human_verify_mode end-of-phase", "blocking": false},
+    {"action": "End-of-phase check (01-12): owner sends a real invite link over WhatsApp to a relative's phone; the relative joins and adds a recipe; confirm no email arrived and Supabase Auth logs show no email sends", "context": "human_verify_mode end-of-phase", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Invite tokens: 32 random bytes base64url; only SHA-256 hex stored; redeem_invite (service_role only) is one conditional UPDATE + membership insert; a losing redemption deletes the auth user it created", "rationale": "T-01-20, T-01-21, T-01-24", "phase": "01"},
+    {"decision": "Invite link scheme from x-forwarded-proto (http only for localhost) instead of hard-coded https", "rationale": "Local e2e runs on http://localhost:3100", "phase": "01"},
+    {"decision": "Signed-in visitor on a join link signs out via signOutForInviteAction, which returns to the same invite", "rationale": "Generic sign-out lands on sign-in and loses the link (T-01-25)", "phase": "01"},
+    {"decision": "Owner-only pages: membership redirect for signed-out visitors, then notFound() for non-owners", "rationale": "D-09; members get a 404 on /members", "phase": "01"}
+  ],
+  "uncommitted_files": [" M .planning/milestone.lock", "?? .planning/state.json"],
+  "next_action": "Run /gsd-execute-phase 1 from the main branch; it resumes at Plan 01-13 (depends on 01-12).",
+  "context_notes": "01-12 done in 35 min inline (Copilot sequential mode). Ship loop: typecheck + eslint src tests -> build -> check:secrets -> local e2e (full suite now 108 tests, ~5 min) -> commit -> git push origin HEAD:main -> wait for Vercel commit status (gh api repos/ema-12-martins/new_recipe_website/commits/SHA/status) -> test:e2e:prod, with db:*:dev substituted for db:*:prod. npm run test:integration also runs the whole tests/integration folder; use npx vitest run <file> for a per-file count. PowerShell treats [locale] as a wildcard: use -LiteralPath or [System.IO.Directory]::CreateDirectory, and git pathspecs need [[]locale]. gsd-tools roadmap.update-plan-progress and requirements.ready-ids/mark-complete work; STATE.md body/frontmatter must still be updated by hand. AUTH-02 and AUTH-04 are held by the shared-ID gate. Uncommitted milestone.lock and state.json are tool-generated and never committed."
+}

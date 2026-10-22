@@ -97,7 +97,7 @@ current_phase_name: Decisions and Shared Cookbook
 
 **Last session:** 2026-10-22T08:58:00.000Z
 **Stopped at:** Completed 01-12-PLAN.md
-**Resume file:** None
+**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/.continue-here.md
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-13. End-of-phase human checks so far: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends).
 
