@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { PurgeOfflineOnMount } from "@/components/purge-offline-on-mount";
 import { SignInForm } from "@/components/sign-in-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -24,10 +25,11 @@ export default async function SignInPage({
   // Only forward a next value that would actually be honoured.
   const safeNext = rawNext && safeNextPath(rawNext, locale) === rawNext ? rawNext : undefined;
 
-  const { common, auth } = getDictionary(locale);
+  const { common, auth, offline } = getDictionary(locale);
 
   return (
     <main className="space-y-6">
+      <PurgeOfflineOnMount errorMessage={offline.clearFailed} />
       <div className="flex justify-end">
         <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
       </div>

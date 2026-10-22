@@ -15,7 +15,7 @@ export async function AppHeader({ locale }: { locale: Locale }) {
   const membership = await getCurrentMembership();
   if (!membership) return null;
 
-  const { auth, common, members } = getDictionary(locale);
+  const { auth, common, members, offline } = getDictionary(locale);
 
   return (
     <header className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b pb-4">
@@ -30,7 +30,11 @@ export async function AppHeader({ locale }: { locale: Locale }) {
           </Link>
         ) : null}
         <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
-        <SignOutButton locale={locale} label={auth.signOut} />
+        <SignOutButton
+          locale={locale}
+          label={auth.signOut}
+          errorMessage={offline.clearFailed}
+        />
       </div>
     </header>
   );

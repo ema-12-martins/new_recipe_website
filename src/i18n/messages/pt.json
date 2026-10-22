@@ -149,6 +149,7 @@
     }
   },
   "offline": {
-    "notice": "Está sem ligação à internet."
+    "notice": "Está sem ligação à internet.",
+    "clearFailed": "Não foi possível limpar as receitas guardadas. Tente novamente."
   }
 }

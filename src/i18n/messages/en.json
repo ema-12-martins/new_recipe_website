@@ -149,6 +149,7 @@
     }
   },
   "offline": {
-    "notice": "You are offline."
+    "notice": "You are offline.",
+    "clearFailed": "Saved recipes could not be cleared. Please try again."
   }
 }
