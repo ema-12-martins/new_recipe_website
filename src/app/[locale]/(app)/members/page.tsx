@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { CreateInviteForm } from "@/components/create-invite-form";
+import { RevokeInviteButton } from "@/components/revoke-invite-button";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentMembership } from "@/lib/auth/membership";
@@ -125,7 +126,20 @@ export default async function MembersPage({ params }: { params: Promise<{ locale
                       {members.createdOn.replace("{date}", formatDate(invite.createdAt, locale))}
                     </p>
                   </div>
-                  <span className="text-sm font-medium">{members.status[invite.status]}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium">{members.status[invite.status]}</span>
+                    {invite.status === "active" ? (
+                      <RevokeInviteButton
+                        inviteId={invite.id}
+                        locale={locale}
+                        labels={{
+                          revoke: members.revoke,
+                          revokeLabel: members.revokeLabel.replace("{label}", name),
+                          revokeConfirm: members.revokeConfirm,
+                        }}
+                      />
+                    ) : null}
+                  </div>
                 </li>
               );
             })}

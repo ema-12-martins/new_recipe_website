@@ -52,3 +52,21 @@ export async function createInviteAction(
   revalidatePath(`/${locale}/members`);
   return { link: `${await siteOrigin()}/${locale}/join/${token}` };
 }
+
+export type RevokeInviteState = { error?: string };
+
+/** Owner only (the database function checks it). Repeating it keeps the first revocation. */
+export async function revokeInviteAction(
+  inviteId: string,
+  locale: string,
+): Promise<RevokeInviteState> {
+  const target = isLocale(locale) ? locale : defaultLocale;
+  const { members } = getDictionary(target);
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("revoke_invite", { p_invite_id: inviteId });
+  if (error) return { error: members.errors.revoke };
+
+  revalidatePath(`/${target}/members`);
+  return {};
+}
