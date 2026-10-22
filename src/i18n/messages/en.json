@@ -19,7 +19,20 @@
         "email_taken": "An account with this email address already exists.",
         "error": "Setup could not be completed. Please try again."
       }
-    }
+    },
+    "signIn": {
+      "heading": "Sign in",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgotHelp": "Can't remember your password? Ask the cookbook owner to remove your access and invite you again. If you are the owner, contact the person who runs the site.",
+      "errors": {
+        "invalid": "The email or password is incorrect.",
+        "noAccess": "This account no longer has access to the cookbook.",
+        "error": "Could not sign in. Please try again."
+      }
+    },
+    "signOut": "Sign out"
   },
   "recipes": {
     "empty": "There are no recipes in this cookbook yet.",

@@ -19,7 +19,20 @@
         "email_taken": "Já existe uma conta com este endereço de email.",
         "error": "Não foi possível concluir a configuração. Tente novamente."
       }
-    }
+    },
+    "signIn": {
+      "heading": "Entrar",
+      "email": "Endereço de email",
+      "password": "Palavra-passe",
+      "submit": "Entrar",
+      "forgotHelp": "Não se lembra da palavra-passe? Peça ao dono do livro de receitas para retirar o seu acesso e voltar a convidá-lo. Se for o dono, contacte a pessoa que gere o site.",
+      "errors": {
+        "invalid": "O email ou a palavra-passe não estão corretos.",
+        "noAccess": "Esta conta já não tem acesso ao livro de receitas.",
+        "error": "Não foi possível entrar. Tente novamente."
+      }
+    },
+    "signOut": "Sair"
   },
   "recipes": {
     "empty": "Ainda não há receitas neste livro.",

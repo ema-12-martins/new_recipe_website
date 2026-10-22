@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
+import { AppHeader } from "@/components/app-header";
 import { isLocale } from "@/i18n/config";
 import { getCurrentMembership } from "@/lib/auth/membership";
 
@@ -19,5 +20,10 @@ export default async function MemberLayout({
   const membership = await getCurrentMembership();
   if (!membership) redirect(`/${locale}/sign-in`);
 
-  return <main className="space-y-6">{children}</main>;
+  return (
+    <>
+      <AppHeader locale={locale} />
+      <main className="space-y-6">{children}</main>
+    </>
+  );
 }
