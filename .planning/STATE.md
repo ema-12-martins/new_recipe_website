@@ -1,17 +1,17 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: "Completed 01-16-PLAN.md; 01-17 is next (needs Supabase PRODUCTION + Vercel)"
-last_updated: "2026-10-21T15:29:15.712Z"
+stopped_at: "Completed 01-17-PLAN.md; 01-10 is next"
+last_updated: "2026-10-22T06:41:16.069Z"
 last_activity: 2026-10-21
-state_head: 1dbeb364f7169b748d4a90f92f4a9d3af9cfe706
+state_head: 5832beb070126a82e33949ab9472e1cdf5ef7c9f
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 11
-  completed_plans: 3
-  percent: 27
+  completed_plans: 4
+  percent: 36
 current_phase_name: Decisions and Shared Cookbook
 ---
 
@@ -24,20 +24,20 @@ current_phase_name: Decisions and Shared Cookbook
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 production delivery is in progress (3 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 production delivery is in progress (4 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
 - **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** 01-17 is next (4 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15 and 01-16 complete. Plan 01-08 is superseded.
-- **Status:** Ready for Plan 01-17 (production deploy). It needs human steps first: configure the Supabase PRODUCTION project (deferred by the user in 01-15) and fill SUPABASE_PROD_DB_URL, then link Vercel.
-- **Progress:** 0 / 3 phases complete; Phase 1 plans 3 / 11
+- **Plan:** 01-10 is next (5 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16 and 01-17 complete. Plan 01-08 is superseded.
+- **Status:** Ready for Plan 01-10 (manual recipes; autonomous). The live site https://newrecipewebsite.vercel.app runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Ship loop for later plans uses db:*:dev instead of db:*:prod.
+- **Progress:** 0 / 3 phases complete; Phase 1 plans 4 / 11
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 3 / 11 (Phase 1)
+- Production plans complete: 4 / 11 (Phase 1)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
 - v1 requirements completed: 0
@@ -49,6 +49,7 @@ current_phase_name: Decisions and Shared Cookbook
 | Phase 01 P09 | 27 min | 3 tasks | 24 files |
 | Phase 01 P15 | 25 min | 3 tasks | 17 files |
 | Phase 01 P16 | 12 min | 2 tasks | 17 files |
+| Phase 01 P17 | 45 min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -67,13 +68,13 @@ current_phase_name: Decisions and Shared Cookbook
 
 ### Open decisions / next actions
 
-- Run `/gsd-execute-phase 1` to continue at Plan 01-17 (human steps: Supabase PRODUCTION + Vercel).
-- Before 01-17: create/configure the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8) and fill `SUPABASE_PROD_DB_URL` in `.env.local`.
+- Run `/gsd-execute-phase 1` to continue at Plan 01-10.
+- Before real family use: create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill `SUPABASE_PROD_DB_URL`, and run db:push:prod.
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Phase 1 execution in progress (01-09, 01-15, 01-16 done). 01-17 needs the Supabase PRODUCTION project (deferred by user in 01-15) and the user's Vercel account.
+- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17 done). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
 - No family-material OCR benchmark exists yet (Phase 2).
 
 ### Quick Tasks Completed
@@ -91,11 +92,11 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-21T15:34:00Z
+**Last session:** 2026-10-21T16:20:00Z
 **Stopped at:** Completed 01-17-PLAN.md
-**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-17-PLAN.md
+**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/01-10-PLAN.md
 
-Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-17.
+Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-10.
 
 ## Decisions
 
@@ -110,3 +111,5 @@ Last activity: 2026-10-21
 - [Phase 01]: Plan 01-15: shadcn init performed by hand from registry JSON (CLI would install the rejected 'cn' and defaults to Base UI); components import cn from @/lib/utils.
 - [Phase 01]: Plan 01-15: the data-boundary test asserts live Auth settings (disable_signup, mailer_autoconfirm) before probing sign-up; DEV initially had sign-ups ON and was fixed by the user.
 - [Phase 01]: Plan 01-16: Portuguese UI copy uses European Portuguese (palavra-passe); shadcn components are copied from registry JSON with cn from @/lib/utils, never via shadcn add.
+- [Phase 01]: Plan 01-17 (user decision 2026-10-21): the Vercel live site runs on the DEV Supabase project as a temporary demo; tests wipe it, so no real family data until a PRODUCTION project exists. 01-17 uses DEV values in all Vercel scopes and db:*:dev instead of db:*:prod.
+- [Phase 01]: Plan 01-17: live at https://newrecipewebsite.vercel.app (Vercel Hobby, fra1, auto-deploy from main confirmed); ship loop uses db:*:dev while the live site is a DEV-backed demo.
