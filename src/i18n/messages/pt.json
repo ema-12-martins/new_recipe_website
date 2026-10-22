@@ -22,7 +22,37 @@
     }
   },
   "recipes": {
-    "empty": "Ainda não há receitas neste livro."
+    "empty": "Ainda não há receitas neste livro.",
+    "newRecipe": "Nova receita",
+    "newHeading": "Nova receita",
+    "editHeading": "Editar receita",
+    "edit": "Editar receita",
+    "backToCookbook": "Voltar ao livro de receitas",
+    "ingredientsHeading": "Ingredientes",
+    "stepsHeading": "Preparação",
+    "form": {
+      "title": "Título",
+      "ingredients": "Ingredientes",
+      "ingredientsHint": "Um ingrediente por linha, escrito tal como na receita.",
+      "ingredientLine": "Ingrediente {n}",
+      "addIngredient": "Adicionar ingrediente",
+      "removeIngredient": "Retirar o ingrediente {n}",
+      "steps": "Passos",
+      "stepLabel": "Passo {n}",
+      "addStep": "Adicionar passo",
+      "removeStep": "Retirar o passo {n}",
+      "moveStepUp": "Mover o passo {n} para cima",
+      "moveStepDown": "Mover o passo {n} para baixo",
+      "save": "Guardar receita"
+    },
+    "errors": {
+      "title": "Escreva um título com até 300 caracteres.",
+      "ingredients": "Use no máximo 200 ingredientes, cada um com até 500 caracteres.",
+      "steps": "Use no máximo 100 passos, cada um com até 4000 caracteres.",
+      "error": "Não foi possível guardar a receita. Tente novamente.",
+      "conflict": "Esta receita foi alterada por outra pessoa enquanto a editava. As suas alterações continuam no formulário, mas não foram guardadas.",
+      "reloadLatest": "Abrir a versão mais recente"
+    }
   },
   "members": {},
   "offline": {}
