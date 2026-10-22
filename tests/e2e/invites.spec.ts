@@ -9,6 +9,7 @@ import {
 } from "@playwright/test";
 
 import pt from "../../src/i18n/messages/pt.json";
+import { createTestUser } from "../helpers/supabase-admin";
 
 const members = pt.members;
 const join = members.join;
@@ -128,5 +129,99 @@ test.describe("invite links", () => {
     await expect(page.getByText(email)).toBeVisible();
 
     await relative.context.close();
+  });
+
+  test("the owner revokes an active invite and its link stops working", async ({
+    page,
+    browser,
+    baseURL,
+  }, testInfo) => {
+    test.setTimeout(60_000);
+    const label = `Revogar ${unique(testInfo, "convite")}`;
+    const link = await createInviteLink(page, label);
+
+    const row = page.getByTestId("invite-row").filter({ hasText: label });
+    page.once("dialog", (dialog) => dialog.accept());
+    await row
+      .getByRole("button", { name: members.revokeLabel.replace("{label}", label), exact: true })
+      .click();
+    await expect(row.getByText(members.status.revoked)).toBeVisible();
+    await expect(row.getByRole("button")).toHaveCount(0);
+
+    const visitor = await openDevice(browser, baseURL, testInfo);
+    await visitor.page.goto(new URL(link).pathname);
+    await expect(visitor.page.getByText(join.invalid)).toBeVisible();
+    await expect(visitor.page.getByLabel(join.email, { exact: true })).toHaveCount(0);
+    await visitor.context.close();
+  });
+
+  test("a used invite link shows the no-longer-valid message", async ({
+    page,
+    browser,
+    baseURL,
+  }, testInfo) => {
+    test.setTimeout(60_000);
+    const link = await createInviteLink(page, `Usado ${unique(testInfo, "convite")}`);
+
+    const first = await openDevice(browser, baseURL, testInfo);
+    await joinThroughUi(first.page, link, `${unique(testInfo, "primeiro")}@example.com`);
+    await first.page.waitForURL("**/pt/recipes");
+    await first.context.close();
+
+    const second = await openDevice(browser, baseURL, testInfo);
+    await second.page.goto(new URL(link).pathname);
+    await expect(second.page.getByText(join.invalid)).toBeVisible();
+    await expect(second.page.getByLabel(join.email, { exact: true })).toHaveCount(0);
+    await second.context.close();
+  });
+
+  test("a member sees no Members link and cannot open the Members page", async ({
+    browser,
+    baseURL,
+  }, testInfo) => {
+    const email = `${unique(testInfo, "membro")}@example.com`;
+    await createTestUser({ email, password: PASSWORD, role: "member" });
+
+    const { context, page } = await openDevice(browser, baseURL, testInfo);
+    await page.goto("/pt/sign-in");
+    await page.getByLabel(pt.auth.signIn.email, { exact: true }).fill(email);
+    await page.getByLabel(pt.auth.signIn.password, { exact: true }).fill(PASSWORD);
+    await page.getByRole("button", { name: pt.auth.signIn.submit, exact: true }).click();
+    await page.waitForURL("**/pt/recipes");
+
+    await expect(page.getByRole("link", { name: members.navLink })).toHaveCount(0);
+    const response = await page.goto("/pt/members");
+    expect(response?.status()).toBe(404);
+    await expect(page.getByText(members.createLink)).toHaveCount(0);
+    await context.close();
+  });
+
+  test("opening an invite while signed in asks to sign out first, then offers the invite", async ({
+    page,
+    browser,
+    baseURL,
+  }, testInfo) => {
+    test.setTimeout(60_000);
+    const link = await createInviteLink(page, `Sessão ${unique(testInfo, "convite")}`);
+    const email = `${unique(testInfo, "outra")}@example.com`;
+    await createTestUser({ email, password: PASSWORD, role: "member" });
+
+    // A separate device: signing out revokes the session, and the owner's is shared by other tests.
+    const { context, page: device } = await openDevice(browser, baseURL, testInfo);
+    await device.goto("/pt/sign-in");
+    await device.getByLabel(pt.auth.signIn.email, { exact: true }).fill(email);
+    await device.getByLabel(pt.auth.signIn.password, { exact: true }).fill(PASSWORD);
+    await device.getByRole("button", { name: pt.auth.signIn.submit, exact: true }).click();
+    await device.waitForURL("**/pt/recipes");
+
+    const invitePath = new URL(link).pathname;
+    await device.goto(invitePath);
+    await expect(device.getByText(join.signedInAs.replace("{email}", email))).toBeVisible();
+    await expect(device.getByLabel(join.email, { exact: true })).toHaveCount(0);
+
+    await device.getByRole("button", { name: pt.auth.signOut, exact: true }).click();
+    await device.waitForURL(`**${invitePath}`);
+    await expect(device.getByLabel(join.email, { exact: true })).toBeVisible();
+    await context.close();
   });
 });
