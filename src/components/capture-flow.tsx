@@ -66,10 +66,10 @@ export function CaptureFlow({ locale, cookbookId, recipeId, recipes, capture }: 
       </AlertDialog>
 
       <section hidden={step !== "capture"} className="space-y-6">
-        <h1 className="text-2xl font-semibold">{capture.title}</h1>
-        <p className="text-base text-muted-foreground">{capture.hint}</p>
+        <h1 className="text-3xl font-bold">{capture.title}</h1>
         {/* Choosing before hydration would be lost, so stay inert until React controls the page. */}
-        <fieldset disabled={!hydrated} className="min-w-0 space-y-4">
+        <fieldset disabled={!hydrated} className="paper-panel min-w-0 space-y-4">
+          <p className="text-base text-muted-foreground">{capture.hint}</p>
           <PhotoPicker photos={photos} onChange={setPhotos} labels={capture} />
           <div>
             <Button
@@ -93,18 +93,20 @@ export function CaptureFlow({ locale, cookbookId, recipeId, recipes, capture }: 
         >
           {capture.backToPhotos}
         </Button>
-        <h1 className="text-2xl font-semibold">{capture.manualHeading}</h1>
-        <RecipeForm
-          mode="create"
-          recipeId={recipeId}
-          initial={{ title: "", ingredients: [], steps: [] }}
-          locale={locale}
-          labels={recipes}
-          photos={photos}
-          cookbookId={cookbookId}
-          uploadLabels={capture}
-          onDirtyChange={setTyped}
-        />
+        <h1 className="text-3xl font-bold">{capture.manualHeading}</h1>
+        <div className="paper-panel">
+          <RecipeForm
+            mode="create"
+            recipeId={recipeId}
+            initial={{ title: "", ingredients: [], steps: [] }}
+            locale={locale}
+            labels={recipes}
+            photos={photos}
+            cookbookId={cookbookId}
+            uploadLabels={capture}
+            onDirtyChange={setTyped}
+          />
+        </div>
       </section>
     </>
   );

@@ -54,6 +54,15 @@
     "backToCookbook": "Back to the cookbook",
     "ingredientsHeading": "Ingredients",
     "stepsHeading": "Method",
+    "tickHint": "Tap to cross off what you have ready.",
+    "stepHint": "Tap the step you are on.",
+    "currentStep": "doing now",
+    "card": {
+      "ingredients": { "one": "{n} ingredient", "other": "{n} ingredients" },
+      "steps": { "one": "{n} step", "other": "{n} steps" },
+      "photos": { "one": "{n} photo", "other": "{n} photos" },
+      "withPhotos": "with photos"
+    },
     "form": {
       "title": "Title",
       "ingredients": "Ingredients",

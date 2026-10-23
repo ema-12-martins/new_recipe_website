@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button";
 import { PhotoGallery } from "@/components/photo-gallery";
+import { RecipeChecklist } from "@/components/recipe-checklist";
 import { RememberRecipeOffline } from "@/components/remember-recipe-offline";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -44,31 +45,17 @@ export default async function RecipePage({
       <div className="recipe-sheet space-y-6">
         <h1 className="text-3xl font-bold break-words whitespace-pre-wrap">{recipe.title}</h1>
 
-        {recipe.ingredients.length > 0 ? (
-          <section className="space-y-2">
-            <h2 className="text-xl font-bold text-primary">{recipes.ingredientsHeading}</h2>
-            <ul role="list" className="recipe-ingredients">
-              {recipe.ingredients.map((line, index) => (
-                <li key={index} className="break-words whitespace-pre-wrap">
-                  {line}
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-
-        {recipe.steps.length > 0 ? (
-          <section className="space-y-3">
-            <h2 className="text-xl font-bold text-primary">{recipes.stepsHeading}</h2>
-            <ol role="list" className="recipe-steps space-y-4">
-              {recipe.steps.map((step, index) => (
-                <li key={index} className="break-words whitespace-pre-wrap">
-                  {step}
-                </li>
-              ))}
-            </ol>
-          </section>
-        ) : null}
+        <RecipeChecklist
+          ingredients={recipe.ingredients}
+          steps={recipe.steps}
+          labels={{
+            ingredientsHeading: recipes.ingredientsHeading,
+            stepsHeading: recipes.stepsHeading,
+            tickHint: recipes.tickHint,
+            stepHint: recipes.stepHint,
+            currentStep: recipes.currentStep,
+          }}
+        />
 
         <Link
           href={`/${locale}/recipes/${recipe.id}/edit`}

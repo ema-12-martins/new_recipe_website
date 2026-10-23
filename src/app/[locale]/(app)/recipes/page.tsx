@@ -19,6 +19,11 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
   const { recipes, common } = getDictionary(locale);
   const list = await listRecipes(locale);
 
+  // European Portuguese plural rules: "0 passos", "1 passo".
+  const plurals = new Intl.PluralRules(locale === "pt" ? "pt-PT" : locale);
+  const count = (forms: { one: string; other: string }, n: number) =>
+    (plurals.select(n) === "one" ? forms.one : forms.other).replace("{n}", String(n));
+
   return (
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -46,16 +51,45 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
       </div>
 
       {list.length === 0 ? (
-        <p className="text-base text-muted-foreground">{recipes.empty}</p>
+        <p className="paper-panel text-center font-hand text-2xl leading-tight">{recipes.empty}</p>
       ) : (
         <ul role="list" className="space-y-3">
-          {list.map((recipe) => (
-            <li key={recipe.id}>
-              <Link href={`/${locale}/recipes/${recipe.id}`} className="index-card">
-                <span className="index-card-title break-words">{recipe.title}</span>
-              </Link>
-            </li>
-          ))}
+          {list.map((recipe) => {
+            const counts = [
+              recipe.ingredientCount > 0 ? count(recipes.card.ingredients, recipe.ingredientCount) : null,
+              recipe.stepCount > 0 ? count(recipes.card.steps, recipe.stepCount) : null,
+            ].filter(Boolean);
+            return (
+              <li key={recipe.id}>
+                {/* The title link stretches over the card; the counts stay outside the link text. */}
+                <div className="index-card">
+                  <Link
+                    href={`/${locale}/recipes/${recipe.id}`}
+                    className="index-card-title index-card-link break-words"
+                  >
+                    {recipe.title}
+                  </Link>
+                  <p className="index-card-meta">
+                    {counts.length > 0 ? <span>{counts.join(" · ")}</span> : null}
+                    {recipe.photoCount > 0 ? (
+                      <>
+                        <span className="inline-flex items-center gap-1">
+                          <Camera aria-hidden className="size-4" />
+                          <span aria-hidden>{recipe.photoCount}</span>
+                          <span className="sr-only">
+                            {count(recipes.card.photos, recipe.photoCount)}
+                          </span>
+                        </span>
+                        <span aria-hidden className="paper-stamp">
+                          {recipes.card.withPhotos}
+                        </span>
+                      </>
+                    ) : null}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </>

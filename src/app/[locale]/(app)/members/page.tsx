@@ -85,16 +85,16 @@ export default async function MembersPage({
         {recipes.backToCookbook}
       </Link>
 
-      <h1 className="text-2xl font-semibold">{members.heading}</h1>
+      <h1 className="text-3xl font-bold">{members.heading}</h1>
 
       {removed === "1" ? (
-        <p role="status" className="rounded-md border px-4 py-3 text-base">
+        <p role="status" className="rounded-md border bg-card px-4 py-3 text-base text-card-foreground">
           {members.removedNotice}
         </p>
       ) : null}
 
-      <section aria-labelledby="invites-heading" className="space-y-4">
-        <h2 id="invites-heading" className="text-lg font-medium">
+      <section aria-labelledby="invites-heading" className="paper-panel space-y-4">
+        <h2 id="invites-heading" className="text-xl font-bold text-primary">
           {members.invitesHeading}
         </h2>
         <p className="text-base text-muted-foreground">{members.invitesIntro}</p>
@@ -155,8 +155,8 @@ export default async function MembersPage({
         )}
       </section>
 
-      <section aria-labelledby="people-heading" className="space-y-4">
-        <h2 id="people-heading" className="text-lg font-medium">
+      <section aria-labelledby="people-heading" className="paper-panel space-y-4">
+        <h2 id="people-heading" className="text-xl font-bold text-primary">
           {members.peopleHeading}
         </h2>
         <p className="text-base text-muted-foreground">{members.forgotPasswordNote}</p>

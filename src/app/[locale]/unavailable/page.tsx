@@ -21,17 +21,19 @@ export default async function UnavailablePage({
 
   return (
     <main className="space-y-6">
-      <p className="text-base text-muted-foreground">{common.appName}</p>
-      <div className="space-y-2">
-        <h1 className="text-2xl font-semibold break-words">{common.unavailable.title}</h1>
-        <p className="text-base break-words">{common.unavailable.body}</p>
+      <p className="pt-2 text-center font-display text-2xl font-bold">{common.appName}</p>
+      <div className="paper-panel space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold break-words">{common.unavailable.title}</h1>
+          <p className="text-base break-words">{common.unavailable.body}</p>
+        </div>
+        <Link
+          href={`/${locale}/recipes`}
+          className={buttonVariants({ className: "h-11 w-full sm:w-auto" })}
+        >
+          {common.unavailable.retry}
+        </Link>
       </div>
-      <Link
-        href={`/${locale}/recipes`}
-        className={buttonVariants({ className: "h-11 w-full sm:w-auto" })}
-      >
-        {common.unavailable.retry}
-      </Link>
     </main>
   );
 }

@@ -32,21 +32,23 @@ export default async function EditRecipePage({
       >
         {recipe.title}
       </Link>
-      <h1 className="text-2xl font-semibold">{recipes.editHeading}</h1>
-      {/* Keyed by version so opening the latest version after a conflict starts a fresh form. */}
-      <RecipeForm
-        key={`${recipe.id}:${recipe.version}`}
-        mode="edit"
-        recipeId={recipe.id}
-        version={recipe.version}
-        initial={{ title: recipe.title, ingredients: recipe.ingredients, steps: recipe.steps }}
-        locale={locale}
-        labels={recipes}
-        cookbookId={membership.cookbookId}
-        initialPhotoIds={photoIds}
-        captureLabels={capture}
-        photoLabels={photos}
-      />
+      <h1 className="text-3xl font-bold">{recipes.editHeading}</h1>
+      <div className="paper-panel">
+        {/* Keyed by version so opening the latest version after a conflict starts a fresh form. */}
+        <RecipeForm
+          key={`${recipe.id}:${recipe.version}`}
+          mode="edit"
+          recipeId={recipe.id}
+          version={recipe.version}
+          initial={{ title: recipe.title, ingredients: recipe.ingredients, steps: recipe.steps }}
+          locale={locale}
+          labels={recipes}
+          cookbookId={membership.cookbookId}
+          initialPhotoIds={photoIds}
+          captureLabels={capture}
+          photoLabels={photos}
+        />
+      </div>
     </>
   );
 }

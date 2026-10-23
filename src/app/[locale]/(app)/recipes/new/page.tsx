@@ -26,14 +26,16 @@ export default async function NewRecipePage({ params }: { params: Promise<{ loca
       >
         {recipes.backToCookbook}
       </Link>
-      <h1 className="text-2xl font-semibold">{recipes.newHeading}</h1>
-      <RecipeForm
-        mode="create"
-        recipeId={recipeId}
-        initial={{ title: "", ingredients: [], steps: [] }}
-        locale={locale}
-        labels={recipes}
-      />
+      <h1 className="text-3xl font-bold">{recipes.newHeading}</h1>
+      <div className="paper-panel">
+        <RecipeForm
+          mode="create"
+          recipeId={recipeId}
+          initial={{ title: "", ingredients: [], steps: [] }}
+          locale={locale}
+          labels={recipes}
+        />
+      </div>
     </>
   );
 }

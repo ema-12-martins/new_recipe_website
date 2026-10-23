@@ -176,6 +176,7 @@
 
   /* Recipe index card: title above a red rule, faint blue lines below. */
   .index-card {
+    position: relative;
     display: block;
     overflow: hidden;
     border-radius: calc(var(--radius) - 4px);
@@ -193,11 +194,6 @@
       transform 0.15s ease,
       box-shadow 0.15s ease;
   }
-  .index-card::after {
-    content: "";
-    display: block;
-    height: 18px;
-  }
   .index-card-title {
     display: block;
     padding: 12px 16px 10px;
@@ -207,6 +203,58 @@
     font-size: 1.1875rem;
     font-weight: 700;
     line-height: 1.25;
+  }
+  /* The title link covers the whole card so the card is one big tap target. */
+  .index-card-link {
+    outline: none;
+  }
+  .index-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .index-card:has(.index-card-link:focus-visible) {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+  }
+  .index-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.75rem;
+    min-height: 2.25rem;
+    padding: 0.4rem 16px 0.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+  .paper-stamp {
+    display: inline-block;
+    padding: 0 0.5rem;
+    border: 1.5px solid var(--chart-2);
+    border-radius: 3px;
+    color: var(--chart-2);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+  }
+
+  /* Plain paper sheet for forms and other content on the kraft background. */
+  .paper-panel {
+    padding: 1.25rem;
+    border-radius: calc(var(--radius) - 4px);
+    background-color: var(--card);
+    color: var(--card-foreground);
+    box-shadow:
+      0 2px 0 var(--paper-shadow),
+      0 8px 20px var(--paper-shadow-soft);
+  }
+  @media (min-width: 640px) {
+    .paper-panel {
+      padding: 2rem;
+    }
   }
   li:nth-child(odd) > .index-card {
     transform: rotate(-0.35deg);
@@ -219,10 +267,6 @@
     box-shadow:
       0 3px 0 var(--paper-shadow),
       0 14px 30px var(--paper-shadow-soft);
-  }
-  .index-card:focus-visible {
-    outline: 3px solid var(--ring);
-    outline-offset: 3px;
   }
 
   /* The recipe itself: a notebook page with a red margin line, taped on. */
@@ -261,26 +305,55 @@
     }
   }
   .recipe-ingredients > li {
-    padding: 0.5rem 0;
     border-bottom: 1px dashed var(--card-rule-accent);
   }
   .recipe-ingredients > li:last-child {
     border-bottom: 0;
   }
+  .recipe-ingredients label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.125rem;
+    cursor: pointer;
+  }
+  .recipe-ingredients input {
+    flex: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    margin-top: 0.0625rem;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+  .recipe-ingredients label:has(input:checked) span {
+    text-decoration: line-through;
+    color: var(--muted-foreground);
+  }
+
+  /* Each step is a toggle button: tap to mark the step you are on. */
   .recipe-steps {
     counter-reset: step;
   }
   .recipe-steps > li {
     counter-increment: step;
-    position: relative;
-    min-height: 1.875rem;
-    padding-left: 2.75rem;
   }
-  .recipe-steps > li::before {
+  .recipe-steps button {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.625rem 0.5rem 3.25rem;
+    border-radius: calc(var(--radius) - 2px);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .recipe-steps button::before {
     content: counter(step);
     position: absolute;
-    left: 0;
-    top: -0.125rem;
+    left: 0.5rem;
+    top: 0.4375rem;
     display: grid;
     place-items: center;
     width: 1.875rem;
@@ -290,6 +363,26 @@
     color: var(--primary-foreground);
     font-size: 0.875rem;
     font-weight: 700;
+  }
+  .recipe-steps button:hover {
+    background-color: color-mix(in srgb, var(--card-foreground) 5%, transparent);
+  }
+  .recipe-steps button:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .recipe-steps button[aria-pressed="true"] {
+    background-color: color-mix(in srgb, var(--primary) 14%, transparent);
+    box-shadow: inset 4px 0 0 var(--primary);
+  }
+  .recipe-steps button[aria-pressed="true"]::after {
+    content: attr(data-current-label);
+    display: block;
+    margin-top: 0.25rem;
+    font-family: var(--font-hand);
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: var(--primary);
   }
 
   /* Photos of the original handwritten recipe, as polaroids. */

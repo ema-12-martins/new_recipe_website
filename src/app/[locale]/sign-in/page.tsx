@@ -34,28 +34,32 @@ export default async function SignInPage({
         <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
       </div>
 
-      <div className="space-y-2">
-        <p className="text-base text-muted-foreground">{common.appName}</p>
-        <h1 className="text-2xl font-semibold">{auth.signIn.heading}</h1>
+      <div className="space-y-1 pt-2 text-center">
+        <p className="font-display text-3xl font-bold">{common.appName}</p>
+        <p className="font-hand text-xl leading-tight text-muted-foreground">{common.tagline}</p>
       </div>
 
-      {reason === "no-access" ? (
-        <p role="status" className="text-sm text-destructive">
-          {auth.signIn.errors.noAccess}
-        </p>
-      ) : null}
+      <div className="paper-panel space-y-6">
+        <h1 className="text-3xl font-bold">{auth.signIn.heading}</h1>
 
-      <SignInForm
-        locale={locale}
-        next={safeNext}
-        labels={{
-          email: auth.signIn.email,
-          password: auth.signIn.password,
-          submit: auth.signIn.submit,
-        }}
-      />
+        {reason === "no-access" ? (
+          <p role="status" className="text-sm text-destructive">
+            {auth.signIn.errors.noAccess}
+          </p>
+        ) : null}
 
-      <p className="text-sm text-muted-foreground">{auth.signIn.forgotHelp}</p>
+        <SignInForm
+          locale={locale}
+          next={safeNext}
+          labels={{
+            email: auth.signIn.email,
+            password: auth.signIn.password,
+            submit: auth.signIn.submit,
+          }}
+        />
+
+        <p className="text-sm text-muted-foreground">{auth.signIn.forgotHelp}</p>
+      </div>
     </main>
   );
 }

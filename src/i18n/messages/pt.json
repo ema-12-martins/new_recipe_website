@@ -54,6 +54,15 @@
     "backToCookbook": "Voltar ao livro de receitas",
     "ingredientsHeading": "Ingredientes",
     "stepsHeading": "Preparação",
+    "tickHint": "Toque para riscar o que já juntou.",
+    "stepHint": "Toque no passo em que vai.",
+    "currentStep": "a fazer agora",
+    "card": {
+      "ingredients": { "one": "{n} ingrediente", "other": "{n} ingredientes" },
+      "steps": { "one": "{n} passo", "other": "{n} passos" },
+      "photos": { "one": "{n} fotografia", "other": "{n} fotografias" },
+      "withPhotos": "com fotos"
+    },
     "form": {
       "title": "Título",
       "ingredients": "Ingredientes",

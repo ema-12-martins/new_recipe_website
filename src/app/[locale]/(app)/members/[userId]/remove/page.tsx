@@ -38,24 +38,27 @@ export default async function RemoveMemberPage({
         {members.heading}
       </Link>
 
-      <h1 className="text-2xl font-semibold break-all">
+      <h1 className="text-3xl font-bold break-all">
         {removal.heading.replace("{email}", member.email)}
       </h1>
-      <p className="text-base text-muted-foreground">{removal.intro}</p>
 
-      <MemberRemovalForm
-        locale={locale}
-        memberId={member.user_id}
-        recipes={recipes.map(({ id, title }) => ({ id, title }))}
-        labels={{
-          keep: removal.keep,
-          remove: removal.remove,
-          noRecipes: removal.noRecipes,
-          confirmNote: removal.confirmNote.replace("{email}", member.email),
-          confirm: removal.confirm,
-          cancel: removal.cancel,
-        }}
-      />
+      <div className="paper-panel space-y-6">
+        <p className="text-base text-muted-foreground">{removal.intro}</p>
+
+        <MemberRemovalForm
+          locale={locale}
+          memberId={member.user_id}
+          recipes={recipes.map(({ id, title }) => ({ id, title }))}
+          labels={{
+            keep: removal.keep,
+            remove: removal.remove,
+            noRecipes: removal.noRecipes,
+            confirmNote: removal.confirmNote.replace("{email}", member.email),
+            confirm: removal.confirm,
+            cancel: removal.cancel,
+          }}
+        />
+      </div>
     </>
   );
 }
