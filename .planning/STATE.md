@@ -1,17 +1,17 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: Completed 01-19-PLAN.md
-last_updated: "2026-10-22T10:03:38.000Z"
+stopped_at: Phase 2 context gathered
+last_updated: "2026-10-23T08:29:10.588Z"
 last_activity: 2026-10-22
-state_head: a879cb9672746d1ccf14907fbc9e0cf7ba486dbc
+state_head: 4d398ceaf22ffbd02c476ab04c85434a171d7362
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 11
-  completed_plans: 9
-  percent: 82
+  completed_plans: 11
+  percent: 0
 current_phase_name: Decisions and Shared Cookbook
 ---
 
@@ -24,23 +24,23 @@ current_phase_name: Decisions and Shared Cookbook
 - **Project mode:** MVP (vertical end-to-end user-value slices)
 - **Roadmap granularity:** Coarse; three requirement-driven phases.
 - **Scope:** A phone-friendly private online cookbook for one family, including manually entered and photo-imported recipes, shared editing, and recipe retrieval.
-- **Current delivery status:** Phase 1 production delivery is in progress (9 / 11 plans complete: 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes, 01-11 sign-in/out per device and remembered language, 01-12 one-time invite links and guided join, 01-13 owner removes a member via keep/remove recipe review, 01-19 no-access guard on every member page and "can't reach the server" page — 01-13 + 01-19 live together at 9c2f9f9). Historical Plan 01-01 completed decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
+- **Current delivery status:** Phase 1 implementation is complete (11 / 11 plans executed): 01-09 web shell, 01-15 hosted Supabase data boundary, 01-16 first owner setup, 01-17 live on newrecipewebsite.vercel.app backed by DEV, 01-10 manual recipes, 01-11 sign-in/out per device and remembered language, 01-12 one-time invite links and guided join, 01-13 owner removes a member via keep/remove recipe review, 01-19 no-access guard, 01-14 offline reading, and 01-18 offline privacy/reconnect authorization. Offline plans 01-14 + 01-18 shipped together at b206cb4. Phase verification and real-device UAT remain. Historical Plan 01-01 is decision/provenance work only; Plan 01-08 was superseded on 2026-10-21 by user decision.
 
 ## Current Position
 
 - **Milestone:** Initial v1
 - **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** 01-14 is next (10 of 11; sequential chain 09→15→16→17→10→11→12→13→19→14→18). 01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13 and 01-19 complete. Plan 01-08 is superseded.
-- **Status:** Ready for Plan 01-14. 01-19 added requireMembership on the (app) layout and every (app) page plus /{locale}/unavailable, and shipped 01-13 + 01-19 to main (9c2f9f9; Vercel deployed; test:e2e:prod 6/6). The live site https://newrecipewebsite.vercel.app runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data; migration 20261021120400 is on DEV and must be pushed to production once a production project exists. 01-14 is not shipped alone: 01-18 ships 01-14 + 01-18. Ship loop uses db:*:dev instead of db:*:prod.
-- **Progress:** 0 / 3 phases complete; Phase 1 plans 9 / 11
+- **Plan:** All 11 delivery plans are complete in sequence (09→15→16→17→10→11→12→13→19→14→18). Plans 01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13, 01-19, 01-14, and 01-18 are complete. Plan 01-08 is superseded.
+- **Status:** Phase 1 implementation has shipped; initial verification reports `human_needed`. Offline privacy work shipped together at b206cb4 and is deployed on Vercel. The live site https://newrecipewebsite.vercel.app runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Migration 20261021120400 is on DEV and must be pushed to production once a production project exists. Finish production setup and physical-device UAT before marking Phase 1 verified complete.
+- **Progress:** 0 / 3 phases verified complete; Phase 1 plans 11 / 11
 
 ## Performance Metrics
 
 - Phases complete: 0 / 3
-- Production plans complete: 9 / 11 (Phase 1)
+- Production plans complete: 11 / 11 (Phase 1; phase verification and human UAT pending)
 - Phase 1 plan artifacts: 01-01 is historical decision/provenance work only; 01-08 is superseded and excluded from plan counts. Neither is production-delivery progress.
 - v1 requirements mapped: 14 / 14 requirement IDs present in REQUIREMENTS.md
-- v1 requirements completed: 5 (RECP-01, RECP-03, AUTH-01, AUTH-02, AUTH-03); AUTH-04 (01-11) stays pending until every plan declaring it is complete (01-14, 01-18)
+- v1 requirements completed: 6 (RECP-01, RECP-03, AUTH-01, AUTH-02, AUTH-03, AUTH-04); phase-level verification and human UAT remain pending
 
 **Per-Plan Metrics:**
 
@@ -73,13 +73,13 @@ current_phase_name: Decisions and Shared Cookbook
 
 ### Open decisions / next actions
 
-- Run `/gsd-execute-phase 1` to continue at Plan 01-14 (offline reading; not shipped alone — 01-18 ships 01-14 + 01-18).
+- Complete the dedicated production Supabase/Vercel setup, then perform the deferred iPhone Safari and Android Chrome UAT for offline reading, sign-out purge, and the absence of an install-app prompt; re-verify Phase 1 afterward.
 - Before real family use: create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill `SUPABASE_PROD_DB_URL`, and run db:push:prod (includes 20261021120400_member_removal).
 - In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
 
 ### Blockers
 
-- Phase 1 execution in progress (01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13, 01-19 done; 01-13 + 01-19 live at 9c2f9f9). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV).
+- Phase 1 plan execution is complete and deployed (01-13 + 01-19 live at 9c2f9f9; 01-14 + 01-18 live at b206cb4). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV). Phase verification and physical-device UAT are still outstanding.
 - No family-material OCR benchmark exists yet (Phase 2).
 
 ### Quick Tasks Completed
@@ -97,11 +97,11 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-22T10:03:38.000Z
-**Stopped at:** Completed 01-19-PLAN.md
-**Resume file:** .planning/phases/01-decisions-and-shared-cookbook/.continue-here.md
+**Last session:** 2026-10-23T08:29:10.137Z
+**Stopped at:** Phase 2 context gathered
+**Resume file:** .planning/phases/02-handwritten-recipe-capture/02-CONTEXT.md
 
-Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Resume with `/gsd-execute-phase 1`, which continues at Plan 01-14 (01-14 is not shipped alone; 01-18 ships 01-14 + 01-18). End-of-phase human checks so far: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13/01-19 the owner removes that relative after the keep/remove review (keep one recipe, remove another), the relative's phone tapping a recipe link lands on sign-in with the no-access message, then the owner re-invites the same email.
+Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Plans 01-14 and 01-18 shipped together at b206cb4; 01-18's summary is committed at 4cb3cf4. Initial phase verification is recorded in 01-VERIFICATION.md with status `human_needed`. End-of-phase human checks already recorded: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13/01-19 the owner removes that relative after the keep/remove review (keep one recipe, remove another), the relative's phone tapping a recipe link lands on sign-in with the no-access message, then the owner re-invites the same email. Still outstanding: production Supabase setup and the 01-18 iPhone Safari/Android Chrome offline-read, sign-out purge, and no-install-prompt check.
 
 ## Decisions
 
@@ -134,3 +134,5 @@ Last activity: 2026-10-22
 - [Phase 01]: Plan 01-19: requireMembership(locale) is the member-area guard on the (app) layout AND every (app) page (soft navigations skip the layout); none -> sign-in, with reason=no-access only when a non-empty sb-*-auth-token cookie is presented; unavailable -> /{locale}/unavailable (D-34) — T-01-43, T-01-44
 - [Phase 01]: Plan 01-19: tests/unit/app-pages-guard.test.ts fails if any (app) page.tsx or the layout lacks requireMembership(; no staleTimes override in next.config.ts — T-01-43, T-01-48
 - [Phase 01]: Plan 01-19: 01-13 + 01-19 shipped together at 9c2f9f9 with db:*:dev in place of db:*:prod; 20261021120400 still needs db:push:prod once a production project exists
+- [Phase 01]: Plans 01-14 + 01-18 completed and shipped together at b206cb4; offline cache is limited to opened recipes and must be purged or reauthorized across account changes and reconnect.
+- [Phase 01]: Desktop and phone Chromium E2E checks passed, including offline privacy and reconnect cases; physical iPhone Safari/Android Chrome UAT remains outstanding.
