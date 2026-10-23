@@ -46,6 +46,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# OCR benchmark (Phase 2): family photos, transcripts and raw provider results stay local
+.planning/phases/02-handwritten-recipe-capture/benchmark/
+scripts/ocr-benchmark/results/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
