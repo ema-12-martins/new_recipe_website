@@ -2,10 +2,10 @@
 gsd_state_version: "1.0"
 status: executing
 stopped_at: Phase 2 paused at 02-01 Task 3 (waiting on Google Cloud setup); 02-02 and 02-03 done
-last_updated: "2026-10-23T12:58:12.917Z"
+last_updated: "2026-10-23T13:00:42.363Z"
 last_activity: 2026-10-23
 last_activity_desc: "Completed quick task 261023-h1n: Apply sketch 001 winner A (kraft paper) design to the website"
-state_head: 87d4f76c450e6184e9442e755b701bc6568b8040
+state_head: fa33954e51708a6047156001276ce005b31bbfae
 progress:
   total_phases: 3
   completed_phases: 0
@@ -30,8 +30,8 @@ current_phase_name: Decisions and Shared Cookbook
 ## Current Position
 
 - **Milestone:** Initial v1
-- **Phase:** 1 â€” Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
-- **Plan:** All 11 delivery plans are complete in sequence (09â†’15â†’16â†’17â†’10â†’11â†’12â†’13â†’19â†’14â†’18). Plans 01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13, 01-19, 01-14, and 01-18 are complete. Plan 01-08 is superseded.
+- **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
+- **Plan:** All 11 delivery plans are complete in sequence (09→15→16→17→10→11→12→13→19→14→18). Plans 01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13, 01-19, 01-14, and 01-18 are complete. Plan 01-08 is superseded.
 - **Status:** Phase 1 implementation has shipped; initial verification reports `human_needed`. Offline privacy work shipped together at b206cb4 and is deployed on Vercel. The live site https://newrecipewebsite.vercel.app runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Migration 20261021120400 is on DEV and must be pushed to production once a production project exists. Finish production setup and physical-device UAT before marking Phase 1 verified complete.
 - **Progress:** 0 / 3 phases verified complete; Phase 1 plans 11 / 11
 
@@ -70,7 +70,7 @@ current_phase_name: Decisions and Shared Cookbook
 - No emails in v1: one-time invite links (7-day, revocable) shared by the owner; email + password sign-in with unverified email; no in-app password reset (members are removed and re-invited; the owner is reset by the operator in the Supabase dashboard); no in-app account self-deletion.
 - Plan 01-01 is completed historical decision/provenance work, not production delivery. The Candidate A (Expo) spike approval is moot.
 - The product target is one responsive browser-based web app across desktop, tablet, and phone, with no separate native app, app-store distribution, or installable PWA. Before selecting an OCR provider, benchmark permissioned family samples and compare field-critical quality, privacy, region, latency, quotas, and cost.
-- The requirements source says â€œ13 total,â€ but contains 14 distinct v1 requirement IDs. All 14 listed IDs are retained and mapped exactly once; the source coverage count is corrected to 14.
+- The requirements source says “13 total,” but contains 14 distinct v1 requirement IDs. All 14 listed IDs are retained and mapped exactly once; the source coverage count is corrected to 14.
 
 ### Open decisions / next actions
 
@@ -91,13 +91,13 @@ current_phase_name: Decisions and Shared Cookbook
 | 261021-g0i | Retire Plan 01-08 validation gate and record decision to replan Phase 1 as the real web app | 2026-10-21 | 1147967 | [261021-g0i-retire-plan-01-08-validation-gate-and-re](./quick/261021-g0i-retire-plan-01-08-validation-gate-and-re/) |
 | 261023-h1n | Apply sketch 001 winner A (kraft paper) design to the website | 2026-10-23 | 5e139fd | [261023-h1n-apply-sketch-001-winner-a-kraft-paper-de](./quick/261023-h1n-apply-sketch-001-winner-a-kraft-paper-de/) |
 | 261023-irw | Recipe page ticking and current step, list card counts and photo stamp, kraft style on remaining pages | 2026-10-23 | c351171 | [261023-irw-recipe-page-ticking-and-current-step-lis](./quick/261023-irw-recipe-page-ticking-and-current-step-lis/) |
-| 261023-j6j | Apply Phase 1 UI review fixes: cookbook name, touch targets, error/not-found pages, typography and accent | 2026-10-23 | 87d4f76 | [261023-j6j-apply-ui-review-fixes-cookbook-name-touc](./quick/261023-j6j-apply-ui-review-fixes-cookbook-name-touc/) |
+| 261023-j6j | Apply Phase 1 UI review fixes: cookbook name, touch targets, error/not-found pages, typography and accent | 2026-10-23 | fa33954 | [261023-j6j-apply-ui-review-fixes-cookbook-name-touc](./quick/261023-j6j-apply-ui-review-fixes-cookbook-name-touc/) |
 
 ### Roadmap Evolution
 
 - Phase 1 edited: edited fields: goal, success_criteria, decision_gate, plan_list; replaced native/store target with mobile-browser-only web scope
 - Phase 1 edited: edited fields: goal, success_criteria, decision_gate; broadened target from phone-only browser to responsive web across desktop, tablet, and phone
-- Phase 1 edited: decision_gate, delivery status, plans, progress â€” Plan 01-08 interim validation gate superseded by user decision (2026-10-21); phase replans directly as the real web app
+- Phase 1 edited: decision_gate, delivery status, plans, progress — Plan 01-08 interim validation gate superseded by user decision (2026-10-21); phase replans directly as the real web app
 
 ## Session Continuity
 
@@ -111,32 +111,32 @@ Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. 
 
 - [Phase 1]: Deliver one general browser-based web app across desktop, tablet, and phone sizes; no separate phone app, native apps, app stores, or installable PWA.
 - [Phase 1 / Plan 01-01]: Candidate A was approved only for a reversible feasibility spike (now moot).
-- [Phase 1 / 2026-10-21]: Plan 01-08 superseded by user decision â€” only a single responsive web app (desktop/tablet/phone browsers); no native app, app store, installable PWA, or throwaway validation service; interim browser evidence is no longer a prerequisite; replan Phase 1 directly as the real web app after the production stack is approved.
-- [Phase 1 / 2026-10-21 discuss]: Production stack approved â€” Next.js + TypeScript + Tailwind/shadcn, Supabase, Vercel + Supabase Cloud (EU, free tiers); no emails in v1 (invite links, no in-app password reset); service-worker offline reading of opened recipes; no in-app account self-deletion (resolves the owner-deletion blocker).
+- [Phase 1 / 2026-10-21]: Plan 01-08 superseded by user decision — only a single responsive web app (desktop/tablet/phone browsers); no native app, app store, installable PWA, or throwaway validation service; interim browser evidence is no longer a prerequisite; replan Phase 1 directly as the real web app after the production stack is approved.
+- [Phase 1 / 2026-10-21 discuss]: Production stack approved — Next.js + TypeScript + Tailwind/shadcn, Supabase, Vercel + Supabase Cloud (EU, free tiers); no emails in v1 (invite links, no in-app password reset); service-worker offline reading of opened recipes; no in-app account self-deletion (resolves the owner-deletion blocker).
 
 Last activity: 2026-10-23 - Completed quick task 261023-j6j: Apply Phase 1 UI review fixes (01-UI-REVIEW.md)
-- [Phase 01]: Plan 01-09: package legitimacy approved with clsx + tailwind-merge instead of cn; later shadcn steps must rewrite imports from 'cn' to @/lib/utils and never install cn â€” Human rejected the reassigned 'cn' npm package at the 01-09 gate
+- [Phase 01]: Plan 01-09: package legitimacy approved with clsx + tailwind-merge instead of cn; later shadcn steps must rewrite imports from 'cn' to @/lib/utils and never install cn — Human rejected the reassigned 'cn' npm package at the 01-09 gate
 - [Phase 01]: Plan 01-15: Supabase PRODUCTION project deferred by user decision; it must be configured (same Auth settings) and SUPABASE_PROD_DB_URL filled before 01-17.
 - [Phase 01]: Plan 01-15: shadcn init performed by hand from registry JSON (CLI would install the rejected 'cn' and defaults to Base UI); components import cn from @/lib/utils.
 - [Phase 01]: Plan 01-15: the data-boundary test asserts live Auth settings (disable_signup, mailer_autoconfirm) before probing sign-up; DEV initially had sign-ups ON and was fixed by the user.
 - [Phase 01]: Plan 01-16: Portuguese UI copy uses European Portuguese (palavra-passe); shadcn components are copied from registry JSON with cn from @/lib/utils, never via shadcn add.
 - [Phase 01]: Plan 01-17 (user decision 2026-10-21): the Vercel live site runs on the DEV Supabase project as a temporary demo; tests wipe it, so no real family data until a PRODUCTION project exists. 01-17 uses DEV values in all Vercel scopes and db:*:dev instead of db:*:prod.
 - [Phase 01]: Plan 01-17: live at https://newrecipewebsite.vercel.app (Vercel Hobby, fra1, auto-deploy from main confirmed); ship loop uses db:*:dev while the live site is a DEV-backed demo.
-- [Phase 01]: Plan 01-10: client forms with controlled state stay disabled until hydrated (fieldset + useSyncExternalStore) â€” WebKit lost text typed before hydration; slow phones would too
-- [Phase 01]: Plan 01-10: recipe deletion is impossible for clients - DELETE granted, no policy, so deletes affect 0 rows; writes limited to content columns by column grants â€” D-15 and T-01-13; RLS stays the row gate
-- [Phase 01]: Plan 01-10: shadcn Textarea copied from registry JSON with cn from @/lib/utils (registry still depends on rejected 'cn') â€” T-01-SC; same approach as 01-15/01-16
-- [Phase 01]: Plan 01-11: e2e "devices" opened with browser.newContext must pass storageState { cookies: [], origins: [] } â€” Playwright applies the project's owner storageState to new contexts
-- [Phase 01]: Plan 01-11: per-member preferences go through narrow security-definer RPCs (set_my_locale); memberships keeps no client write policy â€” T-01-18
+- [Phase 01]: Plan 01-10: client forms with controlled state stay disabled until hydrated (fieldset + useSyncExternalStore) — WebKit lost text typed before hydration; slow phones would too
+- [Phase 01]: Plan 01-10: recipe deletion is impossible for clients - DELETE granted, no policy, so deletes affect 0 rows; writes limited to content columns by column grants — D-15 and T-01-13; RLS stays the row gate
+- [Phase 01]: Plan 01-10: shadcn Textarea copied from registry JSON with cn from @/lib/utils (registry still depends on rejected 'cn') — T-01-SC; same approach as 01-15/01-16
+- [Phase 01]: Plan 01-11: e2e "devices" opened with browser.newContext must pass storageState { cookies: [], origins: [] } — Playwright applies the project's owner storageState to new contexts
+- [Phase 01]: Plan 01-11: per-member preferences go through narrow security-definer RPCs (set_my_locale); memberships keeps no client write policy — T-01-18
 - [Phase 01]: Plan 01-11: sign-out is per device (scope local); there is no "sign out everywhere" control in Phase 1
-- [Phase 01]: Plan 01-12: invite links carry a 256-bit base64url token; only its SHA-256 is stored; redeem_invite (service_role only) is one conditional UPDATE plus the membership insert, and a losing redemption deletes the auth user it created â€” T-01-20, T-01-21, T-01-24
+- [Phase 01]: Plan 01-12: invite links carry a 256-bit base64url token; only its SHA-256 is stored; redeem_invite (service_role only) is one conditional UPDATE plus the membership insert, and a losing redemption deletes the auth user it created — T-01-20, T-01-21, T-01-24
 - [Phase 01]: Plan 01-12: the invite link's scheme comes from x-forwarded-proto (http only for localhost), not a hard-coded https, so local e2e and Vercel both get working links
-- [Phase 01]: Plan 01-12: a signed-in visitor on a join link signs out through a join-specific action that returns to the same invite, instead of the generic sign-out that lands on sign-in â€” T-01-25
-- [Phase 01]: Plan 01-13: member removal = owner-only delete_member_recipes RPC (deletes only reviewed ids the member created) then admin deleteUser; the account deletion cascades the membership, nulls recipe creators and invites.used_by, and frees the email â€” D-10, D-17, D-21, D-31, T-01-26..T-01-30
-- [Phase 01]: Plan 01-13: removeMember(input, deps?) derives the caller only from the injected client's own session (getMembershipStatus(client)); there is no caller-id parameter â€” T-01-45
-- [Phase 01]: Plan 01-13: getMembershipStatus classifies AuthRetryableFetchError (network, 5xx incl. 500) and any membership-query error as unavailable, never none; AuthSessionMissingError and deleted users are none â€” D-34, consumed by 01-19
-- [Phase 01]: Plan 01-13: user decision â€” git.allow_default_branch_commits: true in .planning/config.json, keeping plan commits on main as in 01-09..01-12
-- [Phase 01]: Plan 01-19: requireMembership(locale) is the member-area guard on the (app) layout AND every (app) page (soft navigations skip the layout); none -> sign-in, with reason=no-access only when a non-empty sb-*-auth-token cookie is presented; unavailable -> /{locale}/unavailable (D-34) â€” T-01-43, T-01-44
-- [Phase 01]: Plan 01-19: tests/unit/app-pages-guard.test.ts fails if any (app) page.tsx or the layout lacks requireMembership(; no staleTimes override in next.config.ts â€” T-01-43, T-01-48
+- [Phase 01]: Plan 01-12: a signed-in visitor on a join link signs out through a join-specific action that returns to the same invite, instead of the generic sign-out that lands on sign-in — T-01-25
+- [Phase 01]: Plan 01-13: member removal = owner-only delete_member_recipes RPC (deletes only reviewed ids the member created) then admin deleteUser; the account deletion cascades the membership, nulls recipe creators and invites.used_by, and frees the email — D-10, D-17, D-21, D-31, T-01-26..T-01-30
+- [Phase 01]: Plan 01-13: removeMember(input, deps?) derives the caller only from the injected client's own session (getMembershipStatus(client)); there is no caller-id parameter — T-01-45
+- [Phase 01]: Plan 01-13: getMembershipStatus classifies AuthRetryableFetchError (network, 5xx incl. 500) and any membership-query error as unavailable, never none; AuthSessionMissingError and deleted users are none — D-34, consumed by 01-19
+- [Phase 01]: Plan 01-13: user decision — git.allow_default_branch_commits: true in .planning/config.json, keeping plan commits on main as in 01-09..01-12
+- [Phase 01]: Plan 01-19: requireMembership(locale) is the member-area guard on the (app) layout AND every (app) page (soft navigations skip the layout); none -> sign-in, with reason=no-access only when a non-empty sb-*-auth-token cookie is presented; unavailable -> /{locale}/unavailable (D-34) — T-01-43, T-01-44
+- [Phase 01]: Plan 01-19: tests/unit/app-pages-guard.test.ts fails if any (app) page.tsx or the layout lacks requireMembership(; no staleTimes override in next.config.ts — T-01-43, T-01-48
 - [Phase 01]: Plan 01-19: 01-13 + 01-19 shipped together at 9c2f9f9 with db:*:dev in place of db:*:prod; 20261021120400 still needs db:push:prod once a production project exists
 - [Phase 01]: Plans 01-14 + 01-18 completed and shipped together at b206cb4; offline cache is limited to opened recipes and must be purged or reauthorized across account changes and reconnect.
 - [Phase 01]: Desktop and phone Chromium E2E checks passed, including offline privacy and reconnect cases; physical iPhone Safari/Android Chrome UAT remains outstanding.

@@ -1,4 +1,4 @@
-﻿---
+---
 status: resolved
 trigger: "Invite links demand sign-out when another account is open, then appear invalid even after signing out."
 created: 2026-10-23
@@ -51,9 +51,9 @@ next_action: None. Resolved and verified live on 2026-10-23 11:50.
 - No subagent or ask-user tools are available in this runtime; investigate directly
   and use plain-text questions for any necessary user decisions.
 - 2026-10-23 re-report: operator screenshot of the join page still shows the old
-  "Termine a sessÃ£o para usar este convite." copy with a Sair button. That string
+  "Termine a sessão para usar este convite." copy with a Sair button. That string
   no longer exists in the working tree (now "Pode criar outra conta aqui sem
-  alterar a sessÃ£o atual."), confirming the tested app runs pre-fix code. Fix is
+  alterar a sessão atual."), confirming the tested app runs pre-fix code. Fix is
   still uncommitted. Re-ran targeted checks on the working tree: 8/8 unit tests in
   join-action/invite-state pass, tsc --noEmit clean, ESLint clean on join files.
 
@@ -81,7 +81,7 @@ next_action: None. Resolved and verified live on 2026-10-23 11:50.
   variable cannot be changed from here.
 
 - 2026-10-23 11:35 re-report with screenshots: owner creates a link in one tab,
-  opens it in a second tab and sees "NÃ£o foi possÃ­vel verificar este convite agora".
+  opens it in a second tab and sees "Não foi possível verificar este convite agora".
   Two tabs are not the cause: a well-formed, never-issued 43-char token also shows
   "unavailable" signed out. (A malformed probe token shows "invalid" without any
   query, so earlier probes must use the real token format.)

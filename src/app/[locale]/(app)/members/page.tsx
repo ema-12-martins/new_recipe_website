@@ -170,7 +170,7 @@ export default async function MembersPage({
               <div className="min-w-0 space-y-1">
                 <p className="text-base break-all">{person.email}</p>
                 <p className="text-sm text-muted-foreground">
-                  {members.roles[person.role]} Â·{" "}
+                  {members.roles[person.role]} ·{" "}
                   {members.joinedOn.replace("{date}", formatDate(person.joined_at, locale))}
                 </p>
               </div>
