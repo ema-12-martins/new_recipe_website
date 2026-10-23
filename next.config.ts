@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
       "./node_modules/tesseract.js-core/**/*",
       "./src/lib/recognition/tessdata/*.traineddata.gz",
     ],
+    "/api/recipes/read-diag": [
+      "./node_modules/tesseract.js/**/*",
+      "./node_modules/tesseract.js-core/**/*",
+      "./src/lib/recognition/tessdata/*.traineddata.gz",
+    ],
   },
   async headers() {
     return [
