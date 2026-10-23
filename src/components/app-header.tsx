@@ -18,9 +18,14 @@ export async function AppHeader({ locale }: { locale: Locale }) {
   const { auth, common, members, offline } = getDictionary(locale);
 
   return (
-    <header className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b pb-4">
-      <p className="min-w-0 flex-1 truncate text-base font-medium">{membership.cookbookName}</p>
-      <div className="flex shrink-0 items-center gap-2">
+    // Full-bleed cream label band; it only tucks under the page's top padding when no
+    // offline notice is shown above it.
+    <header className="paper-label mx-[calc(50%-50vw)] mb-10 first:-mt-6">
+      <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-2 sm:px-6">
+        <p className="min-w-0 flex-1 truncate font-display text-lg font-bold">
+          {membership.cookbookName}
+        </p>
+        <div className="flex shrink-0 items-center gap-2">
         {membership.role === "owner" ? (
           <Link
             href={`/${locale}/members`}
@@ -35,6 +40,7 @@ export async function AppHeader({ locale }: { locale: Locale }) {
           label={auth.signOut}
           errorMessage={offline.clearFailed}
         />
+        </div>
       </div>
     </header>
   );

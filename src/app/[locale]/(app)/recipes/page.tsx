@@ -16,13 +16,18 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
   // so the page checks membership too.
   const membership = await requireMembership(locale);
 
-  const { recipes } = getDictionary(locale);
+  const { recipes, common } = getDictionary(locale);
   const list = await listRecipes(locale);
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold break-words">{membership.cookbookName}</h1>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-3xl font-bold break-words">{membership.cookbookName}</h1>
+          <p className="mt-1 font-hand text-xl leading-tight text-muted-foreground">
+            {common.tagline}
+          </p>
+        </div>
         <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           <Link
             href={`/${locale}/recipes/capture`}
@@ -43,14 +48,11 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
       {list.length === 0 ? (
         <p className="text-base text-muted-foreground">{recipes.empty}</p>
       ) : (
-        <ul className="divide-y rounded-md border">
+        <ul role="list" className="space-y-3">
           {list.map((recipe) => (
             <li key={recipe.id}>
-              <Link
-                href={`/${locale}/recipes/${recipe.id}`}
-                className="block px-4 py-3 text-base break-words hover:bg-accent"
-              >
-                {recipe.title}
+              <Link href={`/${locale}/recipes/${recipe.id}`} className="index-card">
+                <span className="index-card-title break-words">{recipe.title}</span>
               </Link>
             </li>
           ))}

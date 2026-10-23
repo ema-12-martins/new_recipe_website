@@ -1,10 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { Caveat, Nunito_Sans, Zilla_Slab } from "next/font/google";
 import { notFound } from "next/navigation";
 
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
 import "../globals.css";
+
+const bodyFont = Nunito_Sans({ subsets: ["latin"], variable: "--font-nunito", display: "swap" });
+const displayFont = Zilla_Slab({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-zilla",
+  display: "swap",
+});
+const handFont = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
 
 export async function generateMetadata({
   params,
@@ -37,7 +47,10 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   return (
-    <html lang={locale} className="h-full antialiased">
+    <html
+      lang={locale}
+      className={`${bodyFont.variable} ${displayFont.variable} ${handFont.variable} h-full antialiased`}
+    >
       <body className="min-h-full">
         <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">{children}</div>
       </body>

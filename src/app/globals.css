@@ -5,7 +5,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: var(--font-zilla), Rockwell, Georgia, serif;
+  --font-hand: var(--font-caveat), "Segoe Print", cursive;
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -41,76 +43,96 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* shadcn/ui neutral theme (new-york-v4). */
+/* "Papel kraft" theme (sketch 001, winner A): kraft background, cream paper, terracotta. */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+  --background: #c8a679;
+  --foreground: #3b2a1d;
+  --card: #fbf4e4;
+  --card-foreground: #2e2118;
+  --popover: #fbf4e4;
+  --popover-foreground: #2e2118;
+  --primary: #b5532f;
+  --primary-foreground: #fff8ee;
+  --secondary: #f3e7cf;
+  --secondary-foreground: #3b2a1d;
+  --muted: #eadcbf;
+  --muted-foreground: #4f3a24;
+  --accent: #f3e7cf;
+  --accent-foreground: #3b2a1d;
+  --destructive: #8f2a1a;
+  --border: #9c7b52;
+  --input: #9c7b52;
+  --ring: #b5532f;
+  --chart-1: #b5532f;
+  --chart-2: #6b7a3a;
+  --chart-3: #8a6a45;
+  --chart-4: #d9a066;
+  --chart-5: #3b2a1d;
+  --sidebar: #f3e7cf;
+  --sidebar-foreground: #3b2a1d;
+  --sidebar-primary: #b5532f;
+  --sidebar-primary-foreground: #fff8ee;
+  --sidebar-accent: #eadcbf;
+  --sidebar-accent-foreground: #3b2a1d;
+  --sidebar-border: #9c7b52;
+  --sidebar-ring: #b5532f;
+
+  /* Paper details: index-card rules, shadows, tape and the kraft fibre texture. */
+  --card-rule: rgba(80, 130, 180, 0.18);
+  --card-rule-accent: rgba(190, 70, 60, 0.45);
+  --paper-shadow: rgba(90, 60, 30, 0.16);
+  --paper-shadow-soft: rgba(60, 40, 20, 0.2);
+  --tape: rgba(255, 246, 214, 0.75);
+  --paper-texture:
+    radial-gradient(rgba(90, 60, 30, 0.1) 1px, transparent 1.2px),
+    radial-gradient(rgba(255, 245, 225, 0.1) 1px, transparent 1.2px);
+  --paper-texture-size: 7px 7px, 11px 11px;
 }
 
 /* Dark theme follows the system setting (Tailwind's default dark variant); no theme toggle in v1. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: #241b14;
+    --foreground: #f3e7cf;
+    --card: #33281f;
+    --card-foreground: #f3e7cf;
+    --popover: #33281f;
+    --popover-foreground: #f3e7cf;
+    --primary: #d97a52;
+    --primary-foreground: #241b14;
+    --secondary: #3d3026;
+    --secondary-foreground: #f3e7cf;
+    --muted: #3d3026;
+    --muted-foreground: #cdb998;
+    --accent: #43352a;
+    --accent-foreground: #f3e7cf;
+    --destructive: #f08a70;
+    --border: rgba(243, 231, 207, 0.2);
+    --input: rgba(243, 231, 207, 0.28);
+    --ring: #d97a52;
+    --chart-1: #d97a52;
+    --chart-2: #a3b06a;
+    --chart-3: #cdb998;
+    --chart-4: #e3b57f;
+    --chart-5: #f3e7cf;
+    --sidebar: #33281f;
+    --sidebar-foreground: #f3e7cf;
+    --sidebar-primary: #d97a52;
+    --sidebar-primary-foreground: #241b14;
+    --sidebar-accent: #43352a;
+    --sidebar-accent-foreground: #f3e7cf;
+    --sidebar-border: rgba(243, 231, 207, 0.2);
+    --sidebar-ring: #d97a52;
+
+    --card-rule: rgba(160, 190, 230, 0.08);
+    --card-rule-accent: rgba(217, 122, 82, 0.45);
+    --paper-shadow: rgba(0, 0, 0, 0.3);
+    --paper-shadow-soft: rgba(0, 0, 0, 0.35);
+    --tape: rgba(243, 231, 207, 0.22);
+    --paper-texture:
+      radial-gradient(rgba(255, 240, 215, 0.04) 1px, transparent 1.2px),
+      radial-gradient(rgba(0, 0, 0, 0.18) 1px, transparent 1.2px);
   }
 }
 
@@ -121,5 +143,178 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    background-image: var(--paper-texture);
+    background-size: var(--paper-texture-size);
+    /* The full-width header band must not cause sideways scrolling. */
+    overflow-x: clip;
+  }
+  h1,
+  h2 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  /* Cream label band with a pinking-shears bottom edge. */
+  .paper-label {
+    position: relative;
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    box-shadow: 0 2px 0 var(--paper-shadow);
+  }
+  .paper-label::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 10px;
+    background:
+      linear-gradient(135deg, var(--secondary) 25%, transparent 25%) -5px 0 / 20px 20px repeat-x,
+      linear-gradient(225deg, var(--secondary) 25%, transparent 25%) -5px 0 / 20px 20px repeat-x;
+  }
+
+  /* Recipe index card: title above a red rule, faint blue lines below. */
+  .index-card {
+    display: block;
+    overflow: hidden;
+    border-radius: calc(var(--radius) - 4px);
+    background-color: var(--card);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 21px,
+      var(--card-rule) 21px 22px
+    );
+    color: var(--card-foreground);
+    box-shadow:
+      0 2px 0 var(--paper-shadow),
+      0 6px 14px var(--paper-shadow-soft);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .index-card::after {
+    content: "";
+    display: block;
+    height: 18px;
+  }
+  .index-card-title {
+    display: block;
+    padding: 12px 16px 10px;
+    border-bottom: 1.5px solid var(--card-rule-accent);
+    background-color: var(--card);
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  li:nth-child(odd) > .index-card {
+    transform: rotate(-0.35deg);
+  }
+  li:nth-child(even) > .index-card {
+    transform: rotate(0.3deg);
+  }
+  li > .index-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 3px 0 var(--paper-shadow),
+      0 14px 30px var(--paper-shadow-soft);
+  }
+  .index-card:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  /* The recipe itself: a notebook page with a red margin line, taped on. */
+  .recipe-sheet {
+    --margin-line: 1.9rem;
+    position: relative;
+    padding: 1.75rem 1.25rem 1.5rem calc(var(--margin-line) + 1.1rem);
+    border-radius: calc(var(--radius) - 4px);
+    background-color: var(--card);
+    background-image: linear-gradient(
+      90deg,
+      transparent var(--margin-line),
+      var(--card-rule-accent) var(--margin-line) calc(var(--margin-line) + 1.5px),
+      transparent calc(var(--margin-line) + 1.5px)
+    );
+    color: var(--card-foreground);
+    box-shadow:
+      0 3px 0 var(--paper-shadow),
+      0 14px 30px var(--paper-shadow-soft);
+  }
+  .recipe-sheet::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 120px;
+    height: 28px;
+    transform: translateX(-50%) rotate(-2deg);
+    background: var(--tape);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  }
+  @media (min-width: 640px) {
+    .recipe-sheet {
+      --margin-line: 2.5rem;
+      padding: 2.25rem 2rem 2rem calc(var(--margin-line) + 1.5rem);
+    }
+  }
+  .recipe-ingredients > li {
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--card-rule-accent);
+  }
+  .recipe-ingredients > li:last-child {
+    border-bottom: 0;
+  }
+  .recipe-steps {
+    counter-reset: step;
+  }
+  .recipe-steps > li {
+    counter-increment: step;
+    position: relative;
+    min-height: 1.875rem;
+    padding-left: 2.75rem;
+  }
+  .recipe-steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -0.125rem;
+    display: grid;
+    place-items: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    border-radius: 9999px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  /* Photos of the original handwritten recipe, as polaroids. */
+  .polaroid {
+    background: #fffdf8;
+    padding: 6px 6px 22px;
+    box-shadow:
+      0 2px 0 var(--paper-shadow),
+      0 6px 14px var(--paper-shadow-soft);
+    transition: transform 0.15s ease;
+  }
+  li:nth-child(odd) > .polaroid {
+    transform: rotate(-2deg);
+  }
+  li:nth-child(even) > .polaroid {
+    transform: rotate(1.5deg);
+  }
+  li > .polaroid:hover {
+    transform: scale(1.03);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .index-card,
+    .polaroid {
+      transition: none;
+    }
   }
 }

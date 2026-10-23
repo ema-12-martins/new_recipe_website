@@ -32,14 +32,14 @@ export function PhotoGallery({ recipeId, photoIds, labels }: PhotoGalleryProps) 
   const current = open ?? 0;
 
   return (
-    <section className="space-y-2">
-      <h2 className="text-lg font-semibold">{labels.heading}</h2>
-      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+    <section className="space-y-3">
+      <h2 className="text-xl font-bold text-primary">{labels.heading}</h2>
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {photoIds.map((photoId, index) => (
           <li key={photoId}>
             <button
               type="button"
-              className="block w-full rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              className="polaroid block w-full outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
               onClick={() => setOpen(index)}
             >
               {/* Served by the membership-checked route; next/image would bypass that check. */}
@@ -48,7 +48,7 @@ export function PhotoGallery({ recipeId, photoIds, labels }: PhotoGalleryProps) 
                 src={photoUrl(recipeId, photoId)}
                 alt={fill(labels.alt, { n: index + 1, total })}
                 data-photo-id={photoId}
-                className="aspect-[3/4] w-full rounded-md bg-muted object-cover"
+                className="aspect-[3/4] w-full bg-muted object-cover"
               />
             </button>
           </li>

@@ -41,48 +41,50 @@ export default async function RecipePage({
         {recipes.backToCookbook}
       </Link>
 
-      <h1 className="text-2xl font-semibold break-words whitespace-pre-wrap">{recipe.title}</h1>
+      <div className="recipe-sheet space-y-6">
+        <h1 className="text-3xl font-bold break-words whitespace-pre-wrap">{recipe.title}</h1>
 
-      {recipe.ingredients.length > 0 ? (
-        <section className="space-y-2">
-          <h2 className="text-lg font-medium">{recipes.ingredientsHeading}</h2>
-          <ul className="list-disc space-y-1 pl-6">
-            {recipe.ingredients.map((line, index) => (
-              <li key={index} className="break-words whitespace-pre-wrap">
-                {line}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+        {recipe.ingredients.length > 0 ? (
+          <section className="space-y-2">
+            <h2 className="text-xl font-bold text-primary">{recipes.ingredientsHeading}</h2>
+            <ul role="list" className="recipe-ingredients">
+              {recipe.ingredients.map((line, index) => (
+                <li key={index} className="break-words whitespace-pre-wrap">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
-      {recipe.steps.length > 0 ? (
-        <section className="space-y-2">
-          <h2 className="text-lg font-medium">{recipes.stepsHeading}</h2>
-          <ol className="list-decimal space-y-3 pl-6">
-            {recipe.steps.map((step, index) => (
-              <li key={index} className="break-words whitespace-pre-wrap">
-                {step}
-              </li>
-            ))}
-          </ol>
-        </section>
-      ) : null}
+        {recipe.steps.length > 0 ? (
+          <section className="space-y-3">
+            <h2 className="text-xl font-bold text-primary">{recipes.stepsHeading}</h2>
+            <ol role="list" className="recipe-steps space-y-4">
+              {recipe.steps.map((step, index) => (
+                <li key={index} className="break-words whitespace-pre-wrap">
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
 
-      <Link
-        href={`/${locale}/recipes/${recipe.id}/edit`}
-        className={buttonVariants({ variant: "outline", className: "h-11" })}
-      >
-        {recipes.edit}
-      </Link>
+        <Link
+          href={`/${locale}/recipes/${recipe.id}/edit`}
+          className={buttonVariants({ variant: "outline", className: "h-11" })}
+        >
+          {recipes.edit}
+        </Link>
 
-      {photos.length > 0 ? (
-        <PhotoGallery
-          recipeId={recipe.id}
-          photoIds={photos.map((photo) => photo.id)}
-          labels={photoLabels}
-        />
-      ) : null}
+        {photos.length > 0 ? (
+          <PhotoGallery
+            recipeId={recipe.id}
+            photoIds={photos.map((photo) => photo.id)}
+            labels={photoLabels}
+          />
+        ) : null}
+      </div>
     </article>
   );
 }

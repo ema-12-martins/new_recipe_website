@@ -20,10 +20,10 @@ Locked inputs: `02-CONTEXT.md` D-01 to D-24. This contract adds no new behaviour
 | Property | Value |
 |----------|-------|
 | Tool | shadcn (`components.json`, style `new-york`, base `radix`, Tailwind v4) |
-| Preset | none (no preset code; neutral base colour, CSS variables in `src/app/globals.css`) |
+| Preset | none (no preset code). Theme: "Papel kraft" from sketch 001 (winner A, applied by quick task 261023-h1n), CSS variables in `src/app/globals.css` |
 | Component library | radix (`radix-ui` package) |
 | Icon library | lucide (`lucide-react`) |
-| Font | System stack from `--font-sans`: `ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif` |
+| Font | `next/font/google`, self-hosted: body `--font-sans` Nunito Sans; titles (`h1`, `h2`, `font-display`) Zilla Slab; small handwritten notes only (`font-hand`) Caveat |
 
 Dark theme follows the system setting (existing behaviour; no toggle). Every colour below must be used through the theme tokens (`bg-background`, `text-muted-foreground`, `text-destructive`, …), never as raw values.
 
@@ -80,16 +80,16 @@ Four sizes and two weights, the same ones the existing recipe screens already us
 
 ## Color
 
-The theme is neutral grey, so the "accent" is the near-black primary token.
+The theme is warm kraft paper (sketch 001, winner A); the accent is the terracotta primary token.
 
 | Role | Value | Usage |
 |------|-------|-------|
-| Dominant (60%) | `--background` `#FFFFFF` (dark: `#0A0A0A`) | Page background and surfaces |
-| Secondary (30%) | `--secondary` / `--muted` `#F5F5F5` (dark: `#262626`) | Thumbnail placeholders, banner background, dialog footers |
-| Accent (10%) | `--primary` `#171717` (dark: `#E5E5E5`) | See reserved list below |
-| Destructive | `--destructive` `#E7000B` (dark: `#FF6467`) | Destructive actions and error text only |
+| Dominant (60%) | `--background` kraft `#C8A679` (dark: espresso `#241B14`) | Page background (with the paper-fibre texture) |
+| Secondary (30%) | `--card` paper `#FBF4E4` (dark: `#33281F`); `--secondary` / `--muted` cream | Cards, recipe sheet, inputs, header band, thumbnail placeholders, banners |
+| Accent (10%) | `--primary` terracotta `#B5532F` (dark: `#D97A52`) | See reserved list below |
+| Destructive | `--destructive` `#8F2A1A` (dark: `#F08A70`) | Destructive actions and error text only |
 
-Accent reserved for: (1) the single primary button on each screen (see the screen contracts), (2) the focus ring. It is not used for thumbnails, badges, links, icons or banners. Destructive colour is used only for "Remove photo", "Leave and discard", and error messages.
+Accent reserved for: (1) the single primary button on each screen (see the screen contracts), (2) the focus ring, (3) recipe-page section headings and step numbers (sketch 001). It is not used for thumbnails, badges, links, icons or banners. Destructive colour is used only for "Remove photo", "Leave and discard", and error messages. Recipe surfaces reuse the shared `recipe-sheet`, `index-card` and `polaroid` classes from `globals.css`.
 
 ---
 
