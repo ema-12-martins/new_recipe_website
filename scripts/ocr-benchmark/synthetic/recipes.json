@@ -1,0 +1,185 @@
+{
+  "headings": {
+    "pt": { "ingredients": "Ingredientes", "steps": "Modo de preparação" },
+    "en": { "ingredients": "Ingredients", "steps": "Method" }
+  },
+  "recipes": [
+    {
+      "folder": "01-bolo-de-laranja",
+      "language": "pt",
+      "font": "Ink Free",
+      "style": { "rotation": 0.8, "light": "good", "noise": 0.02, "ink": "#1c2b6b" },
+      "title": "Bolo de laranja da tia Rosa",
+      "ingredients": [
+        "4 ovos",
+        "2 chávenas de açúcar",
+        "1 1/2 chávena de farinha",
+        "Sumo de 2 laranjas",
+        "1 colher de chá de fermento",
+        "100 g de manteiga derretida"
+      ],
+      "steps": [
+        "Bater os ovos com o açúcar.",
+        "Juntar a manteiga e o sumo.",
+        "Envolver a farinha e o fermento.",
+        "Levar ao forno a 180 °C durante 40 minutos."
+      ],
+      "pageBreakAfterStep": null
+    },
+    {
+      "folder": "02-arroz-doce",
+      "language": "pt",
+      "font": "Segoe Print",
+      "style": { "rotation": -1.2, "light": "dim", "noise": 0.04, "ink": "#222222" },
+      "title": "Arroz doce",
+      "ingredients": [
+        "250 g de arroz carolino",
+        "1 l de leite gordo",
+        "½ chávena de açúcar",
+        "1 pau de canela",
+        "Casca de 1 limão",
+        "3 gemas"
+      ],
+      "steps": [
+        "Cozer o arroz em água durante 10 minutos.",
+        "Juntar o leite, a canela e a casca de limão.",
+        "Deixar engrossar em lume brando.",
+        "Tirar do lume e juntar as gemas.",
+        "Polvilhar com canela."
+      ],
+      "pageBreakAfterStep": null
+    },
+    {
+      "folder": "03-scones",
+      "language": "en",
+      "font": "Bradley Hand ITC",
+      "style": { "rotation": 1.6, "light": "good", "noise": 0.03, "ink": "#2a2a5a" },
+      "title": "Granny's scones",
+      "ingredients": [
+        "225 g self-raising flour",
+        "55 g butter",
+        "25 g caster sugar",
+        "150 ml milk",
+        "1 pinch of salt"
+      ],
+      "steps": [
+        "Rub the butter into the flour.",
+        "Stir in the sugar and salt.",
+        "Add the milk to make a soft dough.",
+        "Bake at 220 °C for 12 minutes."
+      ],
+      "pageBreakAfterStep": null
+    },
+    {
+      "folder": "04-bacalhau-a-bras",
+      "language": "pt",
+      "font": "Lucida Handwriting",
+      "style": { "rotation": -0.6, "light": "uneven", "noise": 0.05, "ink": "#13213f" },
+      "title": "Bacalhau à Brás",
+      "ingredients": [
+        "400 g de bacalhau demolhado",
+        "500 g de batata palha",
+        "2 cebolas",
+        "3 dentes de alho",
+        "6 ovos",
+        "Azeitonas pretas e salsa"
+      ],
+      "steps": [
+        "Desfiar o bacalhau.",
+        "Alourar a cebola e o alho no azeite.",
+        "Juntar o bacalhau e envolver.",
+        "Juntar a batata palha.",
+        "Bater os ovos e verter sobre o tacho.",
+        "Mexer até os ovos ficarem cremosos.",
+        "Servir com azeitonas e salsa."
+      ],
+      "pageBreakAfterStep": 3
+    },
+    {
+      "folder": "05-banana-bread",
+      "language": "en",
+      "font": "Kristen ITC",
+      "style": { "rotation": 0.4, "light": "good", "noise": 0.12, "ink": "#3b2a1a" },
+      "title": "Banana bread",
+      "ingredients": [
+        "3 ripe bananas",
+        "¾ cup sugar",
+        "1 egg",
+        "1/3 cup melted butter",
+        "1 1/2 cups flour",
+        "1 tsp baking soda"
+      ],
+      "steps": [
+        "Mash the bananas.",
+        "Mix in the butter, sugar and egg.",
+        "Add the flour and baking soda.",
+        "Bake at 350 °F for 60 minutes."
+      ],
+      "pageBreakAfterStep": null
+    },
+    {
+      "folder": "06-sopa-de-legumes",
+      "language": "pt",
+      "font": "Freestyle Script",
+      "style": { "rotation": -2.0, "light": "good", "noise": 0.04, "ink": "#1d1d1d" },
+      "title": "Sopa de legumes da avó",
+      "ingredients": [
+        "3 batatas",
+        "2 cenouras",
+        "1 cebola",
+        "1 alho francês",
+        "2,5 dl de água por pessoa",
+        "1 fio de azeite"
+      ],
+      "steps": [
+        "Descascar e cortar os legumes.",
+        "Cozer em água com sal durante 25 minutos.",
+        "Triturar tudo com a varinha.",
+        "Juntar o azeite antes de servir."
+      ],
+      "pageBreakAfterStep": null
+    },
+    {
+      "folder": "07-pao-de-lo",
+      "language": "pt",
+      "font": "Mistral",
+      "style": { "rotation": 2.4, "light": "dim", "noise": 0.06, "ink": "#202040" },
+      "title": "Pão de ló de Ovar",
+      "ingredients": [
+        "10 gemas",
+        "2 ovos inteiros",
+        "200 g de açúcar",
+        "60 g de farinha"
+      ],
+      "steps": [
+        "Bater as gemas, os ovos e o açúcar durante 15 minutos.",
+        "Peneirar a farinha e envolver devagar.",
+        "Forrar a forma com papel.",
+        "Cozer a 200 °C durante 12 minutos."
+      ],
+      "pageBreakAfterStep": null
+    },
+    {
+      "folder": "08-pancakes",
+      "language": "en",
+      "font": "Segoe Script",
+      "style": { "rotation": -1.0, "light": "uneven", "noise": 0.08, "ink": "#1f2f5f" },
+      "title": "Sunday pancakes",
+      "ingredients": [
+        "1 cup flour",
+        "2 tbsp sugar",
+        "2 tsp baking powder",
+        "1 egg",
+        "1 cup milk",
+        "2 tbsp melted butter"
+      ],
+      "steps": [
+        "Whisk the dry ingredients.",
+        "Beat the egg with the milk and butter.",
+        "Combine without overmixing.",
+        "Cook on a hot pan for 2 minutes each side."
+      ],
+      "pageBreakAfterStep": null
+    }
+  ]
+}

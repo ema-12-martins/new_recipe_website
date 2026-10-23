@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -136,6 +136,52 @@ describe("draftFromText", () => {
       steps: ["Misturar tudo.", "Assar a 180 °C."],
     });
   });
+});
+
+describe("synthetic samples", () => {
+  it.runIf(process.platform === "win32")(
+    "renders every made-up recipe as JPEG pages with a matching answer file the harness accepts",
+    () => {
+      const root = mkdtempSync(join(tmpdir(), "ocr-synthetic-"));
+      try {
+        const samples = join(root, "samples");
+        const make = spawnSync(process.execPath, ["scripts/ocr-benchmark/synthetic/make.mjs", "--out", samples], {
+          encoding: "utf8",
+        });
+        expect(make.status, make.stderr).toBe(0);
+
+        const data = JSON.parse(readFileSync("scripts/ocr-benchmark/synthetic/recipes.json", "utf8"));
+        let pages = 0;
+        for (const recipe of data.recipes) {
+          const folder = join(samples, recipe.folder);
+          const expected = JSON.parse(readFileSync(join(folder, "expected.json"), "utf8"));
+          expect(expected).toEqual({
+            language: recipe.language,
+            title: recipe.title,
+            ingredients: recipe.ingredients,
+            steps: recipe.steps,
+          });
+          for (const file of readdirSync(folder).filter((name) => name.endsWith(".jpg"))) {
+            const bytes = readFileSync(join(folder, file));
+            expect([bytes[0], bytes[1]], `${recipe.folder}/${file}`).toEqual([0xff, 0xd8]);
+            pages++;
+          }
+        }
+        expect(pages).toBe(data.recipes.length + 1); // one recipe spans two pages
+
+        const run = spawnSync(
+          process.execPath,
+          ["scripts/ocr-benchmark/run.mjs", "--stub", "--samples", samples, "--out", join(root, "out")],
+          { encoding: "utf8" },
+        );
+        expect(run.status).toBe(0);
+        expect(run.stdout).toContain(`"recipes":${data.recipes.length},"failures":0`);
+      } finally {
+        rmSync(root, { recursive: true, force: true });
+      }
+    },
+    60_000,
+  );
 });
 
 describe("benchmark privacy guard", () => {

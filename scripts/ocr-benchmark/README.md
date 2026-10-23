@@ -37,6 +37,22 @@ bolo/
 Aim for 15–20 pages with different handwriting, Portuguese and English, different layouts and
 photo quality (including poor light).
 
+### Made-up samples (setup check only)
+
+`synthetic/recipes.json` holds 8 invented recipes (Portuguese and English, fractions, units,
+temperatures, one two-page recipe). On Windows, generate their answer files and page images in
+handwriting-style fonts, with rotation, dim or uneven light and noise:
+
+```
+node scripts/ocr-benchmark/synthetic/make.mjs
+node scripts/ocr-benchmark/run.mjs gemini --samples .planning/phases/02-handwritten-recipe-capture/benchmark/synthetic
+```
+
+These are printed fonts, not handwriting, so every candidate will look better on them than on real
+pages. Use them to check that the account, EU endpoints, cost and latency work. They **cannot
+approve a provider**: the Phase 2 decision gate needs real handwriting. A decision record based
+only on them must say "setup verified, handwriting not tested".
+
 ## Running
 
 ```
