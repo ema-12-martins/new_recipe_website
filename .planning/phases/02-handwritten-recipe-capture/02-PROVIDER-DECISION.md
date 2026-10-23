@@ -67,7 +67,7 @@ A read is usable only when **all** hold (`src/lib/recognition/quality.ts`):
 
 | Rule | Threshold | Basis |
 |------|-----------|-------|
-| Mean Tesseract confidence | ≥ 60 | Reading copies (1600 px, JPEG 80): readable synthetic pages 69–92; the most cursive sample 50 (it produced a draft of mostly noise on the live site); random noise 13. First set at 50 on originals, raised to 60 on 2026-10-23 after the live test |
+| Mean Tesseract confidence | ≥ 65 | Measured on the browser's own reading copies (prepareJpeg 2000 px/0.82, then 1600 px/0.80): readable synthetic pages 70–94 (two-page recipe mean 74); the most cursive sample 61, which on the live site produced a draft of mostly noise; random noise 13. Set at 50 on originals, raised to 65 on 2026-10-23 after the live test. The margin (61 vs 70) is thin and based on made-up pages only; revisit with real handwriting |
 | Non-space characters | ≥ 20 | Blank page 0 |
 | Title | not empty | D-10 |
 | Ingredient + step lines | ≥ 1 | D-10 |

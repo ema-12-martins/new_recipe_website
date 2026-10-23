@@ -33,7 +33,7 @@ key-files:
 
 key-decisions:
   - "Approved provider: Tesseract inside our own Vercel function (fra1); free, no card, photos never leave the function"
-  - "Low-quality threshold (D-10): mean confidence >= 60 (raised from 50 after the live test), >= 20 non-space characters, a title and at least one ingredient or step line"
+  - "Low-quality threshold (D-10): mean confidence >= 65 (raised from 50 after the live test), >= 20 non-space characters, a title and at least one ingredient or step line"
   - "Real handwriting not tested; the owner accepted this risk; Azure Document Intelligence F0 or Google Document AI remain the upgrade path"
 
 requirements-completed: []
@@ -54,7 +54,7 @@ running on our own server (option A).
 - A Tesseract adapter was added to the harness. On the 8 synthetic recipes (9 pages): 0
   failures, 58 field edits, 29 critical errors (quantities 12, units 17), p50 404 ms.
 - Confidence measured on samples (75-92), the most cursive sample (45), random noise (13) and a
-  blank page (0) set the D-10 threshold at 50; plan 02-04's live test raised it to 60.
+  blank page (0) set the D-10 threshold at 50; plan 02-04's live test raised it to 65.
 - Portuguese and English `best_int` language data (4.2 MB gzip) are bundled in
   `src/lib/recognition/tessdata`, so production never downloads models.
 - `02-PROVIDER-DECISION.md` records the candidates, the D-17 verdicts, the results, the
