@@ -1,0 +1,70 @@
+/* Kraft paper — the lead direction (Variant A). Tokens only, no component styles. */
+:root {
+  /* Surfaces */
+  --color-bg: #c8a679;
+  --texture:
+    radial-gradient(rgba(90, 60, 30, 0.10) 1px, transparent 1.2px),
+    radial-gradient(rgba(255, 245, 225, 0.10) 1px, transparent 1.2px);
+  --texture-size: 7px 7px, 11px 11px;
+  --color-header-bg: #f3e7cf;
+  --color-header-text: #3b2a1d;
+  --color-surface: #f7eedb;
+  --color-surface-hover: #fff6e4;
+  --color-border: #8a6a45;
+  --color-border-soft: rgba(90, 60, 30, 0.25);
+  --color-on-bg: #3b2a1d;
+  --color-on-bg-muted: #5a4329;
+
+  /* Recipe sheet (what you read while cooking) */
+  --color-paper: #fbf4e4;
+  --color-ink: #2e2118;
+  --color-ink-muted: #7a6248;
+  --color-rule: rgba(80, 130, 180, 0.18);
+  --color-rule-accent: rgba(190, 70, 60, 0.45);
+
+  /* Text on cards */
+  --color-text: #3b2a1d;
+  --color-text-muted: #7a6248;
+
+  /* Actions */
+  --color-primary: #b5532f;
+  --color-primary-hover: #9a4426;
+  --color-on-primary: #fff8ee;
+  --color-accent: #6b7a3a;
+  --color-focus: #b5532f;
+
+  /* Typography */
+  --font-display: "Zilla Slab", Rockwell, Georgia, serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+  --display-weight: 700;
+  --display-tracking: 0;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.125rem;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Shapes */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+  --divider-style: dashed;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 0 rgba(90, 60, 30, 0.18);
+  --shadow-md: 0 2px 0 rgba(90, 60, 30, 0.15), 0 6px 14px rgba(60, 40, 20, 0.18);
+  --shadow-lg: 0 3px 0 rgba(90, 60, 30, 0.15), 0 14px 30px rgba(60, 40, 20, 0.25);
+}

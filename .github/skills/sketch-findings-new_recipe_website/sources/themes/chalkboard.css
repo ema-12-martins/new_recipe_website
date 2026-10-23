@@ -1,0 +1,71 @@
+/* Chalkboard menu (Variant B). Tokens only, no component styles. */
+:root {
+  /* Surfaces */
+  --color-bg: #2c3a33;
+  --texture:
+    radial-gradient(ellipse at 20% 15%, rgba(255, 255, 255, 0.06), transparent 45%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 255, 255, 0.05), transparent 50%),
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1.2px);
+  --texture-size: 100% 100%, 100% 100%, 5px 5px;
+  --color-header-bg: #24302a;
+  --color-header-text: #f4efe4;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-surface-hover: rgba(255, 255, 255, 0.10);
+  --color-border: rgba(244, 239, 228, 0.45);
+  --color-border-soft: rgba(244, 239, 228, 0.18);
+  --color-on-bg: #f4efe4;
+  --color-on-bg-muted: #c9c4b5;
+
+  /* Recipe sheet: cream paper pinned to the board, for easy reading */
+  --color-paper: #f5ecd8;
+  --color-ink: #2a2620;
+  --color-ink-muted: #6f6656;
+  --color-rule: rgba(42, 38, 32, 0.08);
+  --color-rule-accent: rgba(215, 122, 90, 0.5);
+
+  /* Text on cards (cards sit on the board) */
+  --color-text: #f4efe4;
+  --color-text-muted: #c9c4b5;
+
+  /* Actions */
+  --color-primary: #e8b04a;
+  --color-primary-hover: #f0c264;
+  --color-on-primary: #2a2620;
+  --color-accent: #d77a5a;
+  --color-focus: #e8b04a;
+
+  /* Typography */
+  --font-display: "Amatic SC", "Segoe Print", cursive;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+  --display-weight: 700;
+  --display-tracking: 0.02em;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2.125rem;
+  --text-3xl: 2.75rem;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Shapes */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-full: 9999px;
+  --divider-style: dashed;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.30);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.40);
+}

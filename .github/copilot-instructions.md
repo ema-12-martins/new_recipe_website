@@ -164,7 +164,7 @@ Architecture not yet mapped. Follow existing patterns found in the codebase.
 
 ## Project Skills
 
-No project skills found. Add skills to any of: `.github/skills/`, `.agents/skills/`, `.cursor/skills/`, `.github/skills/`, or `.codex/skills/` with a `SKILL.md` index file.
+- **Sketch findings for new_recipe_website** (design decisions, CSS patterns, visual direction) → `Skill("sketch-findings-new_recipe_website")` — `.github/skills/sketch-findings-new_recipe_website/SKILL.md`
 <!-- GSD:skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->
