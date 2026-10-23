@@ -63,7 +63,7 @@ export function MemberRemovalForm({
               return (
                 <li key={recipe.id} className="px-4 py-3">
                   <fieldset className="min-w-0 space-y-1">
-                    <legend className="text-base font-medium break-words whitespace-pre-wrap">
+                    <legend className="text-base font-bold break-words whitespace-pre-wrap">
                       {recipe.title}
                     </legend>
                     {(["keep", "remove"] as const).map((option) => (

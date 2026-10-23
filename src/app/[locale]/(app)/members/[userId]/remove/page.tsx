@@ -33,7 +33,7 @@ export default async function RemoveMemberPage({
     <>
       <Link
         href={`/${locale}/members`}
-        className="inline-block py-2 text-sm font-medium underline underline-offset-4"
+        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
       >
         {members.heading}
       </Link>

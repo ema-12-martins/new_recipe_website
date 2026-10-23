@@ -11,6 +11,17 @@
       "title": "Não foi possível contactar o servidor",
       "body": "Tente novamente dentro de momentos.",
       "retry": "Tentar novamente"
+    },
+    "error": {
+      "title": "Algo não correu bem",
+      "body": "Não foi possível mostrar esta página. As suas receitas estão guardadas.",
+      "retry": "Tentar novamente",
+      "home": "Voltar ao livro de receitas"
+    },
+    "notFound": {
+      "title": "Página não encontrada",
+      "body": "Esta receita ou página não existe, ou já não tem acesso a ela.",
+      "home": "Voltar ao livro de receitas"
     }
   },
   "auth": {
@@ -46,6 +57,7 @@
   },
   "recipes": {
     "empty": "Ainda não há receitas neste livro.",
+    "emptyHint": "Comece por «Nova receita» ou fotografe uma receita escrita à mão.",
     "newRecipe": "Nova receita",
     "addFromPhotos": "Adicionar a partir de fotografias",
     "newHeading": "Nova receita",

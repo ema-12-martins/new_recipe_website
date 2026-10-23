@@ -21,7 +21,7 @@ export default async function UnavailablePage({
 
   return (
     <main className="space-y-6">
-      <p className="pt-2 text-center font-display text-2xl font-bold">{common.appName}</p>
+      <p className="pt-2 text-center font-display text-3xl font-bold">{common.appName}</p>
       <div className="paper-panel space-y-6">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold break-words">{common.unavailable.title}</h1>

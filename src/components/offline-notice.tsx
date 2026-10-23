@@ -11,7 +11,7 @@ export function OfflineNotice({ locale }: { locale: Locale }) {
   return (
     <div
       role="status"
-      className="mx-auto w-full max-w-5xl rounded-md border border-amber-500/50 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+      className="mx-auto w-full max-w-5xl rounded-md border border-border bg-secondary px-4 py-3 text-sm text-secondary-foreground"
     >
       {getDictionary(locale).offline.notice}
     </div>

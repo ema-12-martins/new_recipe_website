@@ -11,6 +11,17 @@
       "title": "Can't reach the server",
       "body": "Please try again in a moment.",
       "retry": "Try again"
+    },
+    "error": {
+      "title": "Something didn't work",
+      "body": "This page could not be shown. Your recipes are safe.",
+      "retry": "Try again",
+      "home": "Back to the cookbook"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "body": "This recipe or page does not exist, or you no longer have access to it.",
+      "home": "Back to the cookbook"
     }
   },
   "auth": {
@@ -46,6 +57,7 @@
   },
   "recipes": {
     "empty": "There are no recipes in this cookbook yet.",
+    "emptyHint": "Start with “New recipe” or photograph a handwritten recipe.",
     "newRecipe": "New recipe",
     "addFromPhotos": "Add from photos",
     "newHeading": "New recipe",

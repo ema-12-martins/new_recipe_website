@@ -80,7 +80,7 @@ export default async function MembersPage({
     <>
       <Link
         href={`/${locale}/recipes`}
-        className="inline-block py-2 text-sm font-medium underline underline-offset-4"
+        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
       >
         {recipes.backToCookbook}
       </Link>
@@ -135,7 +135,7 @@ export default async function MembersPage({
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium">{members.status[invite.status]}</span>
+                    <span className="text-sm font-bold">{members.status[invite.status]}</span>
                     {invite.status === "active" ? (
                       <RevokeInviteButton
                         inviteId={invite.id}
@@ -170,7 +170,7 @@ export default async function MembersPage({
               <div className="min-w-0 space-y-1">
                 <p className="text-base break-all">{person.email}</p>
                 <p className="text-sm text-muted-foreground">
-                  {members.roles[person.role]} ·{" "}
+                  {members.roles[person.role]} Â·{" "}
                   {members.joinedOn.replace("{date}", formatDate(person.joined_at, locale))}
                 </p>
               </div>

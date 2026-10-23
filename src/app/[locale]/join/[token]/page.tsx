@@ -31,7 +31,7 @@ export default async function JoinPage({
     body = (
       <div className="space-y-4">
         <p role="alert">{join.unavailable}</p>
-        <a href={`/${locale}/join/${token}`} className="font-medium underline underline-offset-4">
+        <a href={`/${locale}/join/${token}`} className="inline-block py-3 font-bold underline underline-offset-4">
           {join.retry}
         </a>
       </div>
@@ -72,14 +72,14 @@ export default async function JoinPage({
         <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
       </div>
 
-      <p className="pt-2 text-center font-display text-2xl font-bold">{common.appName}</p>
+      <p className="pt-2 text-center font-display text-3xl font-bold">{common.appName}</p>
 
       <div className="paper-panel space-y-6">
         <h1 className="text-3xl font-bold">{join.heading}</h1>
 
         {body}
         {user ? (
-          <Link href={`/${locale}/recipes`} className="inline-block underline underline-offset-4">
+          <Link href={`/${locale}/recipes`} className="inline-block py-3 underline underline-offset-4">
             {join.returnToCookbook}
           </Link>
         ) : null}

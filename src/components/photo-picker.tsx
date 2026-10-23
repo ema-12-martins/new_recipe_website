@@ -39,13 +39,22 @@ type PhotoPickerProps = {
   empty?: { heading: string; body: string };
   /** When set, removing a saved photo asks first. */
   removeLabels?: Dictionary["photos"]["remove"];
+  /** Whether "Add photos" is the screen's primary action while empty (not inside a form). */
+  primaryWhenEmpty?: boolean;
 };
 
 /**
  * Chooses and orders the photos of one recipe. Files are decoded and resized here in the browser;
  * nothing leaves the device until the member saves (D-09).
  */
-export function PhotoPicker({ photos, onChange, labels, empty, removeLabels }: PhotoPickerProps) {
+export function PhotoPicker({
+  photos,
+  onChange,
+  labels,
+  empty,
+  removeLabels,
+  primaryWhenEmpty = true,
+}: PhotoPickerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preparing, setPreparing] = useState(0);
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -196,7 +205,7 @@ export function PhotoPicker({ photos, onChange, labels, empty, removeLabels }: P
 
       <Button
         type="button"
-        variant={photos.length === 0 ? "default" : "outline"}
+        variant={photos.length === 0 && primaryWhenEmpty ? "default" : "outline"}
         className="h-11 w-full sm:w-auto"
         disabled={full || preparing > 0}
         onClick={() => inputRef.current?.click()}

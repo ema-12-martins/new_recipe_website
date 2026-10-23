@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { requireMembership } from "@/lib/auth/require-membership";
+import { displayCookbookName } from "@/lib/cookbook-name";
 import { listRecipes } from "@/lib/recipes/queries";
 
 export default async function RecipesPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -28,7 +29,9 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-3xl font-bold break-words">{membership.cookbookName}</h1>
+          <h1 className="text-3xl font-bold break-words">
+            {displayCookbookName(membership.cookbookName, common.appName)}
+          </h1>
           <p className="mt-1 font-hand text-xl leading-tight text-muted-foreground">
             {common.tagline}
           </p>
@@ -51,7 +54,10 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
       </div>
 
       {list.length === 0 ? (
-        <p className="paper-panel text-center font-hand text-2xl leading-tight">{recipes.empty}</p>
+        <div className="paper-panel space-y-2 text-center">
+          <p className="font-hand text-2xl leading-tight">{recipes.empty}</p>
+          <p className="text-base text-muted-foreground">{recipes.emptyHint}</p>
+        </div>
       ) : (
         <ul role="list" className="space-y-3">
           {list.map((recipe) => {

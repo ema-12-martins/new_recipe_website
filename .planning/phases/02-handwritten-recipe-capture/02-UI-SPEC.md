@@ -67,14 +67,15 @@ Exceptions: 44 px minimum height and width for every tappable control (`h-11`, `
 
 ## Typography
 
-Four sizes and two weights, the same ones the existing recipe screens already use. New screens use regular and semibold only; they do not introduce `font-medium`.
+Kraft scale (sketch 001, quick tasks 261023-h1n / 261023-j6j). App code uses regular (400) and bold (700); semibold (600) appears only inside shadcn primitives. `font-medium` is not used.
 
-| Role | Size | Weight | Line Height |
-|------|------|--------|-------------|
-| Body | 16px | 400 | 1.5 |
-| Label (helper text, field hints, page badge, error text) | 14px | 400 | 1.5 |
-| Heading (section and banner titles, dialog titles, legends) | 18px | 600 | 1.3 |
-| Display (screen title) | 24px | 600 | 1.2 |
+| Role | Size | Font / Weight | Line Height |
+|------|------|---------------|-------------|
+| Body | 16px | Nunito Sans 400 | 1.5 |
+| Label (helper text, field hints, page badge, error text) | 14px | Nunito Sans 400 (links and status 700) | 1.5 |
+| Handwritten note (tagline, "tap to…" hints) | 18–20px | Caveat 400, muted | 1.2 |
+| Section heading (recipe sections, form legends, panel headings) | 20px | Zilla Slab 700, terracotta (`text-primary`) | 1.3 |
+| Display (screen title) | 30px | Zilla Slab 700 | 1.2 |
 
 ---
 

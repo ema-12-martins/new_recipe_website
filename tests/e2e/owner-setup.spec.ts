@@ -39,7 +39,8 @@ test.describe("owner setup", () => {
     await page.getByRole("button", { name: setup.submit }).click();
 
     await page.waitForURL("**/pt/recipes");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Family cookbook");
+    // The default cookbook name is shown as the localised app name.
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(pt.common.appName);
     await expect(page.getByText(pt.recipes.empty)).toBeVisible();
 
     await page.context().storageState({ path: OWNER_STORAGE_STATE });

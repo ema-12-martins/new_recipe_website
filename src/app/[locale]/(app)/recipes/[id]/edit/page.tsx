@@ -28,7 +28,7 @@ export default async function EditRecipePage({
     <>
       <Link
         href={`/${locale}/recipes/${recipe.id}`}
-        className="inline-block py-2 text-sm font-medium underline underline-offset-4"
+        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
       >
         {recipe.title}
       </Link>

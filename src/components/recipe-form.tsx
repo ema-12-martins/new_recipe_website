@@ -157,7 +157,7 @@ export function RecipeForm(props: RecipeFormProps) {
             <p>{labels.errors.conflict}</p>
             <Link
               href={`/${locale}/recipes/${recipeId}/edit`}
-              className="inline-block py-2 font-medium underline underline-offset-4"
+              className="inline-block py-3 font-bold underline underline-offset-4"
             >
               {labels.errors.reloadLatest}
             </Link>
@@ -202,7 +202,7 @@ export function RecipeForm(props: RecipeFormProps) {
         </div>
 
         <fieldset className="min-w-0 space-y-3">
-          <legend className="text-base font-medium">{form.ingredients}</legend>
+          <legend className="font-display text-xl font-bold text-primary">{form.ingredients}</legend>
           <p className="text-sm text-muted-foreground">{form.ingredientsHint}</p>
           {state.errors?.ingredients ? (
             <p role="alert" className="text-sm text-destructive">
@@ -245,7 +245,7 @@ export function RecipeForm(props: RecipeFormProps) {
         </fieldset>
 
         <fieldset className="min-w-0 space-y-3">
-          <legend className="text-base font-medium">{form.steps}</legend>
+          <legend className="font-display text-xl font-bold text-primary">{form.steps}</legend>
           {state.errors?.steps ? (
             <p role="alert" className="text-sm text-destructive">
               {state.errors.steps}
@@ -315,7 +315,9 @@ export function RecipeForm(props: RecipeFormProps) {
 
         {props.mode === "edit" ? (
           <fieldset className="min-w-0 space-y-3">
-            <legend className="text-base font-semibold">{props.photoLabels.editHeading}</legend>
+            <legend className="font-display text-xl font-bold text-primary">
+              {props.photoLabels.editHeading}
+            </legend>
             <PhotoPicker
               photos={editPhotos}
               onChange={setEditPhotos}
@@ -325,6 +327,7 @@ export function RecipeForm(props: RecipeFormProps) {
                 body: props.photoLabels.editEmptyBody,
               }}
               removeLabels={props.photoLabels.remove}
+              primaryWhenEmpty={false}
             />
           </fieldset>
         ) : null}

@@ -29,7 +29,7 @@ export default async function SetupPage({ params }: { params: Promise<{ locale: 
         {alreadySetUp ? (
           <div className="space-y-2">
             <p>{auth.setup.alreadySetUp}</p>
-            <Link href={`/${locale}/sign-in`} className="font-medium underline underline-offset-4">
+            <Link href={`/${locale}/sign-in`} className="inline-block py-3 font-bold underline underline-offset-4">
               {auth.setup.signInLink}
             </Link>
           </div>

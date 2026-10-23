@@ -30,7 +30,7 @@ export function InviteLinkPanel({ link, labels }: { link: string; labels: Invite
 
   return (
     <section aria-labelledby="invite-link-heading" className="space-y-3 rounded-md border p-4">
-      <h3 id="invite-link-heading" className="text-base font-medium">
+      <h3 id="invite-link-heading" className="font-display text-lg font-bold">
         {labels.linkReady}
       </h3>
       <div className="space-y-2">

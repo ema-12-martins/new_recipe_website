@@ -84,6 +84,7 @@
   --paper-shadow: rgba(90, 60, 30, 0.16);
   --paper-shadow-soft: rgba(60, 40, 20, 0.2);
   --tape: rgba(255, 246, 214, 0.75);
+  --stamp: #56632c;
   --paper-texture:
     radial-gradient(rgba(90, 60, 30, 0.1) 1px, transparent 1.2px),
     radial-gradient(rgba(255, 245, 225, 0.1) 1px, transparent 1.2px);
@@ -130,6 +131,7 @@
     --paper-shadow: rgba(0, 0, 0, 0.3);
     --paper-shadow-soft: rgba(0, 0, 0, 0.35);
     --tape: rgba(243, 231, 207, 0.22);
+    --stamp: #a3b06a;
     --paper-texture:
       radial-gradient(rgba(255, 240, 215, 0.04) 1px, transparent 1.2px),
       radial-gradient(rgba(0, 0, 0, 0.18) 1px, transparent 1.2px);
@@ -230,9 +232,9 @@
   .paper-stamp {
     display: inline-block;
     padding: 0 0.5rem;
-    border: 1.5px solid var(--chart-2);
+    border: 1.5px solid var(--stamp);
     border-radius: 3px;
-    color: var(--chart-2);
+    color: var(--stamp);
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25rem;

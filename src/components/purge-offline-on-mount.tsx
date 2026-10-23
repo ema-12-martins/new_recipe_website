@@ -19,7 +19,7 @@ export function PurgeOfflineOnMount({ errorMessage }: { errorMessage: string }) 
   }, []);
 
   return failed ? (
-    <p role="alert" className="text-sm text-destructive">
+    <p role="alert" className="rounded-md bg-card px-3 py-2 text-sm text-destructive">
       {errorMessage}
     </p>
   ) : null;
