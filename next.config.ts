@@ -42,7 +42,6 @@ const nextConfig: NextConfig = {
   // these dependencies itself, so they must be listed too.
   outputFileTracingIncludes: {
     "/api/recipes/read": TESSERACT_FILES,
-    "/api/recipes/read-diag": TESSERACT_FILES,
   },
   async headers() {
     return [

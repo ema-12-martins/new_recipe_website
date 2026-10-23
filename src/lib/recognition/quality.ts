@@ -5,7 +5,7 @@ import type { DraftRecipe, RecognitionFailure } from "./types";
  * .planning/phases/02-handwritten-recipe-capture/02-PROVIDER-DECISION.md.
  */
 export const RECOGNITION_QUALITY = {
-  minConfidence: 50,
+  minConfidence: 60,
   minCharacters: 20,
   minLines: 1,
 } as const;
