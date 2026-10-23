@@ -2,10 +2,10 @@
 gsd_state_version: "1.0"
 status: executing
 stopped_at: Phase 2 plans complete (02-01..02-04); Read recipe live with self-hosted Tesseract; phase verification and UAT pending
-last_updated: "2026-10-23T14:20:29.647Z"
+last_updated: "2026-10-23T14:29:33.965Z"
 last_activity: 2026-10-23
-last_activity_desc: "Completed quick task 261023-h1n: Apply sketch 001 winner A (kraft paper) design to the website"
-state_head: 1a2812f24d580d5cbe7e13bccfb0924fdbdef7f5
+last_activity_desc: "Completed quick task 261023-lhq: Move cookbook title and tagline from recipe list page top into the header"
+state_head: cb5740efcf33535def05f3b380eeebcc57e718b7
 progress:
   total_phases: 3
   completed_phases: 0
@@ -93,6 +93,7 @@ current_phase_name: Decisions and Shared Cookbook
 | 261023-irw | Recipe page ticking and current step, list card counts and photo stamp, kraft style on remaining pages | 2026-10-23 | c351171 | [261023-irw-recipe-page-ticking-and-current-step-lis](./quick/261023-irw-recipe-page-ticking-and-current-step-lis/) |
 | 261023-j6j | Apply Phase 1 UI review fixes: cookbook name, touch targets, error/not-found pages, typography and accent | 2026-10-23 | fa33954 | [261023-j6j-apply-ui-review-fixes-cookbook-name-touc](./quick/261023-j6j-apply-ui-review-fixes-cookbook-name-touc/) |
 | 261023-l4j | Read recipe photos with Groq vision (free, no card) instead of Tesseract | 2026-10-23 | 1a2812f | [261023-l4j-use-groq-vision-qwen3-8-27b-to-read-reci](./quick/261023-l4j-use-groq-vision-qwen3-8-27b-to-read-reci/) |
+| 261023-lhq | Move cookbook title and tagline from recipe list page top into the header | 2026-10-23 | cb5740e | [261023-lhq-move-cookbook-title-and-tagline-from-rec](./quick/261023-lhq-move-cookbook-title-and-tagline-from-rec/) |
 
 ### Roadmap Evolution
 
@@ -115,7 +116,7 @@ Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. 
 - [Phase 1 / 2026-10-21]: Plan 01-08 superseded by user decision — only a single responsive web app (desktop/tablet/phone browsers); no native app, app store, installable PWA, or throwaway validation service; interim browser evidence is no longer a prerequisite; replan Phase 1 directly as the real web app after the production stack is approved.
 - [Phase 1 / 2026-10-21 discuss]: Production stack approved — Next.js + TypeScript + Tailwind/shadcn, Supabase, Vercel + Supabase Cloud (EU, free tiers); no emails in v1 (invite links, no in-app password reset); service-worker offline reading of opened recipes; no in-app account self-deletion (resolves the owner-deletion blocker).
 
-Last activity: 2026-10-23 - Completed quick task 261023-l4j: Read recipe photos with Groq vision (free, no card) instead of Tesseract
+Last activity: 2026-10-23 - Completed quick task 261023-lhq: Move cookbook title and tagline from recipe list page top into the header
 - [Phase 01]: Plan 01-09: package legitimacy approved with clsx + tailwind-merge instead of cn; later shadcn steps must rewrite imports from 'cn' to @/lib/utils and never install cn — Human rejected the reassigned 'cn' npm package at the 01-09 gate
 - [Phase 01]: Plan 01-15: Supabase PRODUCTION project deferred by user decision; it must be configured (same Auth settings) and SUPABASE_PROD_DB_URL filled before 01-17.
 - [Phase 01]: Plan 01-15: shadcn init performed by hand from registry JSON (CLI would install the rejected 'cn' and defaults to Base UI); components import cn from @/lib/utils.
