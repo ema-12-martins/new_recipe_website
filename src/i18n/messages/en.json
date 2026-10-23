@@ -47,6 +47,7 @@
   "recipes": {
     "empty": "There are no recipes in this cookbook yet.",
     "newRecipe": "New recipe",
+    "addFromPhotos": "Add from photos",
     "newHeading": "New recipe",
     "editHeading": "Edit recipe",
     "edit": "Edit recipe",
@@ -75,7 +76,8 @@
       "steps": "Use at most 100 steps of up to 4000 characters each.",
       "error": "The recipe could not be saved. Please try again.",
       "conflict": "Someone else changed this recipe while you were editing it. Your changes are still in the form but were not saved.",
-      "reloadLatest": "Open the latest version"
+      "reloadLatest": "Open the latest version",
+      "photosMissing": "The photos could not be found. Add them again and save the recipe."
     }
   },
   "members": {
@@ -154,5 +156,41 @@
   "offline": {
     "notice": "You are offline.",
     "clearFailed": "Saved recipes could not be cleared. Please try again."
+  },
+  "capture": {
+    "title": "Add a recipe from photos",
+    "hint": "Add up to 6 pages. Put them in reading order.",
+    "addPhotos": "Add photos",
+    "emptyHeading": "No photos yet",
+    "emptyBody": "Take a photo of a handwritten recipe or choose one from your gallery. You can add up to 6 pages.",
+    "skip": "Skip – type it myself",
+    "photosList": "Chosen photos",
+    "pageLabel": "Page {n}",
+    "moveUp": "Move page {n} up",
+    "moveDown": "Move page {n} down",
+    "removePage": "Remove page {n}",
+    "previewAlt": "Photo {n}",
+    "preparing": "Preparing…",
+    "tooMany": "You can add up to 6 photos. Remove one to add another.",
+    "unsupported": "That file isn't a photo we can use. Choose a JPEG, PNG or HEIC image.",
+    "prepareFailed": "We couldn't prepare that photo. Remove it or try another one.",
+    "manualHeading": "Type the recipe",
+    "backToPhotos": "Back to photos",
+    "uploading": "Uploading photos…",
+    "uploadFailed": "We couldn't upload the photos. Check your connection and try again.",
+    "leave": {
+      "title": "Leave without saving?",
+      "body": "This draft and your photos will be discarded.",
+      "confirm": "Leave and discard",
+      "stay": "Keep editing"
+    }
+  },
+  "photos": {
+    "heading": "Original photos",
+    "alt": "Original photo {n} of {total}",
+    "caption": "Photo {n} of {total}",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "close": "Close photo"
   }
 }

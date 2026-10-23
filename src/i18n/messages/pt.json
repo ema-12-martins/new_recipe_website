@@ -47,6 +47,7 @@
   "recipes": {
     "empty": "Ainda não há receitas neste livro.",
     "newRecipe": "Nova receita",
+    "addFromPhotos": "Adicionar a partir de fotografias",
     "newHeading": "Nova receita",
     "editHeading": "Editar receita",
     "edit": "Editar receita",
@@ -75,7 +76,8 @@
       "steps": "Use no máximo 100 passos, cada um com até 4000 caracteres.",
       "error": "Não foi possível guardar a receita. Tente novamente.",
       "conflict": "Esta receita foi alterada por outra pessoa enquanto a editava. As suas alterações continuam no formulário, mas não foram guardadas.",
-      "reloadLatest": "Abrir a versão mais recente"
+      "reloadLatest": "Abrir a versão mais recente",
+      "photosMissing": "Não foi possível encontrar as fotografias. Adicione-as novamente e guarde a receita."
     }
   },
   "members": {
@@ -154,5 +156,41 @@
   "offline": {
     "notice": "Está sem ligação à internet.",
     "clearFailed": "Não foi possível limpar as receitas guardadas. Tente novamente."
+  },
+  "capture": {
+    "title": "Adicionar uma receita a partir de fotografias",
+    "hint": "Adicione até 6 páginas. Coloque-as pela ordem de leitura.",
+    "addPhotos": "Adicionar fotografias",
+    "emptyHeading": "Ainda sem fotografias",
+    "emptyBody": "Tire uma fotografia a uma receita manuscrita ou escolha uma da sua galeria. Pode adicionar até 6 páginas.",
+    "skip": "Saltar – escrever eu próprio",
+    "photosList": "Fotografias escolhidas",
+    "pageLabel": "Página {n}",
+    "moveUp": "Mover a página {n} para cima",
+    "moveDown": "Mover a página {n} para baixo",
+    "removePage": "Retirar a página {n}",
+    "previewAlt": "Fotografia {n}",
+    "preparing": "A preparar…",
+    "tooMany": "Pode adicionar até 6 fotografias. Retire uma para adicionar outra.",
+    "unsupported": "Esse ficheiro não é uma fotografia que possamos usar. Escolha uma imagem JPEG, PNG ou HEIC.",
+    "prepareFailed": "Não conseguimos preparar essa fotografia. Retire-a ou tente outra.",
+    "manualHeading": "Escrever a receita",
+    "backToPhotos": "Voltar às fotografias",
+    "uploading": "A enviar as fotografias…",
+    "uploadFailed": "Não conseguimos enviar as fotografias. Verifique a ligação e tente novamente.",
+    "leave": {
+      "title": "Sair sem guardar?",
+      "body": "Este rascunho e as suas fotografias serão descartados.",
+      "confirm": "Sair e descartar",
+      "stay": "Continuar a editar"
+    }
+  },
+  "photos": {
+    "heading": "Fotografias originais",
+    "alt": "Fotografia original {n} de {total}",
+    "caption": "Fotografia {n} de {total}",
+    "previous": "Fotografia anterior",
+    "next": "Fotografia seguinte",
+    "close": "Fechar fotografia"
   }
 }

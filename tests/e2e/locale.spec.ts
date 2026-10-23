@@ -88,7 +88,15 @@ test.describe("home page", () => {
   }
 
   test("pt and en message files have identical namespaces and keys", () => {
-    expect(Object.keys(pt).sort()).toEqual(["auth", "common", "members", "offline", "recipes"]);
+    expect(Object.keys(pt).sort()).toEqual([
+      "auth",
+      "capture",
+      "common",
+      "members",
+      "offline",
+      "photos",
+      "recipes",
+    ]);
     expect(keyPaths(en)).toEqual(keyPaths(pt));
     expect(pt.common.appName).not.toBe(en.common.appName);
   });

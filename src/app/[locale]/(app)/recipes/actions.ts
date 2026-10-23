@@ -5,7 +5,9 @@ import { notFound, redirect } from "next/navigation";
 import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentMembership } from "@/lib/auth/membership";
-import { createRecipe } from "@/lib/recipes/create-recipe";
+import { createRecipeWithPhotos } from "@/lib/recipes/create-recipe";
+import { photoIdsSchema } from "@/lib/photos/schema";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getRecipe } from "@/lib/recipes/queries";
 import { readRecipeForm, recipeInputSchema, type RecipeFormValues } from "@/lib/recipes/schema";
 import { createClient } from "@/lib/supabase/server";
@@ -63,11 +65,29 @@ export async function createRecipeAction(
   const result = validate(formData, locale);
   if (!result.ok) return result.state;
 
-  const created = await createRecipe(await createClient(), membership.cookbookId, result.input);
-  if (!created.ok) {
+  const photoIds = photoIdsSchema.safeParse(
+    formData.getAll("photoIds").filter((value): value is string => typeof value === "string"),
+  );
+  if (!photoIds.success) {
     return {
       status: "error",
       errors: { form: getDictionary(locale).recipes.errors.error },
+      values: result.values,
+    };
+  }
+
+  const created = await createRecipeWithPhotos(
+    await createClient(),
+    membership.cookbookId,
+    result.input,
+    photoIds.data,
+    createAdminClient(),
+  );
+  if (!created.ok) {
+    const { errors } = getDictionary(locale).recipes;
+    return {
+      status: "error",
+      errors: { form: created.reason === "photos_missing" ? errors.photosMissing : errors.error },
       values: result.values,
     };
   }

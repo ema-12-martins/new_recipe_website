@@ -13,7 +13,9 @@ if (!existsSync(STATIC_DIR)) {
   process.exit(2);
 }
 
-const needles = ["sb_secret_", "service_role"];
+// A real secret key has characters after the prefix; the bare prefix alone also appears in
+// supabase-js, which uses it to warn when a secret key reaches a browser.
+const needles = [/sb_secret_[A-Za-z0-9_-]{8,}/, "service_role"];
 const secretKey = process.env.SUPABASE_SECRET_KEY;
 if (secretKey) needles.push(secretKey);
 
@@ -30,7 +32,9 @@ let scanned = 0;
 for (const file of files(STATIC_DIR)) {
   scanned++;
   const content = readFileSync(file, "latin1");
-  if (needles.some((needle) => content.includes(needle))) offenders.push(file);
+  if (needles.some((needle) => (typeof needle === "string" ? content.includes(needle) : needle.test(content)))) {
+    offenders.push(file);
+  }
 }
 
 if (offenders.length > 0) {

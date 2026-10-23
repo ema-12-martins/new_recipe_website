@@ -2,13 +2,14 @@
 
 import { ArrowDown, ArrowUp, Plus, X } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useRef, useState, useSyncExternalStore } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 
 import {
   createRecipeAction,
   updateRecipeAction,
   type RecipeFormState,
 } from "@/app/[locale]/(app)/recipes/actions";
+import { useHydrated } from "@/components/use-hydrated";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,20 +17,19 @@ import { Textarea } from "@/components/ui/textarea";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { useOnlineStatus } from "@/lib/offline/use-online-status";
+import { uploadPhotos, type UploadablePhoto } from "@/lib/photos/upload";
 import type { RecipeFormValues } from "@/lib/recipes/schema";
 
 type Line = { key: number; text: string };
 
 const fill = (template: string, n: number) => template.replace("{n}", String(n));
 
-const noopSubscribe = () => () => {};
+const FIXED_FIELDS = new Set(["locale", "id", "version", "photoIds"]);
 
-/** False during SSR and hydration, true once React controls the form. */
-function useHydrated() {
-  return useSyncExternalStore(
-    noopSubscribe,
-    () => true,
-    () => false,
+/** True when any text field holds something other than whitespace. */
+function hasTypedText(form: HTMLFormElement): boolean {
+  return Array.from(new FormData(form).entries()).some(
+    ([name, value]) => !FIXED_FIELDS.has(name) && typeof value === "string" && value.trim() !== "",
   );
 }
 
@@ -38,7 +38,18 @@ export type RecipeFormProps = {
   initial: RecipeFormValues;
   locale: Locale;
   labels: Dictionary["recipes"];
-} & ({ mode: "create" } | { mode: "edit"; version: number });
+  /** Reports whether the member has typed anything, so the page can warn before leaving. */
+  onDirtyChange?: (dirty: boolean) => void;
+} & (
+  | {
+      mode: "create";
+      /** Photos chosen on the capture screen; uploaded only when the member saves. */
+      photos?: UploadablePhoto[];
+      cookbookId?: string;
+      uploadLabels?: Pick<Dictionary["capture"], "uploading" | "uploadFailed">;
+    }
+  | { mode: "edit"; version: number }
+);
 
 export function RecipeForm(props: RecipeFormProps) {
   const { recipeId, initial, locale, labels } = props;
@@ -46,6 +57,26 @@ export function RecipeForm(props: RecipeFormProps) {
     props.mode === "create" ? createRecipeAction : updateRecipeAction,
     {},
   );
+  const [uploading, setUploading] = useState(false);
+  const [uploadFailed, setUploadFailed] = useState(false);
+  const [, startTransition] = useTransition();
+  const photos = props.mode === "create" ? props.photos : undefined;
+
+  /** With photos, they are uploaded first; the recipe is saved only once every file is stored. */
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    if (props.mode !== "create" || !photos || photos.length === 0 || !props.cookbookId) return;
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    setUploadFailed(false);
+    setUploading(true);
+    const stored = await uploadPhotos(props.cookbookId, recipeId, photos);
+    setUploading(false);
+    if (!stored) {
+      setUploadFailed(true);
+      return;
+    }
+    startTransition(() => formAction(formData));
+  }
 
   // Keys only identify rows for React; they are never rendered into the markup.
   const nextKey = useRef(initial.ingredients.length + initial.steps.length + 2);
@@ -74,10 +105,18 @@ export function RecipeForm(props: RecipeFormProps) {
   const isOnline = useOnlineStatus();
 
   return (
-    <form action={formAction} noValidate>
+    <form
+      action={formAction}
+      onSubmit={handleSubmit}
+      onInput={(event) => props.onDirtyChange?.(hasTypedText(event.currentTarget))}
+      noValidate
+    >
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="id" value={recipeId} />
       {props.mode === "edit" ? <input type="hidden" name="version" value={props.version} /> : null}
+      {photos?.map((photo) => (
+        <input key={photo.id} type="hidden" name="photoIds" value={photo.id} />
+      ))}
 
       {/* Text typed before hydration would be replaced by React state, so stay inert until then. */}
       <fieldset disabled={!hydrated} className="min-w-0 space-y-8">
@@ -99,6 +138,18 @@ export function RecipeForm(props: RecipeFormProps) {
         {state.errors?.form ? (
           <p role="alert" className="text-sm text-destructive">
             {state.errors.form}
+          </p>
+        ) : null}
+
+        {uploading && props.mode === "create" && props.uploadLabels ? (
+          <p role="status" className="text-sm text-muted-foreground">
+            {props.uploadLabels.uploading}
+          </p>
+        ) : null}
+
+        {uploadFailed && props.mode === "create" && props.uploadLabels ? (
+          <p role="alert" className="text-sm text-destructive">
+            {props.uploadLabels.uploadFailed}
           </p>
         ) : null}
 
@@ -236,7 +287,11 @@ export function RecipeForm(props: RecipeFormProps) {
         {!isOnline ? (
           <p className="text-sm text-muted-foreground">{form.editingNeedsConnection}</p>
         ) : null}
-        <Button type="submit" disabled={pending || !isOnline} className="h-11 w-full sm:w-auto">
+        <Button
+          type="submit"
+          disabled={pending || uploading || !isOnline}
+          className="h-11 w-full sm:w-auto"
+        >
           {form.save}
         </Button>
       </fieldset>

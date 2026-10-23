@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Camera } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -22,12 +23,21 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
     <>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold break-words">{membership.cookbookName}</h1>
-        <Link
-          href={`/${locale}/recipes/new`}
-          className={buttonVariants({ className: "h-11 w-full sm:w-auto" })}
-        >
-          {recipes.newRecipe}
-        </Link>
+        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
+          <Link
+            href={`/${locale}/recipes/capture`}
+            className={buttonVariants({ variant: "outline", className: "h-11 w-full sm:w-auto" })}
+          >
+            <Camera aria-hidden />
+            {recipes.addFromPhotos}
+          </Link>
+          <Link
+            href={`/${locale}/recipes/new`}
+            className={buttonVariants({ className: "h-11 w-full sm:w-auto" })}
+          >
+            {recipes.newRecipe}
+          </Link>
+        </div>
       </div>
 
       {list.length === 0 ? (
