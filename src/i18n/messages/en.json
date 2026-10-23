@@ -209,7 +209,7 @@
   "recognition": {
     "read": "Read recipe",
     "readingTitle": "Reading your recipe…",
-    "readingHint": "This can take up to a minute.",
+    "readingHint": "This usually takes a few seconds; recipes with many pages can take up to two minutes.",
     "stop": "Stop reading",
     "offline": "Reading photos needs an internet connection. You can still type the recipe yourself.",
     "failureTitle": "We couldn't read this recipe",

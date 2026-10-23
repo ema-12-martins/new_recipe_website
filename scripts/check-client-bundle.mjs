@@ -15,9 +15,11 @@ if (!existsSync(STATIC_DIR)) {
 
 // A real secret key has characters after the prefix; the bare prefix alone also appears in
 // supabase-js, which uses it to warn when a secret key reaches a browser.
-const needles = [/sb_secret_[A-Za-z0-9_-]{8,}/, "service_role"];
+const needles = [/sb_secret_[A-Za-z0-9_-]{8,}/, "service_role", /gsk_[A-Za-z0-9]{20,}/];
 const secretKey = process.env.SUPABASE_SECRET_KEY;
 if (secretKey) needles.push(secretKey);
+const groqKey = process.env.GROQ_API_KEY;
+if (groqKey) needles.push(groqKey);
 
 function* files(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {

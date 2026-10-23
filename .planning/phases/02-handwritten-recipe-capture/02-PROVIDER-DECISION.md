@@ -1,5 +1,25 @@
 # Phase 2 — Recognition Provider Decision
 
+> **Update 2026-10-23 (quick task 261023-l4j): Groq vision is now the default reader.**
+> Tesseract failed on the owner's four real handwritten photos (gibberish, confidence 39–56).
+> In an exploration spike, Groq's free tier (`qwen/qwen3.8-27b`, JSON mode; account without a
+> card) transcribed all four well in under 1.5 s each: Salpicão 15/15 ingredient lines with two
+> misread words, Bolo de chocolate and Bolo de cenoura almost exact, Bolo de mel correct title and
+> ingredients with some lines misplaced. The owner chose Groq. Selection: `GROQ_API_KEY` set →
+> Groq; otherwise Tesseract (unchanged below).
+>
+> | Item | Status |
+> |------|--------|
+> | Cost | Free tier, no card. Limits for this model: 30 requests/min, 1000/day, about 7 K input tokens/min; a page costs about 1.9 K tokens whatever its size (verified by measurement) |
+> | Retention | Groq does not retain inference data by default; reliability/abuse logs (up to 30 days) can be turned off in Data Controls (console.groq.com/docs/your-data) |
+> | EEA use | Allowed: EEA customers contract with Groq UK Limited (services agreement) |
+> | Training on inputs | **Unresolved:** no explicit statement found either way |
+> | Processing region | **Unresolved:** not stated; likely outside the EU. The owner relaxed D-17's EU-processing part by choosing Groq |
+> | Quality gate | No confidence from Groq; the gate keeps the character, title and line rules |
+> | Long recipes | Pages are sent 3 per request; the reader waits whenever Groq reports the per-minute limit, up to the 110 s server deadline (client 120 s) |
+>
+> The original Tesseract decision follows, unchanged except for the threshold history.
+
 **Date:** 2026-10-23
 **Approver:** project owner (chat, 2026-10-23: chose option "A — Tesseract no nosso servidor")
 **Decision:** **Approved: Tesseract (`tesseract.js` 7.0.0) running inside our own Vercel function.**

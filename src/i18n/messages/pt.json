@@ -209,7 +209,7 @@
   "recognition": {
     "read": "Ler receita",
     "readingTitle": "A ler a receita…",
-    "readingHint": "Pode demorar até um minuto.",
+    "readingHint": "Normalmente demora poucos segundos; receitas com muitas páginas podem demorar até dois minutos.",
     "stop": "Parar leitura",
     "offline": "Ler fotografias precisa de ligação à internet. Pode escrever a receita à mesma.",
     "failureTitle": "Não conseguimos ler esta receita",

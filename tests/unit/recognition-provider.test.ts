@@ -10,15 +10,17 @@ describe("recognition provider selection", () => {
   });
 
   it.each([
-    [undefined, "tesseract"],
-    ["", "tesseract"],
-    ["tesseract", "tesseract"],
-    ["stub", "stub"],
-    ["off", null],
-    ["document-ai", null],
-  ])("RECOGNITION_PROVIDER=%s selects %s", (value, expected) => {
-    if (value === undefined) vi.stubEnv("RECOGNITION_PROVIDER", undefined as unknown as string);
-    else vi.stubEnv("RECOGNITION_PROVIDER", value);
+    [undefined, "", "tesseract"],
+    [undefined, "gsk_test", "groq"],
+    ["", "gsk_test", "groq"],
+    ["tesseract", "gsk_test", "tesseract"],
+    ["groq", "", "groq"],
+    ["stub", "gsk_test", "stub"],
+    ["off", "gsk_test", null],
+    ["document-ai", "", null],
+  ])("RECOGNITION_PROVIDER=%s with GROQ_API_KEY=%s selects %s", (value, key, expected) => {
+    vi.stubEnv("RECOGNITION_PROVIDER", value as string);
+    vi.stubEnv("GROQ_API_KEY", key);
     expect(configuredProvider()).toBe(expected);
     expect(getProvider()?.name ?? null).toBe(expected);
     expect(isRecognitionEnabled()).toBe(expected !== null);

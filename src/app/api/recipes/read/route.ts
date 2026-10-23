@@ -7,8 +7,8 @@ import { draftProblem } from "@/lib/recognition/quality";
 import type { ReadResponse } from "@/lib/recognition/types";
 
 export const dynamic = "force-dynamic";
-// Vercel Hobby allows up to 300 s; the member waits about a minute (D-11).
-export const maxDuration = 60;
+// Vercel Hobby allows up to 300 s; long recipes may wait for the Groq per-minute limit.
+export const maxDuration = 120;
 
 function respond(body: ReadResponse | { failure: "unauthorised" }, status = 200): Response {
   return Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
