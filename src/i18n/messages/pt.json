@@ -93,10 +93,12 @@
     },
     "errors": {
       "title": "Escreva um título com até 300 caracteres.",
+      "titleRequired": "Escreva um título.",
       "ingredients": "Use no máximo 200 ingredientes, cada um com até 500 caracteres.",
       "steps": "Use no máximo 100 passos, cada um com até 4000 caracteres.",
       "ingredientsRequired": "Adicione pelo menos um ingrediente.",
       "stepsRequired": "Adicione pelo menos um passo.",
+      "incomplete": "Não é possível guardar uma receita sem título, ingredientes e passos.",
       "error": "Não foi possível guardar a receita. Tente novamente.",
       "conflict": "Esta receita foi alterada por outra pessoa enquanto a editava. As suas alterações continuam no formulário, mas não foram guardadas.",
       "reloadLatest": "Abrir a versão mais recente",

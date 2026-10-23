@@ -93,10 +93,12 @@
     },
     "errors": {
       "title": "Enter a title of up to 300 characters.",
+      "titleRequired": "Enter a title.",
       "ingredients": "Use at most 200 ingredients of up to 500 characters each.",
       "steps": "Use at most 100 steps of up to 4000 characters each.",
       "ingredientsRequired": "Add at least one ingredient.",
       "stepsRequired": "Add at least one step.",
+      "incomplete": "A recipe can't be saved without a title, ingredients and steps.",
       "error": "The recipe could not be saved. Please try again.",
       "conflict": "Someone else changed this recipe while you were editing it. Your changes are still in the form but were not saved.",
       "reloadLatest": "Open the latest version",

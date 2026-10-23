@@ -121,18 +121,20 @@ test.describe("manual recipes", () => {
 
   test("a recipe without ingredients or steps is not saved", async ({ page }, testInfo) => {
     const title = `Incompleta ${testInfo.project.name} ${Date.now()}`;
+    const { errors } = pt.recipes;
 
     await page.goto("/pt/recipes/new");
     await page.getByLabel(form.title, { exact: true }).fill(title);
     await page.getByLabel(fill(form.ingredientLine, 1), { exact: true }).fill("   ");
     await page.getByRole("button", { name: form.save }).click();
 
-    await expect(
-      page.getByRole("alert").filter({ hasText: pt.recipes.errors.ingredientsRequired }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("alert").filter({ hasText: pt.recipes.errors.stepsRequired }),
-    ).toBeVisible();
+    // The warning sits next to the save button and names what is missing.
+    const warning = page.getByRole("alert").filter({ hasText: errors.incomplete });
+    await expect(warning).toBeVisible();
+    await expect(warning.getByRole("listitem")).toHaveText([
+      errors.ingredientsRequired,
+      errors.stepsRequired,
+    ]);
     expect(new URL(page.url()).pathname).toBe("/pt/recipes/new");
     await expect(page.getByLabel(form.title, { exact: true })).toHaveValue(title);
     expect(await countRecipesTitled(title)).toBe(0);

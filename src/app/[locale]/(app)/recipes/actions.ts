@@ -10,6 +10,7 @@ import { applyPhotoChanges, discardUnrecordedUploads } from "@/lib/photos/apply-
 import { photoIdsSchema } from "@/lib/photos/schema";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getRecipe } from "@/lib/recipes/queries";
+import { missingParts, type RecipePart } from "@/lib/recipes/missing";
 import { readRecipeForm, recipeInputSchema, type RecipeFormValues } from "@/lib/recipes/schema";
 import { createClient } from "@/lib/supabase/server";
 
@@ -25,6 +26,8 @@ export type RecipeFormErrors = {
 export type RecipeFormState = {
   status?: "invalid" | "error" | "conflict";
   errors?: RecipeFormErrors;
+  /** Parts the recipe still needs; the form lists them next to the save button. */
+  missing?: RecipePart[];
   values?: RecipeFormValues;
 };
 
@@ -45,20 +48,18 @@ function validate(formData: FormData, locale: Locale) {
   if (parsed.success) return { ok: true as const, input: parsed.data, values };
 
   const { errors: messages } = getDictionary(locale).recipes;
+  const missing = missingParts(values);
   const errors: RecipeFormErrors = {};
+  for (const part of missing) errors[part] = messages[`${part}Required`];
   for (const issue of parsed.error.issues) {
     const field = issue.path[0];
-    if (field === "title") {
-      errors.title = messages.title;
-    } else if (field === "ingredients" || field === "steps") {
-      // An empty list fails on the list itself; an over-long line fails on its index.
-      const empty = issue.code === "too_small" && issue.path.length === 1;
-      errors[field] ??= empty ? messages[`${field}Required`] : messages[field];
+    if (field === "title" || field === "ingredients" || field === "steps") {
+      errors[field] ??= messages[field];
     } else {
       errors.form = messages.error;
     }
   }
-  return { ok: false as const, state: { status: "invalid" as const, errors, values } };
+  return { ok: false as const, state: { status: "invalid" as const, errors, missing, values } };
 }
 
 export async function createRecipeAction(

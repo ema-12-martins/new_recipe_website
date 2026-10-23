@@ -7,6 +7,7 @@ import { useActionState, useRef, useState, useTransition } from "react";
 import {
   createRecipeAction,
   updateRecipeAction,
+  type RecipeFormErrors,
   type RecipeFormState,
 } from "@/app/[locale]/(app)/recipes/actions";
 import { PhotoPicker, type PickedPhoto } from "@/components/photo-picker";
@@ -20,6 +21,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { useOnlineStatus } from "@/lib/offline/use-online-status";
 import { photoUrl } from "@/lib/photos/paths";
 import { uploadPhotos } from "@/lib/photos/upload";
+import { missingParts, type RecipePart } from "@/lib/recipes/missing";
 import type { RecipeFormValues } from "@/lib/recipes/schema";
 
 type Line = { key: number; text: string };
@@ -69,6 +71,13 @@ export function RecipeForm(props: RecipeFormProps) {
   );
   const [uploading, setUploading] = useState(false);
   const [uploadFailed, setUploadFailed] = useState(false);
+  // Set when the browser stops a save because parts are missing; cleared on the next valid save.
+  const [incomplete, setIncomplete] = useState<{
+    errors: RecipeFormErrors;
+    missing: RecipePart[];
+  } | null>(null);
+  const errors = incomplete?.errors ?? state.errors;
+  const missing = incomplete?.missing ?? state.missing ?? [];
   const [, startTransition] = useTransition();
   const [editPhotos, setEditPhotos] = useState<PickedPhoto[]>(() =>
     props.mode === "edit"
@@ -81,6 +90,22 @@ export function RecipeForm(props: RecipeFormProps) {
 
   /** New photos are uploaded first; the recipe is saved only once every file is stored. */
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    const parts = missingParts({
+      title,
+      ingredients: ingredients.map((line) => line.text),
+      steps: steps.map((line) => line.text),
+    });
+    if (parts.length > 0) {
+      // Nothing is sent or uploaded until the recipe has every part.
+      event.preventDefault();
+      setIncomplete({
+        errors: Object.fromEntries(parts.map((part) => [part, labels.errors[`${part}Required`]])),
+        missing: parts,
+      });
+      return;
+    }
+    setIncomplete(null);
+
     const fresh = (photos ?? []).flatMap((photo) =>
       photo.blob ? [{ id: photo.id, blob: photo.blob }] : [],
     );
@@ -164,9 +189,9 @@ export function RecipeForm(props: RecipeFormProps) {
           </div>
         ) : null}
 
-        {state.errors?.form ? (
+        {errors?.form ? (
           <p role="alert" className="text-sm text-destructive">
-            {state.errors.form}
+            {errors.form}
           </p>
         ) : null}
 
@@ -189,14 +214,14 @@ export function RecipeForm(props: RecipeFormProps) {
             name="title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            aria-invalid={state.errors?.title ? true : undefined}
-            aria-describedby={state.errors?.title ? "title-error" : undefined}
+            aria-invalid={errors?.title ? true : undefined}
+            aria-describedby={errors?.title ? "title-error" : undefined}
             className="h-11"
             required
           />
-          {state.errors?.title ? (
+          {errors?.title ? (
             <p id="title-error" role="alert" className="text-sm text-destructive">
-              {state.errors.title}
+              {errors.title}
             </p>
           ) : null}
         </div>
@@ -204,9 +229,9 @@ export function RecipeForm(props: RecipeFormProps) {
         <fieldset className="min-w-0 space-y-3">
           <legend className="font-display text-xl font-bold text-primary">{form.ingredients}</legend>
           <p className="text-sm text-muted-foreground">{form.ingredientsHint}</p>
-          {state.errors?.ingredients ? (
+          {errors?.ingredients ? (
             <p role="alert" className="text-sm text-destructive">
-              {state.errors.ingredients}
+              {errors.ingredients}
             </p>
           ) : null}
           <ol className="space-y-2">
@@ -246,9 +271,9 @@ export function RecipeForm(props: RecipeFormProps) {
 
         <fieldset className="min-w-0 space-y-3">
           <legend className="font-display text-xl font-bold text-primary">{form.steps}</legend>
-          {state.errors?.steps ? (
+          {errors?.steps ? (
             <p role="alert" className="text-sm text-destructive">
-              {state.errors.steps}
+              {errors.steps}
             </p>
           ) : null}
           <ol className="space-y-4">
@@ -334,6 +359,20 @@ export function RecipeForm(props: RecipeFormProps) {
 
         {!isOnline ? (
           <p className="text-sm text-muted-foreground">{form.editingNeedsConnection}</p>
+        ) : null}
+        {/* Next to the button, so the member sees why nothing was saved without scrolling. */}
+        {missing.length > 0 ? (
+          <div
+            role="alert"
+            className="space-y-2 rounded-md border border-destructive/50 p-4 text-sm text-destructive"
+          >
+            <p className="font-bold">{labels.errors.incomplete}</p>
+            <ul className="list-disc space-y-1 pl-5">
+              {missing.map((part) => (
+                <li key={part}>{labels.errors[`${part}Required`]}</li>
+              ))}
+            </ul>
+          </div>
         ) : null}
         <Button
           type="submit"
