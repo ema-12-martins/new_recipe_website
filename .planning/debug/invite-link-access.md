@@ -22,7 +22,7 @@ updated: 2026-10-23
 hypothesis: Vercel's SUPABASE_SECRET_KEY is set but rejected by the DEV project (publishable key pasted as secret -> 42501, or a stale/rotated/other-project key -> "Invalid API key").
 test: Read the "Invite availability lookup failed." log line (code/status) in Vercel runtime logs, correct SUPABASE_SECRET_KEY, redeploy, retry a fresh link.
 expecting: After correcting the key, a fresh link shows the email form both signed out and signed in.
-next_action: Operator corrects SUPABASE_SECRET_KEY in Vercel (all scopes in use) to the DEV project's sb_secret_ key and redeploys; then re-run the live probe.
+next_action: Operator opens Vercel > Settings > Environment Variables, replaces Production SUPABASE_SECRET_KEY with the DEV project's sb_secret_ key (no quotes), redeploys, then re-runs the well-formed-token live probe.
 
 ## Evidence
 
@@ -93,6 +93,13 @@ next_action: Operator corrects SUPABASE_SECRET_KEY in Vercel (all scopes in use)
 - Fix: createAdminClient trims whitespace and one matching pair of surrounding
   quotes from SUPABASE_SECRET_KEY. Regression test tests/unit/supabase-admin.test.ts
   failed 5/6 before the fix; after it, 86/86 unit tests, tsc and ESLint pass.
+- 2026-10-23 11:37 shipped as 873651e; GitHub shows "Vercel: Deployment has
+  completed" at 10:37:31Z. Polling the live join page with fresh well-formed tokens
+  until 11:43 still returns "unavailable". ELIMINATED: literal quotes are not (or not
+  the only) problem. The hardening is kept as harmless. A fresh deployment reads the
+  current Vercel variables, so the Production SUPABASE_SECRET_KEY is still a value
+  the DEV project rejects (other project, publishable key, rotated/revoked key, or
+  scoped only to Preview/Development).
 
 ## Resolution
 
