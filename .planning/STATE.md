@@ -1,16 +1,16 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: "Phase 2: plan 02-02 executed; next 02-03 (edit photos, offline) and 02-01 benchmark (needs family samples)"
-last_updated: "2026-10-23T09:21:36.227Z"
+stopped_at: "Phase 2: plans 02-02 and 02-03 executed; 02-04 (draft, needs stub-first) and 02-01 (benchmark, needs family samples) remain"
+last_updated: "2026-10-23T09:48:46.137Z"
 last_activity: 2026-10-22
-state_head: af7218ec27be2b1fc0b048351c8e59d64b89232c
+state_head: 505fdd42cfd2b3901e122b004498a11f3874669f
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 15
-  completed_plans: 12
+  completed_plans: 13
   percent: 0
 current_phase_name: Decisions and Shared Cookbook
 ---
@@ -97,9 +97,9 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-23T09:21:35.797Z
-**Stopped at:** Phase 2: plan 02-02 executed; next 02-03 (edit photos, offline) and 02-01 benchmark (needs family samples)
-**Resume file:** .planning/phases/02-handwritten-recipe-capture/02-03-PLAN.md
+**Last session:** 2026-10-23T09:48:45.752Z
+**Stopped at:** Phase 2: plans 02-02 and 02-03 executed; 02-04 (draft, needs stub-first) and 02-01 (benchmark, needs family samples) remain
+**Resume file:** .planning/phases/02-handwritten-recipe-capture/02-04-PLAN.md
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Plans 01-14 and 01-18 shipped together at b206cb4; 01-18's summary is committed at 4cb3cf4. Initial phase verification is recorded in 01-VERIFICATION.md with status `human_needed`. End-of-phase human checks already recorded: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13/01-19 the owner removes that relative after the keep/remove review (keep one recipe, remove another), the relative's phone tapping a recipe link lands on sign-in with the no-access message, then the owner re-invites the same email. Still outstanding: production Supabase setup and the 01-18 iPhone Safari/Android Chrome offline-read, sign-out purge, and no-install-prompt check.
 
