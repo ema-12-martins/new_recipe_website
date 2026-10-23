@@ -1,42 +1,54 @@
 {
   "version": "1.0",
-  "timestamp": "2026-10-22T10:37:31.485Z",
-  "phase": "01",
-  "phase_name": "Decisions and Shared Cookbook",
-  "phase_dir": ".planning/phases/01-decisions-and-shared-cookbook",
-  "plan": 14,
-  "task": 0,
-  "total_tasks": 2,
+  "timestamp": "2026-10-23T10:23:34.805Z",
+  "phase": "02",
+  "phase_name": "Handwritten Recipe Capture",
+  "phase_dir": ".planning/phases/02-handwritten-recipe-capture",
+  "plan": 1,
+  "task": 3,
+  "total_tasks": 3,
   "status": "paused",
   "completed_tasks": [
-    {"id": "01-19/1", "name": "Removed member tapping an in-app recipe link lands on sign-in with the no-access message (tracer): requireMembership on layout, recipes list, recipe view; e2e soft nav + full load + no-cookie, 4/4 viewports, mutation-checked", "status": "done", "commit": "31983d7"},
-    {"id": "01-19/2", "name": "Unreachable or paused Supabase shows can't-reach-the-server: membership-status unit tests (7, mutation-checked, no honest RED), /{locale}/unavailable static page, common.unavailable pt/en", "status": "done", "commit": "14627a8"},
-    {"id": "01-19/3", "name": "Guard every (app) page (RED b2f9a8a -> GREEN), then ship 01-13 + 01-19 to main; Vercel deployed 9c2f9f9; test:e2e:prod 6/6", "status": "done", "commit": "9c2f9f9"},
-    {"id": "01-19/close", "name": "01-19 SUMMARY (7beeb44); STATE 9/11, ROADMAP 01-19 checked, AUTH-02 complete (32a5e0e); pushed", "status": "done", "commit": "32a5e0e"}
+    {"id": "02-02", "name": "Capture photos, type the recipe, save, see the originals", "status": "done", "commit": "9f4cffa"},
+    {"id": "02-03/1", "name": "Add, reorder and remove photos on saved recipes", "status": "done", "commit": "0fae2b4"},
+    {"id": "02-03/2", "name": "Offline photos for opened recipes", "status": "done", "commit": "1528ac2"},
+    {"id": "02-01/1", "name": "Correction-effort scorer and git-ignore guard", "status": "done", "commit": "f90660f"},
+    {"id": "02-01/2", "name": "Benchmark harness and Document AI / Gemini adapters", "status": "done", "commit": "f90660f"},
+    {"id": "02-01/2b", "name": "Synthetic made-up recipe pages (user chose option B)", "status": "done", "commit": "da4917c"},
+    {"id": "02-01/3", "name": "Run the benchmark and record the provider decision", "status": "in_progress", "progress": "Waiting on the user's Google Cloud setup and terms check; synthetic samples are generated"}
   ],
   "remaining_tasks": [
-    {"id": "01-14", "name": "Wave 10: offline reading of opened recipes (hand-written service worker + IndexedDB, offline notice, writes disabled; no manifest/PWA). 2 tasks, autonomous; commits locally, does NOT push (01-18 ships it) (AUTH-04)", "status": "not_started"},
-    {"id": "01-18", "name": "Wave 11: purge offline cache on sign-out/account switch, reauthorize on reconnect; ships 01-14 + 01-18 (AUTH-04)", "status": "not_started"},
-    {"id": "phase-1-close", "name": "After 01-18: phase verification (code review gate, verifier) and end-of-phase human checks", "status": "not_started"}
+    {"id": "02-01/3", "name": "Write 02-PROVIDER-DECISION.md and 02-01-SUMMARY.md from the runs", "status": "not_started"},
+    {"id": "02-04/1", "name": "Read recipe to draft on the stub provider", "status": "not_started"},
+    {"id": "02-04/2", "name": "Real provider adapter (only if approved)", "status": "not_started"},
+    {"id": "02-04/3", "name": "Failure screen and nothing-saved guarantees", "status": "not_started"},
+    {"id": "phase-2-verify", "name": "Phase verification and real-device UAT", "status": "not_started"}
   ],
   "blockers": [
-    {"description": "Live site is a DEV-backed demo; tests wipe DEV, so no real family data until a PRODUCTION Supabase project exists", "type": "human_action", "workaround": "Ship loop uses db:*:dev instead of db:*:prod (user decision in 01-17)"}
+    {"description": "02-01 Task 3 needs a Google Cloud project with billing, EU endpoints and a privacy-terms check", "type": "human_action", "workaround": "Start 02-04 Task 1 on the stub provider meanwhile"},
+    {"description": "Synthetic pages cannot approve a provider; real handwritten pages are needed for approval", "type": "human_action", "workaround": "Record 'setup verified, handwriting not tested'; ship capture plus manual entry"},
+    {"description": "No production Supabase project; Phase 2 migrations are on DEV only", "type": "external", "workaround": "Push 20261023120000, 20261023120100, 20261023120200 when production exists"}
   ],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "Create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill SUPABASE_PROD_DB_URL, run db:push:prod (includes 20261021120400_member_removal)", "context": "Required before real family use; not required to continue Phase 1 plans", "blocking": false},
-    {"action": "End-of-phase phone check (01-10): create a recipe with Portuguese accents, fractions and °C on a real phone and confirm it reads back exactly; reorder steps by tapping Move up/down", "context": "human_verify_mode end-of-phase", "blocking": false},
-    {"action": "End-of-phase check (01-11): on a phone and a laptop signed in as the same member, switch language on the laptop, then sign out/in on the phone and confirm the remembered language", "context": "human_verify_mode end-of-phase", "blocking": false},
-    {"action": "End-of-phase check (01-12): owner sends a real invite link over WhatsApp to a relative's phone; the relative joins and adds a recipe; confirm no email arrived and Supabase Auth logs show no email sends", "context": "human_verify_mode end-of-phase", "blocking": false},
-    {"action": "End-of-phase check (01-13/01-19, now live): owner removes that relative on a phone (keep one recipe, remove another); the relative's phone tapping a recipe link lands on sign-in with the no-access message; owner re-invites the same email and the relative joins again", "context": "human_verify_mode end-of-phase", "blocking": false}
+    {"action": "Create Google Cloud project with billing, EU Document AI processor and EU Vertex AI endpoint; set GCP_ACCESS_TOKEN, DOCUMENT_AI_ENDPOINT, GEMINI_ENDPOINT in the shell", "context": "02-01 Task 3", "blocking": true},
+    {"action": "Check each provider's terms: EU processing, no retention, no training", "context": "D-17", "blocking": true},
+    {"action": "Run run.mjs for document-ai and gemini on the synthetic samples and share the summary lines", "context": "02-01 Task 3", "blocking": true},
+    {"action": "Real-device check on iPhone and Android (capture, HEIC, leave warning, offline photos)", "context": "Phase 2 UAT", "blocking": false}
   ],
   "decisions": [
-    {"decision": "requireMembership(locale) guards the (app) layout AND every (app) page; none -> sign-in with reason=no-access only when a non-empty sb-*-auth-token cookie is presented, else plain sign-in; unavailable -> /{locale}/unavailable", "rationale": "Soft navigations skip the shared layout (T-01-43); outages are not lost access (D-34, T-01-44)", "phase": "01"},
-    {"decision": "tests/unit/app-pages-guard.test.ts fails if the layout or any (app) page.tsx lacks requireMembership(; no staleTimes override in next.config.ts", "rationale": "T-01-43, T-01-48; 01-14 edits recipes/[id] and must keep the guard", "phase": "01"},
-    {"decision": "/{locale}/unavailable is static (no Supabase call) and must never purge the offline cache", "rationale": "D-34; 01-18 purge runs on sign-in/sign-out paths only", "phase": "01"},
-    {"decision": "01-13 + 01-19 shipped together at 9c2f9f9 with db:*:dev in place of db:*:prod", "rationale": "01-17 user decision: live site runs on DEV until a production project exists", "phase": "01"}
+    {"decision": "Photos uploaded from the browser to Storage at Save", "rationale": "Server Actions accept 1 MB; nothing stored before Save (D-09)", "phase": "02"},
+    {"decision": "No direct member reads of the photo bucket; route reads with the service role after RLS checks", "rationale": "A removed member kept downloading for 8+ s", "phase": "02"},
+    {"decision": "Unused uploads deleted server-side", "rationale": "Member deletes through Storage do nothing without a read policy", "phase": "02"},
+    {"decision": "Benchmark with synthetic pages first", "rationale": "User choice (option B); cannot approve a provider", "phase": "02"}
   ],
-  "uncommitted_files": [" M .planning/milestone.lock", "?? .planning/state.json"],
-  "next_action": "In a fresh session on main: /gsd-resume-work, then /gsd-execute-phase 1, which resumes at Plan 01-14 (2 tasks -> inline Pattern C). 01-14 commits locally and does NOT push; 01-18 ships both.",
-  "context_notes": "01-19 took 21 min inline. origin/main is at 32a5e0e; this pause commit stays local (it is pushed with 01-18's ship, like earlier pause commits). Token expiry behaviour (removed member after ~1h sees plain sign-in) is expected but unobserved. Ship loop: typecheck + eslint src tests -> build -> check:secrets -> full local e2e (112 tests, ~5.2 min) -> commit -> git push origin HEAD:main -> wait for Vercel commit status (gh api repos/ema-12-martins/new_recipe_website/commits/SHA/status) -> test:e2e:prod, with db:*:dev substituted for db:*:prod. A single e2e spec with npx playwright test <file> takes ~1.3 min (setup project + 4 viewports, includes a build). milestone.lock and state.json are tool-generated and never committed."
+  "uncommitted_files": [
+    " M .planning/REQUIREMENTS.md",
+    " M .planning/ROADMAP.md",
+    " M .planning/config.json",
+    "?? .planning/debug/",
+    "?? .planning/phases/01-decisions-and-shared-cookbook/01-VERIFICATION.md"
+  ],
+  "next_action": "Ask whether Google Cloud is set up; if yes run run.mjs for document-ai and gemini with --samples .planning/phases/02-handwritten-recipe-capture/benchmark/synthetic and write 02-PROVIDER-DECISION.md; if not, offer 02-04 Task 1 on the stub provider.",
+  "context_notes": "User prefers plain-language explanations and switched to Portuguese. Subagents are unavailable; plans run inline. Full e2e wipes DEV data. Nothing pushed."
 }

@@ -1,10 +1,10 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: "Phase 2: plans 02-02 and 02-03 executed; 02-04 (draft, needs stub-first) and 02-01 (benchmark, needs family samples) remain"
-last_updated: "2026-10-23T09:48:46.137Z"
+stopped_at: Phase 2 paused at 02-01 Task 3 (waiting on Google Cloud setup); 02-02 and 02-03 done
+last_updated: "2026-10-23T10:24:40.769Z"
 last_activity: 2026-10-22
-state_head: 505fdd42cfd2b3901e122b004498a11f3874669f
+state_head: da4917cbac9577c0f1688f1cdba8bb9b216b6793
 progress:
   total_phases: 3
   completed_phases: 0
@@ -97,9 +97,9 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-23T09:48:45.752Z
-**Stopped at:** Phase 2: plans 02-02 and 02-03 executed; 02-04 (draft, needs stub-first) and 02-01 (benchmark, needs family samples) remain
-**Resume file:** .planning/phases/02-handwritten-recipe-capture/02-04-PLAN.md
+**Last session:** 2026-10-23T10:24:40.340Z
+**Stopped at:** Phase 2 paused at 02-01 Task 3 (waiting on Google Cloud setup); 02-02 and 02-03 done
+**Resume file:** .planning/phases/02-handwritten-recipe-capture/.continue-here.md
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Plans 01-14 and 01-18 shipped together at b206cb4; 01-18's summary is committed at 4cb3cf4. Initial phase verification is recorded in 01-VERIFICATION.md with status `human_needed`. End-of-phase human checks already recorded: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13/01-19 the owner removes that relative after the keep/remove review (keep one recipe, remove another), the relative's phone tapping a recipe link lands on sign-in with the no-access message, then the owner re-invites the same email. Still outstanding: production Supabase setup and the 01-18 iPhone Safari/Android Chrome offline-read, sign-out purge, and no-install-prompt check.
 
