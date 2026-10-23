@@ -1,15 +1,15 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-10-23T08:29:10.588Z"
+stopped_at: "Phase 2 planned (4 plans); next: execute 02-01 benchmark and 02-02 capture slice"
+last_updated: "2026-10-23T08:43:23.909Z"
 last_activity: 2026-10-22
-state_head: 4d398ceaf22ffbd02c476ab04c85434a171d7362
+state_head: 7254d0839c448f93b0967f8fa91649bf306f1b54
 progress:
   total_phases: 3
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
-  total_plans: 11
+  total_plans: 15
   completed_plans: 11
   percent: 0
 current_phase_name: Decisions and Shared Cookbook
@@ -97,9 +97,9 @@ current_phase_name: Decisions and Shared Cookbook
 
 ## Session Continuity
 
-**Last session:** 2026-10-23T08:29:10.137Z
-**Stopped at:** Phase 2 context gathered
-**Resume file:** .planning/phases/02-handwritten-recipe-capture/02-CONTEXT.md
+**Last session:** 2026-10-23T08:43:23.518Z
+**Stopped at:** Phase 2 planned (4 plans); next: execute 02-01 benchmark and 02-02 capture slice
+**Resume file:** .planning/phases/02-handwritten-recipe-capture/02-01-PLAN.md
 
 Plan 01-01 stays historical. Plan 01-08 is superseded and must not be executed. Plans 01-14 and 01-18 shipped together at b206cb4; 01-18's summary is committed at 4cb3cf4. Initial phase verification is recorded in 01-VERIFICATION.md with status `human_needed`. End-of-phase human checks already recorded: 01-10 phone recipe check; 01-11 phone + laptop remembered-language check; 01-12 real WhatsApp invite to a relative's phone (join, add a recipe, confirm no email was sent and Supabase Auth logs show no email sends); 01-13/01-19 the owner removes that relative after the keep/remove review (keep one recipe, remove another), the relative's phone tapping a recipe link lands on sign-in with the no-access message, then the owner re-invites the same email. Still outstanding: production Supabase setup and the 01-18 iPhone Safari/Android Chrome offline-read, sign-out purge, and no-install-prompt check.
 
