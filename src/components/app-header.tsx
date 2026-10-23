@@ -22,26 +22,35 @@ export async function AppHeader({ locale }: { locale: Locale }) {
     // Full-bleed cream label band; it only tucks under the page's top padding when no
     // offline notice is shown above it.
     <header className="paper-label mx-[calc(50%-50vw)] mb-10 first:-mt-6">
-      <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-between gap-x-3 gap-y-0 px-4 py-2 sm:px-6">
-        {/* On phones the name gets its own line instead of being cut off by the controls. */}
-        <p className="w-full min-w-0 pt-1 font-display text-lg leading-tight font-bold break-words sm:w-auto sm:flex-1 sm:pt-0">
-          {displayCookbookName(membership.cookbookName, common.appName)}
-        </p>
-        <div className="-ml-2 flex shrink-0 items-center gap-2 sm:ml-0">
-        {membership.role === "owner" ? (
-          <Link
-            href={`/${locale}/members`}
-            className={buttonVariants({ variant: "ghost", className: "h-11 px-3" })}
-          >
-            {members.navLink}
-          </Link>
-        ) : null}
-        <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
-        <SignOutButton
-          locale={locale}
-          label={auth.signOut}
-          errorMessage={offline.clearFailed}
-        />
+      <div className="mx-auto flex w-full max-w-3xl flex-wrap items-start justify-between gap-x-4 gap-y-1 px-4 pt-2 pb-4 sm:px-6 sm:pt-4">
+        {/* The cookbook name and tagline lead every member page; on phones the controls sit
+            above them so the name never has to squeeze next to them. */}
+        <Link
+          href={`/${locale}/recipes`}
+          className="order-2 w-full min-w-0 rounded-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:order-1 sm:w-auto sm:flex-1"
+        >
+          <span className="block font-display text-3xl leading-tight font-bold break-words">
+            {displayCookbookName(membership.cookbookName, common.appName)}
+          </span>
+          <span className="mt-1 block font-hand text-xl leading-tight text-muted-foreground">
+            {common.tagline}
+          </span>
+        </Link>
+        <div className="order-1 -mr-2 flex w-full shrink-0 items-center justify-end gap-2 sm:order-2 sm:mr-0 sm:w-auto">
+          {membership.role === "owner" ? (
+            <Link
+              href={`/${locale}/members`}
+              className={buttonVariants({ variant: "ghost", className: "h-11 px-3" })}
+            >
+              {members.navLink}
+            </Link>
+          ) : null}
+          <LanguageSwitcher locale={locale} labels={common.languageSwitcher} />
+          <SignOutButton
+            locale={locale}
+            label={auth.signOut}
+            errorMessage={offline.clearFailed}
+          />
         </div>
       </div>
     </header>

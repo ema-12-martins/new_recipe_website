@@ -27,30 +27,23 @@ export default async function RecipesPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="text-3xl font-bold break-words">
-            {displayCookbookName(membership.cookbookName, common.appName)}
-          </h1>
-          <p className="mt-1 font-hand text-xl leading-tight text-muted-foreground">
-            {common.tagline}
-          </p>
-        </div>
-        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
-          <Link
-            href={`/${locale}/recipes/capture`}
-            className={buttonVariants({ variant: "outline", className: "h-11 w-full sm:w-auto" })}
-          >
-            <Camera aria-hidden />
-            {recipes.addFromPhotos}
-          </Link>
-          <Link
-            href={`/${locale}/recipes/new`}
-            className={buttonVariants({ className: "h-11 w-full sm:w-auto" })}
-          >
-            {recipes.newRecipe}
-          </Link>
-        </div>
+      {/* The visible name and tagline are in the header; the page keeps its heading for
+          screen readers. */}
+      <h1 className="sr-only">{displayCookbookName(membership.cookbookName, common.appName)}</h1>
+      <div className="flex w-full flex-wrap gap-2 sm:justify-end">
+        <Link
+          href={`/${locale}/recipes/capture`}
+          className={buttonVariants({ variant: "outline", className: "h-11 w-full sm:w-auto" })}
+        >
+          <Camera aria-hidden />
+          {recipes.addFromPhotos}
+        </Link>
+        <Link
+          href={`/${locale}/recipes/new`}
+          className={buttonVariants({ className: "h-11 w-full sm:w-auto" })}
+        >
+          {recipes.newRecipe}
+        </Link>
       </div>
 
       {list.length === 0 ? (
