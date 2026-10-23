@@ -1,4 +1,4 @@
-const STATIC_CACHE = "cookbook-static-v1";
+const STATIC_CACHE = "cookbook-static-v2";
 const OFFLINE_FILES = ["/offline.html", "/offline.js"];
 
 self.addEventListener("install", (event) => {

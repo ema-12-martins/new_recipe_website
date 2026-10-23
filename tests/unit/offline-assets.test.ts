@@ -13,7 +13,7 @@ describe("offline assets", () => {
     const constants = readFileSync(constantsPath, "utf8");
     const offlineScript = readFileSync(offlineScriptPath, "utf8");
 
-    for (const key of ["OFFLINE_DB_NAME", "OFFLINE_DB_VERSION", "RECIPES_STORE"]) {
+    for (const key of ["OFFLINE_DB_NAME", "OFFLINE_DB_VERSION", "RECIPES_STORE", "PHOTOS_STORE"]) {
       const value = constants.match(
         new RegExp(`export const ${key} = (?:'([^']+)'|"([^"]+)"|(\\d+))`),
       );
@@ -23,6 +23,20 @@ describe("offline assets", () => {
         `${key} = ${typeof expected === "string" && /^\d+$/.test(expected) ? expected : `"${expected}"`}`,
       );
     }
+  });
+
+  it("replaces the cached reader when the database schema changes", () => {
+    const constants = readFileSync(constantsPath, "utf8");
+    const worker = readFileSync(workerPath, "utf8");
+
+    const appCache = constants.match(/export const STATIC_CACHE = "([^"]+)"/)?.[1];
+    expect(appCache, "STATIC_CACHE is declared in the application").toBeDefined();
+    expect(worker).toContain(`const STATIC_CACHE = "${appCache}"`);
+
+    // A reader cached before photos existed opens the database at version 1 and would fail.
+    const version = Number(constants.match(/export const OFFLINE_DB_VERSION = (\d+)/)?.[1]);
+    expect(version).toBeGreaterThanOrEqual(2);
+    expect(appCache).not.toBe("cookbook-static-v1");
   });
 
   it("does not declare or link an installable web app manifest", () => {

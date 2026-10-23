@@ -26,7 +26,7 @@ async function waitForSavedRecipe(page: Page, id: string) {
   await page.waitForFunction(
     async (recipeId) =>
       new Promise<boolean>((resolve) => {
-        const request = indexedDB.open("cookbook-offline", 1);
+        const request = indexedDB.open("cookbook-offline");
         request.onerror = () => resolve(false);
         request.onsuccess = () => {
           const db = request.result;

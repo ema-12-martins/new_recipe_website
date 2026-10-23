@@ -76,7 +76,7 @@ async function createAndCacheRecipe(page: Page, title: string) {
   await page.waitForFunction(
     async (recipeId) =>
       new Promise<boolean>((resolve) => {
-        const request = indexedDB.open("cookbook-offline", 1);
+        const request = indexedDB.open("cookbook-offline");
         request.onerror = () => resolve(false);
         request.onsuccess = () => {
           const db = request.result;
@@ -106,7 +106,7 @@ async function expectRecipePurged(page: Page, recipeId: string) {
   await page.waitForFunction(
     async (id) =>
       new Promise<boolean>((resolve) => {
-        const request = indexedDB.open("cookbook-offline", 1);
+        const request = indexedDB.open("cookbook-offline");
         request.onerror = () => resolve(false);
         request.onupgradeneeded = () => {
           const db = request.result;
@@ -310,7 +310,7 @@ test.describe("offline privacy and reauthorization", () => {
       expect(
         await member.page.evaluate(async (id) => {
           const db = await new Promise<IDBDatabase>((resolve, reject) => {
-            const request = indexedDB.open("cookbook-offline", 1);
+            const request = indexedDB.open("cookbook-offline");
             request.onerror = () => reject(request.error);
             request.onsuccess = () => resolve(request.result);
           });

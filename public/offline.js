@@ -1,6 +1,7 @@
 const OFFLINE_DB_NAME = "cookbook-offline";
-const OFFLINE_DB_VERSION = 1;
+const OFFLINE_DB_VERSION = 2;
 const RECIPES_STORE = "recipes";
+const PHOTOS_STORE = "photos";
 const META_STORE = "meta";
 
 const messages = {
@@ -11,6 +12,9 @@ const messages = {
     empty: "Ainda não há receitas guardadas neste dispositivo.",
     ingredients: "Ingredientes",
     steps: "Preparação",
+    photos: "Fotografias originais",
+    photoAlt: "Fotografia original {n} de {total}",
+    photoMissing: "Esta fotografia não está disponível sem ligação.",
     loadError: "Não foi possível carregar as receitas guardadas neste dispositivo.",
   },
   en: {
@@ -20,6 +24,9 @@ const messages = {
     empty: "No recipes have been saved on this device yet.",
     ingredients: "Ingredients",
     steps: "Method",
+    photos: "Original photos",
+    photoAlt: "Original photo {n} of {total}",
+    photoMissing: "This photo isn't available offline.",
     loadError: "The recipes saved on this device could not be loaded.",
   },
 };
@@ -45,6 +52,9 @@ function openDatabase() {
       if (!db.objectStoreNames.contains(RECIPES_STORE)) {
         db.createObjectStore(RECIPES_STORE, { keyPath: "id" });
       }
+      if (!db.objectStoreNames.contains(PHOTOS_STORE)) {
+        db.createObjectStore(PHOTOS_STORE, { keyPath: "id" });
+      }
       if (!db.objectStoreNames.contains(META_STORE)) {
         db.createObjectStore(META_STORE, { keyPath: "key" });
       }
@@ -69,7 +79,40 @@ function readRecipes(db) {
   });
 }
 
-function renderRecipe(main, recipe, labels) {
+function readPhotos(db, recipeId) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(PHOTOS_STORE, "readonly");
+    const request = transaction.objectStore(PHOTOS_STORE).getAll();
+    request.onerror = () => reject(request.error ?? new Error("Saved photos could not be read."));
+    request.onsuccess = () => resolve(request.result.filter((photo) => photo.recipeId === recipeId));
+    transaction.onabort = () =>
+      reject(transaction.error ?? new Error("Reading saved photos was aborted."));
+  });
+}
+
+function renderPhotos(main, recipe, photos, labels) {
+  const ids = Array.isArray(recipe.photoIds) ? recipe.photoIds : [];
+  if (ids.length === 0) return;
+
+  appendText(main, "h2", labels.photos);
+  const list = document.createElement("div");
+  ids.forEach((id, index) => {
+    const photo = photos.find((item) => item.id === id);
+    if (!photo) {
+      appendText(list, "p", labels.photoMissing);
+      return;
+    }
+    const image = document.createElement("img");
+    image.src = URL.createObjectURL(photo.blob);
+    image.alt = labels.photoAlt.replace("{n}", String(index + 1)).replace("{total}", String(ids.length));
+    image.className = "recipe-photo";
+    image.dataset.photoId = id;
+    list.append(image);
+  });
+  main.append(list);
+}
+
+function renderRecipe(main, recipe, labels, photos) {
   appendText(main, "h1", recipe.title);
 
   if (Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
@@ -80,6 +123,7 @@ function renderRecipe(main, recipe, labels) {
     appendText(main, "h2", labels.steps);
     appendLines(main, "ol", recipe.steps);
   }
+  renderPhotos(main, recipe, photos, labels);
 }
 
 function renderList(main, recipes, locale, labels) {
@@ -120,7 +164,7 @@ async function renderOfflinePage() {
     const recipes = await readRecipes(db);
     if (recipePath) {
       const recipe = recipes.find((item) => item.id === segments[2]);
-      if (recipe) renderRecipe(main, recipe, labels);
+      if (recipe) renderRecipe(main, recipe, labels, await readPhotos(db, recipe.id));
       else appendText(main, "p", labels.missing);
       return;
     }

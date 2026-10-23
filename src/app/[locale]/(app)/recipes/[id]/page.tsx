@@ -29,7 +29,11 @@ export default async function RecipePage({
   // Recipe text is rendered as plain React text exactly as stored (D-11); no creator info.
   return (
     <article className="space-y-6">
-      <RememberRecipeOffline userId={membership.userId} recipe={recipe} />
+      <RememberRecipeOffline
+        userId={membership.userId}
+        recipe={recipe}
+        photoIds={photos.map((photo) => photo.id)}
+      />
       <Link
         href={`/${locale}/recipes`}
         className="inline-block py-2 text-sm font-medium underline underline-offset-4"

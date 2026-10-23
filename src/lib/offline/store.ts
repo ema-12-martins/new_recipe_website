@@ -4,12 +4,17 @@ import {
   META_STORE,
   OFFLINE_DB_NAME,
   OFFLINE_DB_VERSION,
+  PHOTOS_STORE,
   RECIPES_STORE,
 } from "./constants";
 
 type OfflineRecipe = Pick<RecipeRecord, "id" | "title" | "ingredients" | "steps" | "version"> & {
+  /** Ordered ids of the recipe's photos, so the reader knows which ones should exist. */
+  photoIds: string[];
   savedAt: number;
 };
+
+export type OfflinePhoto = { id: string; recipeId: string; position: number; blob: Blob };
 
 type OfflineOwner = { key: "owner"; userId: string };
 
@@ -26,6 +31,9 @@ function openDatabase(): Promise<IDBDatabase> {
       const db = request.result;
       if (!db.objectStoreNames.contains(RECIPES_STORE)) {
         db.createObjectStore(RECIPES_STORE, { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains(PHOTOS_STORE)) {
+        db.createObjectStore(PHOTOS_STORE, { keyPath: "id" });
       }
       if (!db.objectStoreNames.contains(META_STORE)) {
         db.createObjectStore(META_STORE, { keyPath: "key" });
@@ -58,8 +66,9 @@ function withDatabase<T>(operation: (db: IDBDatabase) => Promise<T>): Promise<T>
 
 function updateOwner(db: IDBDatabase, userId: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction([RECIPES_STORE, META_STORE], "readwrite");
+    const transaction = db.transaction([RECIPES_STORE, PHOTOS_STORE, META_STORE], "readwrite");
     const recipes = transaction.objectStore(RECIPES_STORE);
+    const photos = transaction.objectStore(PHOTOS_STORE);
     const metadata = transaction.objectStore(META_STORE);
     const ownerRequest = metadata.get("owner");
 
@@ -67,6 +76,7 @@ function updateOwner(db: IDBDatabase, userId: string): Promise<void> {
       const owner = ownerRequest.result as OfflineOwner | undefined;
       if (owner?.userId !== userId) {
         recipes.clear();
+        photos.clear();
         metadata.put({ key: "owner", userId } satisfies OfflineOwner);
       }
     };
@@ -85,15 +95,20 @@ export async function ensureOfflineOwner(userId: string): Promise<void> {
   await withDatabase((db) => updateOwner(db, userId));
 }
 
-export async function saveOpenedRecipe(userId: string, recipe: RecipeRecord): Promise<void> {
+export async function saveOpenedRecipe(
+  userId: string,
+  recipe: RecipeRecord,
+  photoIds: string[] = [],
+): Promise<void> {
   if (!userId) throw new Error("An authenticated user is required for offline storage.");
   await ensureOfflineOwner(userId);
 
   await withDatabase(
     (db) =>
       new Promise<void>((resolve, reject) => {
-        const transaction = db.transaction([RECIPES_STORE, META_STORE], "readwrite");
+        const transaction = db.transaction([RECIPES_STORE, PHOTOS_STORE, META_STORE], "readwrite");
         const recipes = transaction.objectStore(RECIPES_STORE);
+        const photos = transaction.objectStore(PHOTOS_STORE);
         const metadata = transaction.objectStore(META_STORE);
         const ownerRequest = metadata.get("owner");
 
@@ -101,6 +116,7 @@ export async function saveOpenedRecipe(userId: string, recipe: RecipeRecord): Pr
           const owner = ownerRequest.result as OfflineOwner | undefined;
           if (owner?.userId !== userId) {
             recipes.clear();
+            photos.clear();
             metadata.put({ key: "owner", userId } satisfies OfflineOwner);
           }
           recipes.put({
@@ -109,6 +125,7 @@ export async function saveOpenedRecipe(userId: string, recipe: RecipeRecord): Pr
             ingredients: recipe.ingredients,
             steps: recipe.steps,
             version: recipe.version,
+            photoIds,
             savedAt: Date.now(),
           } satisfies OfflineRecipe);
         };
@@ -119,6 +136,40 @@ export async function saveOpenedRecipe(userId: string, recipe: RecipeRecord): Pr
           reject(transaction.error ?? new Error("Could not save the recipe for offline reading."));
         transaction.onabort = () =>
           reject(transaction.error ?? new Error("Saving the offline recipe was aborted."));
+      }),
+  );
+}
+
+/**
+ * Replaces the stored photos of one opened recipe (so photos removed since are dropped). Only
+ * photos of recipes the member has opened are ever stored (D-38).
+ */
+export async function saveOpenedRecipePhotos(
+  userId: string,
+  recipeId: string,
+  photos: Omit<OfflinePhoto, "recipeId">[],
+): Promise<void> {
+  if (!userId) throw new Error("An authenticated user is required for offline storage.");
+  await ensureOfflineOwner(userId);
+
+  await withDatabase(
+    (db) =>
+      new Promise<void>((resolve, reject) => {
+        const transaction = db.transaction(PHOTOS_STORE, "readwrite");
+        const store = transaction.objectStore(PHOTOS_STORE);
+        const all = store.getAll();
+        all.onsuccess = () => {
+          for (const photo of all.result as OfflinePhoto[]) {
+            if (photo.recipeId === recipeId) store.delete(photo.id);
+          }
+          for (const photo of photos) store.put({ ...photo, recipeId } satisfies OfflinePhoto);
+        };
+        all.onerror = () => reject(all.error ?? new Error("Could not read saved photos."));
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () =>
+          reject(transaction.error ?? new Error("Could not save the photos for offline reading."));
+        transaction.onabort = () =>
+          reject(transaction.error ?? new Error("Saving the offline photos was aborted."));
       }),
   );
 }
