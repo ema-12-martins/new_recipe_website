@@ -81,6 +81,8 @@ test.describe("photo capture", () => {
   test("a recipe typed without photos shows no original photos section", async ({ page }) => {
     await page.goto("/pt/recipes/new");
     await page.getByLabel(form.title, { exact: true }).fill(`Sem fotografias ${Date.now()}`);
+    await page.getByLabel(fill(form.ingredientLine, 1), { exact: true }).fill("2 ovos");
+    await page.getByLabel(fill(form.stepLabel, 1), { exact: true }).fill("Misturar tudo.");
     await page.getByRole("button", { name: form.save }).click();
     await expect(page).toHaveURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
     await expect(page.getByRole("heading", { name: photos.heading })).toHaveCount(0);

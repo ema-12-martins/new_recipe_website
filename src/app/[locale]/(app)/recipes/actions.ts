@@ -48,8 +48,12 @@ function validate(formData: FormData, locale: Locale) {
   const errors: RecipeFormErrors = {};
   for (const issue of parsed.error.issues) {
     const field = issue.path[0];
-    if (field === "title" || field === "ingredients" || field === "steps") {
-      errors[field] = messages[field];
+    if (field === "title") {
+      errors.title = messages.title;
+    } else if (field === "ingredients" || field === "steps") {
+      // An empty list fails on the list itself; an over-long line fails on its index.
+      const empty = issue.code === "too_small" && issue.path.length === 1;
+      errors[field] ??= empty ? messages[`${field}Required`] : messages[field];
     } else {
       errors.form = messages.error;
     }

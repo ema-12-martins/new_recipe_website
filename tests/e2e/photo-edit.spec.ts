@@ -33,12 +33,19 @@ async function savedOrder(page: Page): Promise<string[]> {
     .evaluateAll((all) => all.map((img) => img.getAttribute("data-photo-id") ?? ""));
 }
 
+/** Fills the one ingredient and one step every saved recipe needs. */
+async function fillMinimumLines(page: Page) {
+  await page.getByLabel(form.ingredientLine.replace("{n}", "1"), { exact: true }).fill("2 ovos");
+  await page.getByLabel(form.stepLabel.replace("{n}", "1"), { exact: true }).fill("Bater.");
+}
+
 /** A recipe created through the capture screen with `count` photos; ends on its page. */
 async function createWithPhotos(page: Page, count: number): Promise<string> {
   await page.goto("/pt/recipes/capture");
   await addPhotos(page, count);
   await page.getByRole("button", { name: capture.skip }).click();
   await page.getByLabel(form.title, { exact: true }).fill(`Com fotografias ${Date.now()}`);
+  await fillMinimumLines(page);
   await page.getByRole("button", { name: form.save }).click();
   await expect(page).toHaveURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
   return page.url();
@@ -101,6 +108,7 @@ test.describe("editing a recipe's photos", () => {
   test("adds photos to a recipe that was typed without any", async ({ page }) => {
     await page.goto("/pt/recipes/new");
     await page.getByLabel(form.title, { exact: true }).fill(`Escrita à mão ${Date.now()}`);
+    await fillMinimumLines(page);
     await save(page);
     await expect(page).toHaveURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
     await expect(page.getByRole("heading", { name: photos.heading })).toHaveCount(0);

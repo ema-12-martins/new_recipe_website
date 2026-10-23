@@ -45,6 +45,26 @@ describe("recipeInputSchema", () => {
     expect(recipeInputSchema.safeParse({ ...valid, title: "a".repeat(300) }).success).toBe(true);
   });
 
+  it("requires at least one ingredient and one step", () => {
+    for (const empty of [[], ["", "   ", "\t"]]) {
+      expect(recipeInputSchema.safeParse({ ...valid, ingredients: empty }).success).toBe(false);
+      expect(recipeInputSchema.safeParse({ ...valid, steps: empty }).success).toBe(false);
+    }
+    expect(
+      recipeInputSchema.safeParse({ ...valid, ingredients: ["sal"], steps: ["Ferver."] }).success,
+    ).toBe(true);
+  });
+
+  it("reports an empty list on the list itself", () => {
+    const result = recipeInputSchema.safeParse({ ...valid, ingredients: [" "], steps: [] });
+    expect(result.success).toBe(false);
+    const issues = result.error!.issues.map(({ path, code }) => ({ path, code }));
+    expect(issues).toEqual([
+      { path: ["ingredients"], code: "too_small" },
+      { path: ["steps"], code: "too_small" },
+    ]);
+  });
+
   it("rejects 201 ingredients", () => {
     const ingredients = Array.from({ length: 201 }, (_, i) => `ingrediente ${i}`);
     expect(recipeInputSchema.safeParse({ ...valid, ingredients }).success).toBe(false);

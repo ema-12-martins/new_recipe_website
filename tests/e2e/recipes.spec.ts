@@ -41,8 +41,8 @@ async function seedRecipe(recipe: SeedRecipe): Promise<string> {
     .insert({
       cookbook_id: cookbook.id,
       title: recipe.title,
-      ingredients: recipe.ingredients ?? [],
-      steps: recipe.steps ?? [],
+      ingredients: recipe.ingredients ?? ["1 ovo"],
+      steps: recipe.steps ?? ["Bater."],
     })
     .select("id")
     .single();
@@ -109,6 +109,7 @@ test.describe("manual recipes", () => {
     await page.goto("/pt/recipes/new");
     await page.getByLabel(form.title, { exact: true }).fill(title);
     await page.getByLabel(fill(form.ingredientLine, 1), { exact: true }).fill("1 limão");
+    await page.getByLabel(fill(form.stepLabel, 1), { exact: true }).fill("Espremer.");
     await page.getByRole("button", { name: form.save }).dblclick();
 
     await page.waitForURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
@@ -116,6 +117,25 @@ test.describe("manual recipes", () => {
     // Give a possible second submission time to land before counting.
     await page.waitForTimeout(1500);
     expect(await countRecipesTitled(title)).toBe(1);
+  });
+
+  test("a recipe without ingredients or steps is not saved", async ({ page }, testInfo) => {
+    const title = `Incompleta ${testInfo.project.name} ${Date.now()}`;
+
+    await page.goto("/pt/recipes/new");
+    await page.getByLabel(form.title, { exact: true }).fill(title);
+    await page.getByLabel(fill(form.ingredientLine, 1), { exact: true }).fill("   ");
+    await page.getByRole("button", { name: form.save }).click();
+
+    await expect(
+      page.getByRole("alert").filter({ hasText: pt.recipes.errors.ingredientsRequired }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("alert").filter({ hasText: pt.recipes.errors.stepsRequired }),
+    ).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/pt/recipes/new");
+    await expect(page.getByLabel(form.title, { exact: true })).toHaveValue(title);
+    expect(await countRecipesTitled(title)).toBe(0);
   });
 
   test("the cookbook lists recipes alphabetically with a New recipe button", async ({

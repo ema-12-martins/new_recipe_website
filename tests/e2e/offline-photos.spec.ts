@@ -53,6 +53,8 @@ async function createWithPhotos(page: Page, title: string, count: number): Promi
   ).toHaveCount(count, { timeout: 20_000 });
   await page.getByRole("button", { name: capture.skip }).click();
   await page.getByLabel(form.title, { exact: true }).fill(title);
+  await page.getByLabel(form.ingredientLine.replace("{n}", "1"), { exact: true }).fill("2 ovos");
+  await page.getByLabel(form.stepLabel.replace("{n}", "1"), { exact: true }).fill("Bater.");
   await page.getByRole("button", { name: form.save, exact: true }).click();
   await page.waitForURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
   return page.url();

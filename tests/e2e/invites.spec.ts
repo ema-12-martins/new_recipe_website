@@ -70,6 +70,7 @@ async function createRecipe(page: Page, title: string): Promise<string> {
   await page.goto("/pt/recipes/new");
   await page.getByLabel(form.title, { exact: true }).fill(title);
   await page.getByLabel(form.ingredientLine.replace("{n}", "1"), { exact: true }).fill("3 ovos");
+  await page.getByLabel(form.stepLabel.replace("{n}", "1"), { exact: true }).fill("Bater.");
   await page.getByRole("button", { name: form.save }).click();
   await page.waitForURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
   return new URL(page.url()).pathname;

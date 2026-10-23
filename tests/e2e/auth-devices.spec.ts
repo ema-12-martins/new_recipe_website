@@ -81,6 +81,9 @@ test.describe("signing in on several devices", () => {
     await deviceA.page
       .getByLabel(pt.recipes.form.ingredientLine.replace("{n}", "1"), { exact: true })
       .fill("2 cenouras");
+    await deviceA.page
+      .getByLabel(pt.recipes.form.stepLabel.replace("{n}", "1"), { exact: true })
+      .fill("Cozer.");
     await deviceA.page.getByRole("button", { name: pt.recipes.form.save }).click();
     await deviceA.page.waitForURL(/\/pt\/recipes\/[0-9a-f-]{36}$/);
 

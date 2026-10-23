@@ -20,6 +20,8 @@ export function normalizeLines(lines: string[]): string[] {
   return lines.filter((line) => line.trim() !== "");
 }
 
+// A saved recipe needs at least one non-blank line; the minimum is enforced here only, not in
+// the database.
 const lines = (maxLength: number, maxCount: number) =>
   z
     .array(z.string())
@@ -27,6 +29,7 @@ const lines = (maxLength: number, maxCount: number) =>
     .pipe(
       z
         .array(z.string().refine((line) => codePoints(line) <= maxLength))
+        .min(1)
         .max(maxCount),
     );
 

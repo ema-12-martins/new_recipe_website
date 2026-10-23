@@ -95,6 +95,8 @@
       "title": "Enter a title of up to 300 characters.",
       "ingredients": "Use at most 200 ingredients of up to 500 characters each.",
       "steps": "Use at most 100 steps of up to 4000 characters each.",
+      "ingredientsRequired": "Add at least one ingredient.",
+      "stepsRequired": "Add at least one step.",
       "error": "The recipe could not be saved. Please try again.",
       "conflict": "Someone else changed this recipe while you were editing it. Your changes are still in the form but were not saved.",
       "reloadLatest": "Open the latest version",
