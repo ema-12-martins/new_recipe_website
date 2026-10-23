@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketch 001 — Lista e receita, estilo rústico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Zilla+Slab:wght@500;700&display=swap">
+<link id="theme" rel="stylesheet" href="../themes/default.css">
+<style>
+  /* ---------- Sketch chrome (not part of the design) ---------- */
+  * { box-sizing: border-box; }
+  body { margin: 0; padding-top: 52px; background: #d8d3ca; font-family: system-ui, sans-serif; }
+  #variant-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9998; height: 52px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: #1f1d1a; color: #eee; font: 14px system-ui, sans-serif; overflow-x: auto; }
+  #variant-nav .label { margin-right: 8px; opacity: .7; white-space: nowrap; }
+  .variant-tab { border: 1px solid #555; background: transparent; color: #eee; padding: 7px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all .15s ease; }
+  .variant-tab:hover { background: #333; }
+  .variant-tab.active { background: #eee; color: #1f1d1a; border-color: #eee; }
+  #stage { padding: 20px 12px 60px; }
+  #stage.full { padding: 0; }
+  #sketch-tools { position: fixed; bottom: 12px; right: 12px; z-index: 9999; font: 12px system-ui, sans-serif; background: rgba(0,0,0,.78); color: #fff; padding: 8px 10px; border-radius: 8px; opacity: .9; transition: opacity .2s; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; max-width: calc(100vw - 24px); }
+  #sketch-tools:hover { opacity: 1; }
+  #sketch-tools select, #sketch-tools button { font: 12px system-ui, sans-serif; background: #333; color: #fff; border: 1px solid #555; border-radius: 5px; padding: 4px 7px; cursor: pointer; }
+  #sketch-tools button.on { background: #fff; color: #111; }
+  #sketch-tools .sep { width: 1px; height: 18px; background: #555; }
+  #annot { position: fixed; z-index: 10000; pointer-events: none; display: none; background: #111; color: #fff; font: 11px/1.4 ui-monospace, monospace; padding: 6px 8px; border-radius: 6px; white-space: pre; }
+  #toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%) translateY(20px); opacity: 0; z-index: 10001; background: #1f1d1a; color: #fff; padding: 10px 16px; border-radius: 8px; font: 14px system-ui, sans-serif; transition: all .2s ease; pointer-events: none; max-width: 90vw; text-align: center; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #lightbox { position: fixed; inset: 0; z-index: 10002; background: rgba(20,15,10,.82); display: none; place-items: center; padding: 24px; cursor: zoom-out; }
+  #lightbox.open { display: grid; }
+  #lightbox img { max-width: min(90vw, 420px); max-height: 85vh; box-shadow: 0 20px 50px rgba(0,0,0,.5); background: #fff; }
+
+  /* ---------- Device frame ---------- */
+  .frame { container-type: inline-size; container-name: app; margin: 0 auto; max-width: var(--frame-w, 375px);
+    background-color: var(--color-bg); background-image: var(--texture); background-size: var(--texture-size);
+    color: var(--color-on-bg); font-family: var(--font-body); font-size: var(--text-base); line-height: 1.5; transition: max-width .25s ease; }
+  .frame.device { height: 800px; overflow: auto; border-radius: 30px; box-shadow: 0 0 0 10px #1e1e1e, 0 24px 60px rgba(0,0,0,.35); }
+  .frame.tablet { border-radius: 20px; height: 960px; }
+  .frame.full { min-height: calc(100vh - 52px); max-width: none; }
+
+  /* ---------- Shared app structure ---------- */
+  .app { min-height: 100%; }
+  .hdr { position: relative; background: var(--color-header-bg); color: var(--color-header-text); }
+  .hdr-in { max-width: 1100px; margin: 0 auto; padding: var(--space-3) var(--space-4); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); }
+  .brand { font-family: var(--font-display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: var(--text-lg); color: inherit; text-decoration: none; cursor: pointer; }
+  .nav { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
+  .nav-link { background: none; border: 0; color: inherit; font: 600 var(--text-sm) var(--font-body); padding: 10px 8px; cursor: pointer; border-radius: var(--radius-sm); transition: all .15s ease; text-decoration: none; }
+  .nav-link:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+  .lang { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 35%, transparent); border-radius: var(--radius-full); overflow: hidden; }
+  .lang button { background: none; border: 0; color: inherit; font: 700 var(--text-xs) var(--font-body); padding: 7px 10px; cursor: pointer; }
+  .lang button.on { background: color-mix(in srgb, currentColor 16%, transparent); }
+  .ornament { display: none; }
+
+  .body { max-width: 1100px; margin: 0 auto; padding: var(--space-6) var(--space-4) var(--space-12); }
+  .titlebar { margin-bottom: var(--space-4); }
+  .book { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: var(--text-2xl); line-height: 1.15; overflow-wrap: anywhere; }
+  .tag { margin: var(--space-1) 0 0; font-family: var(--font-hand); font-size: 1.35rem; line-height: 1.2; color: var(--color-on-bg-muted); }
+  .orn { display: none; }
+
+  .actions { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 18px; border-radius: var(--radius-md); border: 1.5px solid transparent;
+    font: 700 var(--text-sm)/1.2 var(--font-body); cursor: pointer; transition: all .15s ease; text-decoration: none; }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+  .btn-primary { background: var(--color-primary); color: var(--color-on-primary); box-shadow: var(--shadow-sm); }
+  .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+  .btn-outline { background: color-mix(in srgb, var(--color-surface) 60%, transparent); color: var(--color-on-bg); border-color: var(--color-border); }
+  .btn-outline:hover { background: var(--color-surface-hover); }
+  .btn-paper { background: transparent; color: var(--color-ink); border-color: var(--color-ink-muted); }
+  .btn-paper:hover { background: color-mix(in srgb, var(--color-ink) 7%, transparent); }
+  .btn:focus-visible, .card:focus-visible, .menu-row:focus-visible, .tile:focus-visible, .search input:focus-visible, .nav-link:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+
+  .search { position: relative; margin-bottom: var(--space-4); }
+  .search svg { position: absolute; left: 13px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+  .search input { width: 100%; min-height: 48px; padding: 0 14px 0 40px; border-radius: var(--radius-md); border: 1.5px var(--divider-style) var(--color-border); background: var(--color-surface); color: var(--color-text); font: var(--text-base) var(--font-body); transition: all .15s ease; }
+  .search input::placeholder { color: var(--color-text-muted); }
+  .count { margin: 0 0 var(--space-3); font-size: var(--text-sm); color: var(--color-on-bg-muted); }
+
+  ul.list { list-style: none; margin: 0; padding: 0; }
+  .empty { text-align: center; padding: var(--space-8) var(--space-4); border: 2px var(--divider-style) var(--color-border-soft); border-radius: var(--radius-lg); color: var(--color-on-bg-muted); }
+  .empty .big { font-family: var(--font-hand); font-size: 1.6rem; color: var(--color-on-bg); margin: var(--space-2) 0; }
+  .empty svg { width: 64px; height: 64px; opacity: .7; }
+
+  /* Split view: list | recipe on wide screens, one screen at a time on phones */
+  .app[data-view="list"] .pane-detail { display: none; }
+  .app[data-view="detail"] .pane-list { display: none; }
+  .pane-detail.enter { animation: slideIn .22s ease; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+  @container app (min-width: 860px) {
+    .split { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: var(--space-8); align-items: start; }
+    .app[data-view] .pane-list, .app[data-view] .pane-detail { display: block; }
+    .pane-detail { position: sticky; top: var(--space-4); }
+    .back { display: none !important; }
+    .actions { grid-template-columns: 1fr 1fr; }
+    .book { font-size: var(--text-3xl); }
+  }
+
+  .back { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; color: var(--color-on-bg); font: 700 var(--text-sm) var(--font-body); padding: 10px 0; margin-bottom: var(--space-3); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+
+  /* Recipe sheet (shared) */
+  .sheet { position: relative; background: var(--color-paper); color: var(--color-ink); padding: var(--space-6) var(--space-4); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+  .r-title { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: var(--text-3xl); line-height: 1.1; overflow-wrap: anywhere; }
+  .r-meta { margin: var(--space-2) 0 var(--space-6); color: var(--color-ink-muted); font-size: var(--text-sm); }
+  .sec { margin: 0 0 var(--space-1); font-family: var(--font-display); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); font-size: var(--text-xl); }
+  .hint { margin: 0 0 var(--space-3); font-family: var(--font-hand); font-size: 1.15rem; color: var(--color-ink-muted); }
+  .r-section { margin-bottom: var(--space-6); }
+  .ings { list-style: none; margin: 0; padding: 0; }
+  .ings li { border-bottom: 1px var(--divider-style) var(--color-rule-accent); }
+  .ings li:last-child { border-bottom: 0; }
+  .ings label { display: flex; align-items: flex-start; gap: 12px; padding: 10px 2px; cursor: pointer; font-size: var(--text-base); }
+  .ings input { width: 22px; height: 22px; margin: 1px 0 0; flex: none; accent-color: var(--color-primary); cursor: pointer; }
+  .ings li.done span { text-decoration: line-through; color: var(--color-ink-muted); }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .steps li { counter-increment: step; position: relative; padding: 10px 10px 10px 48px; margin-bottom: 6px; border-radius: var(--radius-md); cursor: pointer; transition: all .15s ease; }
+  .steps li::before { content: counter(step); position: absolute; left: 6px; top: 8px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%;
+    background: var(--color-primary); color: var(--color-on-primary); font: 700 var(--text-sm) var(--font-body); }
+  .steps li:hover { background: color-mix(in srgb, var(--color-ink) 5%, transparent); }
+  .steps li.cur { background: color-mix(in srgb, var(--color-primary) 14%, transparent); box-shadow: inset 4px 0 0 var(--color-primary); }
+  .steps li.cur::after { content: "a fazer agora"; display: block; margin-top: 4px; font-family: var(--font-hand); font-size: 1.1rem; color: var(--color-primary); }
+  .sheet-actions { margin: var(--space-2) 0 var(--space-6); }
+  .photos { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+  .photo { border: 0; padding: 0; background: none; cursor: zoom-in; transition: transform .15s ease; }
+  .photo img { display: block; width: 96px; height: 120px; object-fit: cover; }
+  .pick { text-align: center; padding: var(--space-12) var(--space-4); color: var(--color-on-bg-muted); font-family: var(--font-hand); font-size: 1.5rem; }
+
+  /* ================= Variant A: Kraft paper ================= */
+  .v-a .hdr { box-shadow: 0 2px 0 rgba(90, 60, 30, .12); }
+  .v-a .hdr::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px;
+    background: linear-gradient(135deg, var(--color-header-bg) 25%, transparent 25%) -5px 0 / 20px 20px repeat-x,
+                linear-gradient(225deg, var(--color-header-bg) 25%, transparent 25%) -5px 0 / 20px 20px repeat-x; }
+  .v-a .brand { font-size: var(--text-lg); }
+  .v-a .body { padding-top: var(--space-8); }
+  .v-a .card { width: 100%; text-align: left; display: block; border: 0; cursor: pointer; color: var(--color-text); font: inherit;
+    padding: 0 16px 14px; margin-bottom: var(--space-3); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); overflow: hidden;
+    background-color: var(--color-surface);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 21px, var(--color-rule) 21px 22px);
+    transition: all .15s ease; }
+  .v-a li:nth-child(odd) .card { transform: rotate(-.35deg); }
+  .v-a li:nth-child(even) .card { transform: rotate(.3deg); }
+  .v-a .card:hover { transform: rotate(0) translateY(-2px); box-shadow: var(--shadow-lg); background-color: var(--color-surface-hover); }
+  .v-a .card.is-sel { box-shadow: 0 0 0 2.5px var(--color-primary), var(--shadow-lg); transform: none; }
+  .v-a .c-title { display: block; font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg);   line-height: 1.25; overflow-wrap: anywhere;
+      margin: 0 -16px; padding: 12px 16px 8px; border-bottom: 1.5px solid var(--color-rule-accent); background: var(--color-surface); }
+    .v-a .card:hover .c-title { background: var(--color-surface-hover); }
+    .v-a .c-meta { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: var(--text-sm); color: var(--color-text-muted); }
+  .v-a .c-meta svg { width: 15px; height: 15px; }
+  .v-a .sheet { border-radius: var(--radius-sm); padding-left: 46px;
+    background-image: linear-gradient(90deg, transparent 30px, var(--color-rule-accent) 30px 31.5px, transparent 31.5px); }
+  .v-a .sheet::before { content: ""; position: absolute; top: -12px; left: 50%; width: 120px; height: 28px; transform: translateX(-50%) rotate(-2deg);
+    background: rgba(255, 246, 214, .7); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .v-a .sec { color: var(--color-primary); }
+  .v-a .photo { background: #fff; padding: 6px 6px 22px; box-shadow: var(--shadow-md); }
+  .v-a .photo:nth-child(odd) { transform: rotate(-3deg); }
+  .v-a .photo:nth-child(even) { transform: rotate(2.5deg); }
+  .v-a .photo:hover { transform: rotate(0) scale(1.04); }
+  .v-a .stamp { display: inline-block; margin-left: 6px; padding: 0 8px; border: 1.5px solid var(--color-accent); color: var(--color-accent); border-radius: var(--radius-sm); font: 700 var(--text-xs)/20px var(--font-body); letter-spacing: .06em; text-transform: uppercase; transform: rotate(-2deg); }
+
+  /* ================= Variant B: Chalkboard ================= */
+  .v-b .hdr { border-top: 9px solid #8a6240; box-shadow: inset 0 -1px 0 var(--color-border-soft); }
+  .v-b .brand { font-size: 1.9rem; line-height: 1; }
+  .v-b .book { font-size: 2.6rem; }
+  .v-b .book::after { content: ""; display: block; width: 190px; max-width: 100%; height: 12px; margin-top: 2px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 190 12'%3E%3Cpath d='M3 7 C 35 1, 65 11, 95 6 S 160 2, 187 7' fill='none' stroke='%23e8b04a' stroke-width='2.5' stroke-linecap='round' opacity='.9'/%3E%3C/svg%3E") no-repeat; }
+  .v-b .tag { color: var(--color-on-bg-muted); }
+  .v-b .btn-outline { background: transparent; border-style: dashed; border-width: 2px; color: var(--color-on-bg); border-color: var(--color-border); }
+  .v-b .btn-outline:hover { background: var(--color-surface-hover); }
+  .v-b .search input { background: rgba(0,0,0,.18); color: var(--color-on-bg); border-color: var(--color-border-soft); }
+  .v-b .letter { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--color-primary); margin: var(--space-4) 0 var(--space-1); }
+  .v-b .letter:first-child { margin-top: 0; }
+  .v-b .menu-row { width: 100%; display: flex; align-items: baseline; gap: 8px; border: 0; background: none; color: var(--color-on-bg); cursor: pointer; padding: 10px 8px; border-radius: var(--radius-md); font: inherit; text-align: left; transition: all .15s ease; }
+  .v-b .menu-row:hover { background: var(--color-surface-hover); }
+  .v-b .menu-row.is-sel { background: var(--color-surface-hover); box-shadow: inset 3px 0 0 var(--color-primary); }
+  .v-b .m-title { font-family: var(--font-body); font-weight: 700; font-size: var(--text-lg); overflow-wrap: anywhere; }
+  .v-b .lead { flex: 1; min-width: 20px; border-bottom: 2px dotted var(--color-border-soft); transform: translateY(-4px); }
+  .v-b .m-meta { font-family: var(--font-hand); font-size: 1.2rem; color: var(--color-on-bg-muted); white-space: nowrap; }
+  .v-b .sheet { transform: rotate(.25deg); padding-top: var(--space-8); }
+  .v-b .sheet::before { content: ""; position: absolute; top: 12px; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f19a7c, #b4452a); box-shadow: 0 2px 3px rgba(0,0,0,.45); }
+  .v-b .r-title { font-size: 2.9rem; }
+  .v-b .sec { font-size: 1.9rem; color: var(--color-accent); }
+  .v-b .steps li::before { background: transparent; color: var(--color-ink); border: 2px solid var(--color-ink); font-family: var(--font-hand); font-size: 1.2rem; }
+  .v-b .steps li.cur { background: color-mix(in srgb, var(--color-accent) 14%, transparent); box-shadow: inset 4px 0 0 var(--color-accent); }
+  .v-b .steps li.cur::after { color: var(--color-accent); }
+  .v-b .ings input { accent-color: var(--color-accent); }
+  .v-b .photo { border: 6px solid #8a6240; box-shadow: var(--shadow-md); }
+  .v-b .photo:hover { transform: scale(1.04); }
+  .v-b .back { color: var(--color-on-bg); }
+  @container app (min-width: 860px) { .v-b .ings { columns: 2; column-gap: var(--space-8); } .v-b .ings li { break-inside: avoid; } }
+
+  /* ================= Variant C: Bakery cream ================= */
+  .v-c .hdr { border-bottom: 1.5px dashed var(--color-border); }
+  .v-c .hdr-in { flex-direction: column; justify-content: center; text-align: center; gap: 2px; padding-top: var(--space-4); }
+  .v-c .ornament { display: block; width: 46px; height: 24px; color: var(--color-primary); margin: 0 auto; }
+  .v-c .brand { font-style: italic; font-weight: 500; font-size: var(--text-xl); }
+  .v-c .nav-link { border-radius: var(--radius-full); padding: 8px 14px; }
+  .v-c .titlebar { text-align: center; }
+  .v-c .tag { color: var(--color-accent); }
+  .v-c .orn { display: flex; align-items: center; gap: 10px; margin: var(--space-3) auto 0; max-width: 260px; color: var(--color-accent); }
+  .v-c .orn span { flex: 1; border-top: 1.5px dashed var(--color-border); }
+  .v-c .btn { border-radius: var(--radius-full); }
+  .v-c .btn-outline { background: var(--color-surface); }
+  .v-c .search input { border-radius: var(--radius-full); border-style: solid; }
+  .v-c ul.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: var(--space-3); }
+  .v-c .tile { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; border: 1px solid var(--color-border-soft); background: var(--color-surface); color: var(--color-text);
+    border-radius: var(--radius-lg); padding: var(--space-4) var(--space-3); cursor: pointer; font: inherit; box-shadow: var(--shadow-sm); transition: all .15s ease; }
+  .v-c .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); background: var(--color-surface-hover); }
+  .v-c .tile.is-sel { border-color: var(--color-primary); box-shadow: 0 0 0 2px var(--color-primary), var(--shadow-md); }
+  .plate { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-size: 2rem; font-weight: 600;
+    color: hsl(var(--h) 35% 32%); background: radial-gradient(circle, hsl(var(--h) 50% 87%) 0 54%, #fff 55% 66%, hsl(var(--h) 25% 82%) 67% 70%, transparent 71%);
+    filter: drop-shadow(0 3px 4px rgba(80, 60, 20, .12)); }
+  .v-c .t-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-base); line-height: 1.25; overflow-wrap: anywhere; }
+  .v-c .t-meta { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .v-c .sheet { border: 1px solid var(--color-border-soft); box-shadow: var(--shadow-md); }
+  .v-c .hero { display: flex; justify-content: center; margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-4)) var(--space-4); padding: var(--space-6) 0 var(--space-4);
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent); border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 1.5px dashed var(--color-border); }
+  .v-c .hero .plate { width: 120px; height: 120px; font-size: 3rem; }
+  .v-c .r-title { text-align: center; }
+  .v-c .r-meta { text-align: center; }
+  .v-c .ing-box { background: color-mix(in srgb, var(--color-primary) 7%, transparent); border-radius: var(--radius-md); padding: var(--space-4); }
+  .v-c .sec { color: var(--color-primary); }
+  .v-c .steps li { padding-left: 52px; }
+  .v-c .steps li::before { background: none; color: var(--color-accent); font: 600 1.9rem/1 var(--font-display); width: 40px; height: 40px; top: 4px; left: 2px; }
+  .v-c .photo img { border-radius: var(--radius-md); }
+  .v-c .photo { box-shadow: var(--shadow-md); border-radius: var(--radius-md); }
+  .v-c .photo:hover { transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<div id="variant-nav" role="tablist" aria-label="Variantes">
+  <span class="label">Sketch 001 · Lista + receita</span>
+  <button class="variant-tab active" data-variant="a" role="tab">A: Papel kraft ★ Escolhida</button>
+  <button class="variant-tab" data-variant="b" role="tab">B: Quadro de giz</button>
+  <button class="variant-tab" data-variant="c" role="tab">C: Creme de padaria</button>
+</div>
+
+<div id="stage">
+  <div class="frame device" id="frame">
+    <div class="app v-a" id="app" data-view="list"></div>
+  </div>
+</div>
+
+<div id="sketch-tools" aria-label="Ferramentas do sketch">
+  <label>Tema
+    <select id="theme-switcher">
+      <option value="default">Papel kraft</option>
+      <option value="chalkboard">Quadro de giz</option>
+      <option value="bakery-cream">Creme de padaria</option>
+    </select>
+  </label>
+  <span class="sep"></span>
+  <button data-vp="phone">Telemóvel</button>
+  <button data-vp="tablet">Tablet</button>
+  <button data-vp="desktop" class="on">Ecrã inteiro</button>
+  <span class="sep"></span>
+  <button id="state-btn">Estado: com receitas</button>
+  <button id="annot-btn">Anotar: não</button>
+</div>
+
+<div id="annot"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="lightbox" role="dialog" aria-label="Fotografia"><img alt=""></div>
+
+<script>
+const RECIPES = [
+  { id: "arroz-doce", title: "Arroz doce", hue: 40, photos: 2,
+    ingredients: ["1 litro de leite", "200 g de arroz carolino", "250 g de açúcar", "1 casca de limão", "1 pau de canela", "4 gemas", "Canela em pó q.b."],
+    steps: ["Coza o arroz em água com uma pitada de sal durante 5 minutos.", "Junte o leite quente, a casca de limão e o pau de canela e deixe cozinhar em lume brando, mexendo sempre.", "Quando o arroz estiver macio, junte o açúcar e deixe ferver mais 5 minutos.", "Retire do lume, junte as gemas batidas e mexa bem.", "Deite numa travessa e enfeite com canela em pó."] },
+  { id: "bacalhau-bras", title: "Bacalhau à Brás", hue: 48, photos: 1,
+    ingredients: ["400 g de bacalhau demolhado e desfiado", "500 g de batata palha", "6 ovos", "2 cebolas às rodelas finas", "2 dentes de alho", "Azeite q.b.", "Salsa picada e azeitonas pretas"],
+    steps: ["Aloure a cebola e o alho em azeite.", "Junte o bacalhau e deixe estufar alguns minutos.", "Adicione a batata palha e os ovos batidos, mexendo até ficarem cremosos.", "Sirva com salsa picada e azeitonas."] },
+  { id: "bolo-laranja", title: "Bolo de laranja", hue: 30, photos: 3,
+    ingredients: ["4 ovos", "250 g de açúcar", "Sumo e raspa de 2 laranjas", "250 g de farinha", "1 colher de chá de fermento", "125 ml de óleo"],
+    steps: ["Bata os ovos com o açúcar até obter um creme fofo.", "Junte o sumo, a raspa e o óleo.", "Envolva a farinha com o fermento.", "Leve ao forno a 180 °C durante 40 minutos.", "Regue com sumo de laranja ainda quente."] },
+  { id: "caldo-verde", title: "Caldo verde", hue: 95, photos: 0,
+    ingredients: ["500 g de batatas", "1 cebola", "2 dentes de alho", "300 g de couve galega cortada fina", "1 chouriço", "Azeite e sal q.b."],
+    steps: ["Coza as batatas com a cebola e o alho.", "Triture tudo e tempere com sal.", "Junte a couve e deixe ferver 5 minutos.", "Sirva com uma rodela de chouriço e um fio de azeite."] },
+  { id: "filhos", title: "Filhós de Natal", hue: 25, photos: 2,
+    ingredients: ["1 kg de farinha", "50 g de fermento de padeiro", "6 ovos", "Raspa de 1 laranja", "1 cálice de aguardente", "Óleo para fritar", "Açúcar e canela"],
+    steps: ["Dissolva o fermento num pouco de água morna.", "Amasse a farinha com os ovos, a raspa, a aguardente e o fermento.", "Deixe levedar num sítio quente durante 2 horas.", "Estenda pequenas porções e frite em óleo quente.", "Passe por açúcar e canela."] },
+  { id: "leite-creme", title: "Leite creme", hue: 50, photos: 1,
+    ingredients: ["1 litro de leite", "6 gemas", "200 g de açúcar", "2 colheres de sopa de amido de milho", "Casca de 1 limão", "Açúcar para queimar"],
+    steps: ["Ferva o leite com a casca de limão.", "Misture as gemas, o açúcar e o amido.", "Junte o leite aos poucos e leve ao lume até engrossar.", "Distribua por taças, polvilhe com açúcar e queime."] },
+  { id: "pudim-pao", title: "Pudim de pão da Tia Rosa (versão de Natal, com caramelo)", hue: 20, photos: 0,
+    ingredients: ["300 g de pão de véspera", "750 ml de leite", "5 ovos", "200 g de açúcar", "Raspa de 1 limão", "Caramelo líquido"],
+    steps: ["Demolhe o pão no leite.", "Junte os ovos, o açúcar e a raspa e mexa bem.", "Deite numa forma caramelizada.", "Coza em banho-maria a 180 °C durante 50 minutos."] },
+];
+
+const ICON = {
+  camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5v-2z"/><path d="M8 7h7M8 11h5"/></svg>',
+  sprig: '<svg class="ornament" viewBox="0 0 46 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 18 C 16 14, 30 14, 42 8"/><path d="M14 15 c -2 -5 1 -9 5 -10 c 0 5 -2 8 -5 10z"/><path d="M24 13 c 0 -6 4 -9 8 -9 c -1 5 -4 8 -8 9z"/><path d="M18 16 c 3 4 8 5 11 3 c -3 -3 -7 -4 -11 -3z"/></svg>',
+};
+
+const S = { v: "a", sel: RECIPES[0].id, view: "list", q: "", empty: false, checked: {}, step: {}, annotate: false, vp: "phone" };
+const THEME = { a: "default", b: "chalkboard", c: "bakery-cream" };
+const app = document.getElementById("app");
+const frame = document.getElementById("frame");
+
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = (s) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+const byId = (id) => RECIPES.find((r) => r.id === id);
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+function filtered() {
+  if (S.empty) return [];
+  const q = norm(S.q.trim());
+  const list = RECIPES.filter((r) => !q || norm(r.title).includes(q) || r.ingredients.some((i) => norm(i).includes(q)));
+  return list.sort((a, b) => a.title.localeCompare(b.title, "pt"));
+}
+
+function rand(seed) { let s = seed; return () => (s = (s * 9301 + 49297) % 233280) / 233280; }
+function photoSrc(seed) {
+  const r = rand(seed * 97 + 13);
+  let lines = "";
+  for (let i = 0; i < 8; i++) {
+    const y = 34 + i * 13; let x = 12; const end = 12 + 45 + r() * 50; let d = `M${x} ${y}`;
+    while (x < end) { const dx = 4 + r() * 5; d += ` q ${(dx / 2).toFixed(1)} ${(r() > .5 ? -1 : 1) * (1.5 + r() * 2.5)} ${dx.toFixed(1)} 0`; x += dx; }
+    lines += `<path d="${d}" fill="none" stroke="#2f4778" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>`;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 150"><rect width="120" height="150" fill="#f2e6cb"/><rect x="0.5" y="0.5" width="119" height="149" fill="none" stroke="#d6c39a"/><path d="M12 18 h${(48 + r() * 40).toFixed(0)}" stroke="#2f4778" stroke-width="2.4" stroke-linecap="round"/>${lines}<circle cx="${(84 + r() * 18).toFixed(0)}" cy="${(118 + r() * 16).toFixed(0)}" r="${(9 + r() * 7).toFixed(0)}" fill="#b07a3a" opacity=".16"/></svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+function header() {
+  return `<header class="hdr"><div class="hdr-in">
+    ${ICON.sprig}
+    <a class="brand" data-act="home">Livro de Receitas da Família</a>
+    <nav class="nav" aria-label="Principal">
+      <button class="nav-link" data-act="toast" data-msg="Abriria a página Membros (só o dono a vê).">Membros</button>
+      <span class="lang"><button class="on" aria-pressed="true">PT</button><button data-act="toast" data-msg="Mudaria a aplicação para inglês.">EN</button></span>
+      <button class="nav-link" data-act="toast" data-msg="Terminaria a sessão neste dispositivo.">Sair</button>
+    </nav>
+  </div></header>`;
+}
+
+function listItem(r) {
+  const sel = r.id === S.sel ? " is-sel" : "";
+  const meta = `${plural(r.ingredients.length, "ingrediente", "ingredientes")} · ${plural(r.steps.length, "passo", "passos")}`;
+  if (S.v === "b") {
+    return `<li><button class="menu-row${sel}" data-act="open" data-id="${r.id}"><span class="m-title">${esc(r.title)}</span><span class="lead"></span><span class="m-meta">${r.ingredients.length} ingr.</span></button></li>`;
+  }
+  if (S.v === "c") {
+    return `<li><button class="tile${sel}" data-act="open" data-id="${r.id}"><span class="plate" style="--h:${r.hue}" aria-hidden="true">${esc(r.title[0])}</span><span class="t-title">${esc(r.title)}</span><span class="t-meta">${meta}</span></button></li>`;
+  }
+  const cam = r.photos ? ` · ${ICON.camera} ${r.photos}` : "";
+  return `<li><button class="card${sel}" data-act="open" data-id="${r.id}"><span class="c-title">${esc(r.title)}</span><span class="c-meta">${meta}${cam}</span></button></li>`;
+}
+
+function listHtml() {
+  const list = filtered();
+  if (S.empty) {
+    return `<div class="empty">${ICON.book}<p class="big">Ainda não há receitas neste livro.</p><p>Comece por fotografar uma receita escrita à mão, ou escreva-a.</p></div>`;
+  }
+  if (list.length === 0) {
+    return `<div class="empty"><p class="big">Nenhuma receita com “${esc(S.q.trim())}”.</p><p>Experimente o nome de um ingrediente, como “ovos”.</p></div>`;
+  }
+  const count = S.q.trim() ? `<p class="count">${plural(list.length, "receita encontrada", "receitas encontradas")}</p>` : `<p class="count">${plural(list.length, "receita", "receitas")} no livro</p>`;
+  if (S.v === "b") {
+    let out = "", last = "";
+    for (const r of list) {
+      const L = norm(r.title[0]).toUpperCase();
+      if (L !== last) { out += `<li class="letter" aria-hidden="true">${L}</li>`; last = L; }
+      out += listItem(r);
+    }
+    return `${count}<ul class="list menu">${out}</ul>`;
+  }
+  return `${count}<ul class="list ${S.v === "c" ? "tiles" : "cards"}">${list.map(listItem).join("")}</ul>`;
+}
+
+function detailHtml() {
+  const r = byId(S.sel);
+  if (S.empty || !r) return `<p class="pick">Escolha uma receita para a ver aqui.</p>`;
+  const checked = S.checked[r.id] || {};
+  const cur = S.step[r.id];
+  const ings = r.ingredients.map((line, i) =>
+    `<li class="${checked[i] ? "done" : ""}"><label><input type="checkbox" data-act="ing" data-i="${i}" ${checked[i] ? "checked" : ""}><span>${esc(line)}</span></label></li>`).join("");
+  const steps = r.steps.map((s, i) => `<li class="${cur === i ? "cur" : ""}" data-act="step" data-i="${i}">${esc(s)}</li>`).join("");
+  const photos = r.photos
+    ? `<section class="r-section"><h3 class="sec">Fotografias da receita original</h3><div class="photos">${Array.from({ length: r.photos }, (_, i) =>
+        `<button class="photo" data-act="photo" data-seed="${r.hue + i}" aria-label="Ver fotografia ${i + 1}"><img src="${photoSrc(r.hue + i)}" alt=""></button>`).join("")}</div></section>`
+    : "";
+  const hero = S.v === "c" ? `<div class="hero"><span class="plate" style="--h:${r.hue}" aria-hidden="true">${esc(r.title[0])}</span></div>` : "";
+  const stamp = S.v === "a" && r.photos ? `<span class="stamp">com fotos</span>` : "";
+  const ingBlock = `<h3 class="sec">Ingredientes</h3><p class="hint">Toque para riscar o que já juntou.</p><ul class="ings">${ings}</ul>`;
+  return `<button class="back" data-act="back">← Voltar ao livro de receitas</button>
+    <article class="sheet">
+      ${hero}
+      <h2 class="r-title">${esc(r.title)}</h2>
+      <p class="r-meta">${plural(r.ingredients.length, "ingrediente", "ingredientes")} · ${plural(r.steps.length, "passo", "passos")}${stamp}</p>
+      <section class="r-section">${S.v === "c" ? `<div class="ing-box">${ingBlock}</div>` : ingBlock}</section>
+      <section class="r-section"><h3 class="sec">Preparação</h3><p class="hint">Toque no passo em que vai.</p><ol class="steps">${steps}</ol></section>
+      <div class="sheet-actions"><button class="btn btn-paper" data-act="toast" data-msg="Abriria o editor desta receita.">Editar receita</button></div>
+      ${photos}
+    </article>`;
+}
+
+function render() {
+  app.className = `app v-${S.v}`;
+  app.dataset.view = S.view;
+  app.innerHTML = `${header()}
+    <div class="body">
+      <div class="titlebar">
+        <h1 class="book">Receitas da Família</h1>
+        <p class="tag">As receitas da nossa família, guardadas com cuidado.</p>
+        <div class="orn" aria-hidden="true"><span></span>✻<span></span></div>
+      </div>
+      <div class="split">
+        <section class="pane-list" aria-label="Receitas">
+          <div class="actions">
+            <button class="btn btn-outline" data-act="toast" data-msg="Abriria a câmara para fotografar uma receita escrita à mão.">${ICON.camera} Adicionar a partir de fotografias</button>
+            <button class="btn btn-primary" data-act="toast" data-msg="Abriria o formulário de nova receita.">${ICON.plus} Nova receita</button>
+          </div>
+          <div class="search">${ICON.search}<input id="q" type="search" placeholder="Procurar por nome ou ingrediente…" value="${esc(S.q)}" aria-label="Procurar receitas"></div>
+          <div id="list">${listHtml()}</div>
+        </section>
+        <section class="pane-detail" id="detail" aria-label="Receita">${detailHtml()}</section>
+      </div>
+    </div>`;
+}
+
+function renderList() { document.getElementById("list").innerHTML = listHtml(); }
+function renderDetail(animate) {
+  const d = document.getElementById("detail");
+  d.innerHTML = detailHtml();
+  if (animate) { d.classList.remove("enter"); void d.offsetWidth; d.classList.add("enter"); }
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+app.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act;
+  if (act === "open") {
+    S.sel = el.dataset.id; S.view = "detail"; app.dataset.view = "detail";
+    renderList(); renderDetail(true);
+    frame.scrollTo({ top: 0, behavior: "smooth" }); window.scrollTo({ top: 0, behavior: "smooth" });
+  } else if (act === "back" || act === "home") {
+    S.view = "list"; app.dataset.view = "list"; frame.scrollTo({ top: 0 });
+  } else if (act === "ing") {
+    const r = S.sel; S.checked[r] = S.checked[r] || {}; S.checked[r][el.dataset.i] = el.checked;
+    el.closest("li").classList.toggle("done", el.checked);
+  } else if (act === "step") {
+    const i = Number(el.dataset.i); S.step[S.sel] = S.step[S.sel] === i ? undefined : i; renderDetail(false);
+  } else if (act === "photo") {
+    const lb = document.getElementById("lightbox"); lb.querySelector("img").src = photoSrc(Number(el.dataset.seed)); lb.classList.add("open");
+  } else if (act === "toast") {
+    toast(el.dataset.msg);
+  }
+});
+app.addEventListener("input", (e) => { if (e.target.id === "q") { S.q = e.target.value; renderList(); } });
+document.getElementById("lightbox").addEventListener("click", (e) => e.currentTarget.classList.remove("open"));
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.getElementById("lightbox").classList.remove("open"); });
+
+/* Variant tabs: each variant brings its own theme file */
+function setTheme(name) {
+  document.getElementById("theme").href = `../themes/${name}.css`;
+  document.getElementById("theme-switcher").value = name;
+}
+document.querySelectorAll(".variant-tab").forEach((tab) => tab.addEventListener("click", () => {
+  document.querySelectorAll(".variant-tab").forEach((t) => t.classList.remove("active"));
+  tab.classList.add("active");
+  S.v = tab.dataset.variant; setTheme(THEME[S.v]); render(); frame.scrollTo({ top: 0 });
+}));
+document.getElementById("theme-switcher").addEventListener("change", (e) => setTheme(e.target.value));
+
+/* Viewports: full window by default; phone/tablet show a device frame */
+const VP = { phone: "375px", tablet: "768px", desktop: "1280px" };
+function setViewport(vp) {
+  document.querySelectorAll("[data-vp]").forEach((x) => x.classList.toggle("on", x.dataset.vp === vp));
+  S.vp = vp;
+  // On a real phone there is no room for a frame, so phone view fills the screen too.
+  const framed = vp !== "desktop" && innerWidth > 500;
+  frame.style.setProperty("--frame-w", vp === "desktop" ? "none" : VP[vp]);
+  frame.classList.toggle("device", framed);
+  frame.classList.toggle("tablet", framed && vp === "tablet");
+  frame.classList.toggle("full", !framed);
+  document.getElementById("stage").classList.toggle("full", !framed);
+}
+document.querySelectorAll("[data-vp]").forEach((b) => b.addEventListener("click", () => setViewport(b.dataset.vp)));
+
+/* State cycling */
+document.getElementById("state-btn").addEventListener("click", (e) => {
+  S.empty = !S.empty; e.target.textContent = `Estado: ${S.empty ? "livro vazio" : "com receitas"}`; S.view = "list"; render();
+});
+
+/* Annotation mode */
+const annot = document.getElementById("annot");
+const hex = (c) => { const m = c.match(/\d+(\.\d+)?/g); if (!m) return c; const [r, g, b, a] = m.map(Number); if (a === 0) return "transparente"; return "#" + [r, g, b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join(""); };
+document.getElementById("annot-btn").addEventListener("click", (e) => {
+  S.annotate = !S.annotate; e.target.textContent = `Anotar: ${S.annotate ? "sim" : "não"}`; e.target.classList.toggle("on", S.annotate);
+  if (!S.annotate) annot.style.display = "none";
+});
+frame.addEventListener("mousemove", (e) => {
+  if (!S.annotate) return;
+  const cs = getComputedStyle(e.target);
+  annot.textContent = `<${e.target.tagName.toLowerCase()}${e.target.className && typeof e.target.className === "string" ? "." + e.target.className.split(" ")[0] : ""}>\nfonte: ${cs.fontFamily.split(",")[0].replace(/"/g, "")} ${cs.fontSize} / ${cs.fontWeight}\ncor: ${hex(cs.color)}  fundo: ${hex(cs.backgroundColor)}\npadding: ${cs.padding}  raio: ${cs.borderRadius}`;
+  annot.style.display = "block";
+  annot.style.left = Math.min(e.clientX + 14, innerWidth - annot.offsetWidth - 8) + "px";
+  annot.style.top = Math.min(e.clientY + 14, innerHeight - annot.offsetHeight - 8) + "px";
+});
+frame.addEventListener("mouseleave", () => (annot.style.display = "none"));
+
+render();
+setViewport("desktop");
+</script>
+</body>
+</html>

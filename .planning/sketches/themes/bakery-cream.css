@@ -1,0 +1,70 @@
+/* Bakery cream (Variant C). Tokens only, no component styles. */
+:root {
+  /* Surfaces */
+  --color-bg: #f6efe2;
+  --texture:
+    repeating-linear-gradient(0deg, rgba(120, 100, 60, 0.025) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(120, 100, 60, 0.025) 0 1px, transparent 1px 4px);
+  --texture-size: auto, auto;
+  --color-header-bg: #f6efe2;
+  --color-header-text: #3d3a2a;
+  --color-surface: #fffaf1;
+  --color-surface-hover: #fff3df;
+  --color-border: #d9c9a8;
+  --color-border-soft: #e8dcc3;
+  --color-on-bg: #3d3a2a;
+  --color-on-bg-muted: #857a62;
+
+  /* Recipe sheet */
+  --color-paper: #fffaf1;
+  --color-ink: #33301f;
+  --color-ink-muted: #857a62;
+  --color-rule: rgba(107, 122, 58, 0.10);
+  --color-rule-accent: rgba(192, 100, 63, 0.45);
+
+  /* Text on cards */
+  --color-text: #3d3a2a;
+  --color-text-muted: #857a62;
+
+  /* Actions */
+  --color-primary: #6b7a3a;
+  --color-primary-hover: #5a6830;
+  --color-on-primary: #fbf7ec;
+  --color-accent: #c0643f;
+  --color-focus: #c0643f;
+
+  /* Typography */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+  --display-weight: 600;
+  --display-tracking: -0.01em;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Shapes */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --divider-style: dashed;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(80, 60, 20, 0.06);
+  --shadow-md: 0 4px 14px rgba(80, 60, 20, 0.08);
+  --shadow-lg: 0 14px 34px rgba(80, 60, 20, 0.12);
+}
