@@ -191,6 +191,15 @@
     "caption": "Fotografia {n} de {total}",
     "previous": "Fotografia anterior",
     "next": "Fotografia seguinte",
-    "close": "Fechar fotografia"
+    "close": "Fechar fotografia",
+    "editHeading": "Fotografias",
+    "editEmptyHeading": "Sem fotografias originais",
+    "editEmptyBody": "Adicione fotografias da receita manuscrita para as guardar com ela.",
+    "remove": {
+      "title": "Remover a fotografia {n}?",
+      "body": "A receita mantém-se. Esta fotografia será eliminada para todos no livro de receitas.",
+      "confirm": "Remover fotografia",
+      "keep": "Manter fotografia"
+    }
   }
 }

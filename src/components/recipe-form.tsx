@@ -9,6 +9,7 @@ import {
   updateRecipeAction,
   type RecipeFormState,
 } from "@/app/[locale]/(app)/recipes/actions";
+import { PhotoPicker, type PickedPhoto } from "@/components/photo-picker";
 import { useHydrated } from "@/components/use-hydrated";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,14 +18,15 @@ import { Textarea } from "@/components/ui/textarea";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { useOnlineStatus } from "@/lib/offline/use-online-status";
-import { uploadPhotos, type UploadablePhoto } from "@/lib/photos/upload";
+import { photoUrl } from "@/lib/photos/paths";
+import { uploadPhotos } from "@/lib/photos/upload";
 import type { RecipeFormValues } from "@/lib/recipes/schema";
 
 type Line = { key: number; text: string };
 
 const fill = (template: string, n: number) => template.replace("{n}", String(n));
 
-const FIXED_FIELDS = new Set(["locale", "id", "version", "photoIds"]);
+const FIXED_FIELDS = new Set(["locale", "id", "version", "photoIds", "photoOrder", "photoChanges"]);
 
 /** True when any text field holds something other than whitespace. */
 function hasTypedText(form: HTMLFormElement): boolean {
@@ -44,11 +46,19 @@ export type RecipeFormProps = {
   | {
       mode: "create";
       /** Photos chosen on the capture screen; uploaded only when the member saves. */
-      photos?: UploadablePhoto[];
+      photos?: PickedPhoto[];
       cookbookId?: string;
       uploadLabels?: Pick<Dictionary["capture"], "uploading" | "uploadFailed">;
     }
-  | { mode: "edit"; version: number }
+  | {
+      mode: "edit";
+      version: number;
+      cookbookId: string;
+      /** Ids of the photos the recipe already has, in page order. */
+      initialPhotoIds: string[];
+      captureLabels: Dictionary["capture"];
+      photoLabels: Dictionary["photos"];
+    }
 );
 
 export function RecipeForm(props: RecipeFormProps) {
@@ -60,16 +70,26 @@ export function RecipeForm(props: RecipeFormProps) {
   const [uploading, setUploading] = useState(false);
   const [uploadFailed, setUploadFailed] = useState(false);
   const [, startTransition] = useTransition();
-  const photos = props.mode === "create" ? props.photos : undefined;
+  const [editPhotos, setEditPhotos] = useState<PickedPhoto[]>(() =>
+    props.mode === "edit"
+      ? props.initialPhotoIds.map((id) => ({ id, url: photoUrl(recipeId, id), existing: true }))
+      : [],
+  );
+  const photos = props.mode === "create" ? props.photos : editPhotos;
+  const cookbookId = props.cookbookId;
+  const uploadLabels = props.mode === "create" ? props.uploadLabels : props.captureLabels;
 
-  /** With photos, they are uploaded first; the recipe is saved only once every file is stored. */
+  /** New photos are uploaded first; the recipe is saved only once every file is stored. */
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    if (props.mode !== "create" || !photos || photos.length === 0 || !props.cookbookId) return;
+    const fresh = (photos ?? []).flatMap((photo) =>
+      photo.blob ? [{ id: photo.id, blob: photo.blob }] : [],
+    );
+    if (fresh.length === 0 || !cookbookId) return;
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setUploadFailed(false);
     setUploading(true);
-    const stored = await uploadPhotos(props.cookbookId, recipeId, photos);
+    const stored = await uploadPhotos(cookbookId, recipeId, fresh);
     setUploading(false);
     if (!stored) {
       setUploadFailed(true);
@@ -114,9 +134,18 @@ export function RecipeForm(props: RecipeFormProps) {
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="id" value={recipeId} />
       {props.mode === "edit" ? <input type="hidden" name="version" value={props.version} /> : null}
-      {photos?.map((photo) => (
-        <input key={photo.id} type="hidden" name="photoIds" value={photo.id} />
-      ))}
+      {props.mode === "create"
+        ? photos?.map((photo) => (
+            <input key={photo.id} type="hidden" name="photoIds" value={photo.id} />
+          ))
+        : (
+          <>
+            <input type="hidden" name="photoChanges" value="1" />
+            {editPhotos.map((photo) => (
+              <input key={photo.id} type="hidden" name="photoOrder" value={photo.id} />
+            ))}
+          </>
+        )}
 
       {/* Text typed before hydration would be replaced by React state, so stay inert until then. */}
       <fieldset disabled={!hydrated} className="min-w-0 space-y-8">
@@ -141,15 +170,15 @@ export function RecipeForm(props: RecipeFormProps) {
           </p>
         ) : null}
 
-        {uploading && props.mode === "create" && props.uploadLabels ? (
+        {uploading && uploadLabels ? (
           <p role="status" className="text-sm text-muted-foreground">
-            {props.uploadLabels.uploading}
+            {uploadLabels.uploading}
           </p>
         ) : null}
 
-        {uploadFailed && props.mode === "create" && props.uploadLabels ? (
+        {uploadFailed && uploadLabels ? (
           <p role="alert" className="text-sm text-destructive">
-            {props.uploadLabels.uploadFailed}
+            {uploadLabels.uploadFailed}
           </p>
         ) : null}
 
@@ -283,6 +312,22 @@ export function RecipeForm(props: RecipeFormProps) {
             {form.addStep}
           </Button>
         </fieldset>
+
+        {props.mode === "edit" ? (
+          <fieldset className="min-w-0 space-y-3">
+            <legend className="text-base font-semibold">{props.photoLabels.editHeading}</legend>
+            <PhotoPicker
+              photos={editPhotos}
+              onChange={setEditPhotos}
+              labels={props.captureLabels}
+              empty={{
+                heading: props.photoLabels.editEmptyHeading,
+                body: props.photoLabels.editEmptyBody,
+              }}
+              removeLabels={props.photoLabels.remove}
+            />
+          </fieldset>
+        ) : null}
 
         {!isOnline ? (
           <p className="text-sm text-muted-foreground">{form.editingNeedsConnection}</p>

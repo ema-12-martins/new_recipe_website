@@ -4,12 +4,28 @@ import { ArrowDown, ArrowUp, ImagePlus, Loader2, X } from "lucide-react";
 import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { MAX_PHOTOS } from "@/lib/photos/limits";
 import { prepareJpeg } from "@/lib/photos/resize";
 
-export type PickedPhoto = { id: string; blob: Blob; url: string };
+export type PickedPhoto = {
+  id: string;
+  url: string;
+  /** Present for photos chosen in this session; saved photos are shown from their URL. */
+  blob?: Blob;
+  existing?: boolean;
+};
 
 type Problem = "tooMany" | "unsupported" | "prepareFailed";
 
@@ -19,16 +35,21 @@ type PhotoPickerProps = {
   photos: PickedPhoto[];
   onChange: Dispatch<SetStateAction<PickedPhoto[]>>;
   labels: Dictionary["capture"];
+  /** Overrides the empty-state copy (the edit form has its own wording). */
+  empty?: { heading: string; body: string };
+  /** When set, removing a saved photo asks first. */
+  removeLabels?: Dictionary["photos"]["remove"];
 };
 
 /**
  * Chooses and orders the photos of one recipe. Files are decoded and resized here in the browser;
  * nothing leaves the device until the member saves (D-09).
  */
-export function PhotoPicker({ photos, onChange, labels }: PhotoPickerProps) {
+export function PhotoPicker({ photos, onChange, labels, empty, removeLabels }: PhotoPickerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preparing, setPreparing] = useState(0);
   const [problems, setProblems] = useState<Problem[]>([]);
+  const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
 
   async function addFiles(files: File[]) {
     setProblems([]);
@@ -68,14 +89,20 @@ export function PhotoPicker({ photos, onChange, labels }: PhotoPickerProps) {
     onChange(next);
   };
 
-  const remove = (index: number) => {
-    URL.revokeObjectURL(photos[index].url);
+  const removeAt = (index: number) => {
+    const photo = photos[index];
+    if (photo.blob) URL.revokeObjectURL(photo.url);
     onChange(photos.filter((_, i) => i !== index));
     setProblems([]);
   };
 
+  const remove = (index: number) => {
+    if (removeLabels && photos[index].existing) setPendingRemoval(index);
+    else removeAt(index);
+  };
+
   const full = photos.length >= MAX_PHOTOS;
-  const empty = photos.length === 0 && preparing === 0;
+  const noPhotos = photos.length === 0 && preparing === 0;
 
   return (
     <div className="space-y-4">
@@ -102,10 +129,10 @@ export function PhotoPicker({ photos, onChange, labels }: PhotoPickerProps) {
         </Alert>
       ))}
 
-      {empty ? (
+      {noPhotos ? (
         <div className="space-y-2 rounded-md border border-dashed bg-muted p-6 text-center">
-          <h2 className="text-lg font-semibold">{labels.emptyHeading}</h2>
-          <p className="text-base text-muted-foreground">{labels.emptyBody}</p>
+          <h2 className="text-lg font-semibold">{empty?.heading ?? labels.emptyHeading}</h2>
+          <p className="text-base text-muted-foreground">{empty?.body ?? labels.emptyBody}</p>
         </div>
       ) : (
         <ol aria-label={labels.photosList} className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -177,6 +204,33 @@ export function PhotoPicker({ photos, onChange, labels }: PhotoPickerProps) {
         <ImagePlus aria-hidden />
         {labels.addPhotos}
       </Button>
+
+      {removeLabels ? (
+        <AlertDialog
+          open={pendingRemoval !== null}
+          onOpenChange={(open) => !open && setPendingRemoval(null)}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {fill(removeLabels.title, (pendingRemoval ?? 0) + 1)}
+              </AlertDialogTitle>
+              <AlertDialogDescription>{removeLabels.body}</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="h-11">{removeLabels.keep}</AlertDialogCancel>
+              <AlertDialogAction
+                className={buttonVariants({ variant: "destructive", className: "h-11" })}
+                onClick={() => {
+                  if (pendingRemoval !== null) removeAt(pendingRemoval);
+                }}
+              >
+                {removeLabels.confirm}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ) : null}
     </div>
   );
 }

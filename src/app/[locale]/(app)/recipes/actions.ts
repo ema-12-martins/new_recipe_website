@@ -6,11 +6,14 @@ import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentMembership } from "@/lib/auth/membership";
 import { createRecipeWithPhotos } from "@/lib/recipes/create-recipe";
+import { applyPhotoChanges, discardUnrecordedUploads } from "@/lib/photos/apply-changes";
 import { photoIdsSchema } from "@/lib/photos/schema";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getRecipe } from "@/lib/recipes/queries";
 import { readRecipeForm, recipeInputSchema, type RecipeFormValues } from "@/lib/recipes/schema";
 import { createClient } from "@/lib/supabase/server";
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export type RecipeFormErrors = {
   title?: string;
@@ -129,8 +132,45 @@ export async function updateRecipeAction(
 
   if (data.length === 0) {
     // Nothing matched: either someone saved first (version moved on) or the recipe is gone.
-    if (await getRecipe(id)) return { status: "conflict", values: result.values };
+    if (await getRecipe(id)) {
+      if (formData.get("photoChanges") === "1") {
+        await discardUnrecordedUploads({
+          client: supabase,
+          admin: createAdminClient(),
+          cookbookId: membership.cookbookId,
+          recipeId: id,
+          ids: formData
+            .getAll("photoOrder")
+            .filter((value): value is string => typeof value === "string" && UUID.test(value)),
+        });
+      }
+      return { status: "conflict", values: result.values };
+    }
     notFound();
+  }
+
+  // Photo changes ride on the same save, applied only after the versioned text update matched.
+  if (formData.get("photoChanges") === "1") {
+    const order = photoIdsSchema.safeParse(
+      formData.getAll("photoOrder").filter((value): value is string => typeof value === "string"),
+    );
+    const applied = order.success
+      ? await applyPhotoChanges({
+          client: supabase,
+          admin: createAdminClient(),
+          cookbookId: membership.cookbookId,
+          recipeId: id,
+          order: order.data,
+        })
+      : ({ ok: false, reason: "invalid" } as const);
+    if (!applied.ok) {
+      const { errors } = getDictionary(locale).recipes;
+      return {
+        status: "error",
+        errors: { form: applied.reason === "photos_missing" ? errors.photosMissing : errors.error },
+        values: result.values,
+      };
+    }
   }
 
   redirect(`/${locale}/recipes/${id}`);

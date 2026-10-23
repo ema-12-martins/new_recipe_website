@@ -191,6 +191,15 @@
     "caption": "Photo {n} of {total}",
     "previous": "Previous photo",
     "next": "Next photo",
-    "close": "Close photo"
+    "close": "Close photo",
+    "editHeading": "Photos",
+    "editEmptyHeading": "No original photos",
+    "editEmptyBody": "Add photos of the handwritten recipe to keep them with it.",
+    "remove": {
+      "title": "Remove photo {n}?",
+      "body": "The recipe stays. This photo will be deleted for everyone in the cookbook.",
+      "confirm": "Remove photo",
+      "keep": "Keep photo"
+    }
   }
 }

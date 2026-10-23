@@ -5,6 +5,7 @@ import { RecipeForm } from "@/components/recipe-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { requireMembership } from "@/lib/auth/require-membership";
+import { listRecipePhotos } from "@/lib/photos/queries";
 import { getRecipe } from "@/lib/recipes/queries";
 
 export default async function EditRecipePage({
@@ -15,12 +16,13 @@ export default async function EditRecipePage({
   const { locale, id } = await params;
   if (!isLocale(locale)) notFound();
 
-  await requireMembership(locale);
+  const membership = await requireMembership(locale);
 
   const recipe = await getRecipe(id);
   if (!recipe) notFound();
 
-  const { recipes } = getDictionary(locale);
+  const { recipes, capture, photos } = getDictionary(locale);
+  const photoIds = (await listRecipePhotos(recipe.id)).map((photo) => photo.id);
 
   return (
     <>
@@ -40,6 +42,10 @@ export default async function EditRecipePage({
         initial={{ title: recipe.title, ingredients: recipe.ingredients, steps: recipe.steps }}
         locale={locale}
         labels={recipes}
+        cookbookId={membership.cookbookId}
+        initialPhotoIds={photoIds}
+        captureLabels={capture}
+        photoLabels={photos}
       />
     </>
   );
