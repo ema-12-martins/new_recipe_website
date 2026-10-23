@@ -34,7 +34,7 @@ async function recipeWithPhotos(count: number) {
   const created = await createRecipeWithPhotos(
     clients[MEMBER],
     cookbookId,
-    { id: recipeId, title: "Receita", ingredients: [], steps: [] },
+    { id: recipeId, title: "Receita", ingredients: ["2 ovos"], steps: ["Bater."] },
     ids,
     adminClient(),
   );

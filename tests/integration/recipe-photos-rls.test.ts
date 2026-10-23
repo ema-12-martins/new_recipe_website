@@ -54,7 +54,13 @@ describe("recipe photos data boundary (hosted DEV project)", () => {
     const member = await userClient(MEMBER, PASSWORD);
     const { error: recipeError } = await member
       .from("recipes")
-      .insert({ id: recipeId, cookbook_id: cookbookId, title: "Com fotografias" });
+      .insert({
+        id: recipeId,
+        cookbook_id: cookbookId,
+        title: "Com fotografias",
+        ingredients: ["2 ovos"],
+        steps: ["Bater."],
+      });
     if (recipeError) throw recipeError;
   });
 

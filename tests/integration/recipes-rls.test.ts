@@ -58,6 +58,25 @@ describe("recipes data boundary (hosted DEV project)", () => {
     await resetDatabase();
   });
 
+  it("a member cannot store a recipe without an ingredient or a step", async () => {
+    const member = await userClient(MEMBER, PASSWORD);
+    for (const lines of [
+      { ingredients: [], steps: ["Bater."] },
+      { ingredients: ["1 ovo"], steps: [] },
+      { ingredients: [" \t"], steps: ["Bater."] },
+    ]) {
+      const id = randomUUID();
+      const { error } = await member
+        .from("recipes")
+        .insert({ id, cookbook_id: cookbookId, title: "Incompleta", ...lines });
+      expect(error?.code).toBe("23514");
+      expect(await recipeExists(id)).toBe(false);
+    }
+
+    const { error } = await member.from("recipes").update({ steps: [] }).eq("id", memberRecipeId);
+    expect(error?.code).toBe("23514");
+  });
+
   it("anon clients read zero recipes and cannot insert", async () => {
     const anon = anonClient();
     const { data, error } = await anon.from("recipes").select("id");

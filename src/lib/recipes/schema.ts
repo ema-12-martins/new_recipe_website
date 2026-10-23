@@ -20,8 +20,8 @@ export function normalizeLines(lines: string[]): string[] {
   return lines.filter((line) => line.trim() !== "");
 }
 
-// A saved recipe needs at least one non-blank line; the minimum is enforced here only, not in
-// the database.
+// A saved recipe needs at least one non-blank line; the database enforces the same minimum
+// (supabase/migrations/20261023130000_recipe_required_lines.sql).
 const lines = (maxLength: number, maxCount: number) =>
   z
     .array(z.string())
