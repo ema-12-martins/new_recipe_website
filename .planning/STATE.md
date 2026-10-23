@@ -1,7 +1,7 @@
 ---
 gsd_state_version: "1.0"
 status: executing
-stopped_at: Phase 2 paused at 02-01 Task 3 (waiting on Google Cloud setup); 02-02 and 02-03 done
+stopped_at: Phase 2 plans complete (02-01..02-04); Read recipe live with self-hosted Tesseract; phase verification and UAT pending
 last_updated: "2026-10-23T13:00:42.363Z"
 last_activity: 2026-10-23
 last_activity_desc: "Completed quick task 261023-h1n: Apply sketch 001 winner A (kraft paper) design to the website"
@@ -11,7 +11,7 @@ progress:
   completed_phases: 0
   # Counts mirror GSD tooling: Plan 01-08 is superseded and excluded; the historical 01-01 summary has no plan file and is not counted.
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 15
   percent: 0
 current_phase_name: Decisions and Shared Cookbook
 ---
@@ -33,7 +33,7 @@ current_phase_name: Decisions and Shared Cookbook
 - **Phase:** 1 — Decisions and Shared Cookbook; executing (Plan 01-01 is completed historical decision/provenance work only).
 - **Plan:** All 11 delivery plans are complete in sequence (09→15→16→17→10→11→12→13→19→14→18). Plans 01-09, 01-15, 01-16, 01-17, 01-10, 01-11, 01-12, 01-13, 01-19, 01-14, and 01-18 are complete. Plan 01-08 is superseded.
 - **Status:** Phase 1 implementation has shipped; initial verification reports `human_needed`. Offline privacy work shipped together at b206cb4 and is deployed on Vercel. The live site https://newrecipewebsite.vercel.app runs on the DEV Supabase project as a temporary demo (user decision); tests wipe its data. Migration 20261021120400 is on DEV and must be pushed to production once a production project exists. Finish production setup and physical-device UAT before marking Phase 1 verified complete.
-- **Progress:** 0 / 3 phases verified complete; Phase 1 plans 11 / 11
+- **Progress:** 0 / 3 phases verified complete; Phase 1 plans 11 / 11; Phase 2 plans 4 / 4 (02-01 decision: self-hosted Tesseract; 02-04 Read recipe live 2026-10-23)
 
 ## Performance Metrics
 
@@ -76,12 +76,12 @@ current_phase_name: Decisions and Shared Cookbook
 
 - Complete the dedicated production Supabase/Vercel setup, then perform the deferred iPhone Safari and Android Chrome UAT for offline reading, sign-out purge, and the absence of an install-app prompt; re-verify Phase 1 afterward.
 - Before real family use: create the Supabase PRODUCTION project (EU; sign-ups OFF, Confirm email OFF, min password 8), point Vercel Production env vars at it with a production-only OWNER_SETUP_CODE, fill `SUPABASE_PROD_DB_URL`, and run db:push:prod (includes 20261021120400_member_removal).
-- In Phase 2, benchmark OCR and structured extraction on representative family material before choosing a provider.
+- Phase 2: run the OCR harness on 5–10 real handwritten pages (the owner can copy made-up recipes by hand) and revisit the Tesseract decision and the D-10 threshold (02-PROVIDER-DECISION.md); then Phase 2 verification and phone UAT (camera/gallery, HEIC, Read recipe, offline photos).
 
 ### Blockers
 
 - Phase 1 plan execution is complete and deployed (01-13 + 01-19 live at 9c2f9f9; 01-14 + 01-18 live at b206cb4). The live site is a DEV-backed demo: no real family data until a PRODUCTION Supabase project exists (tests wipe DEV). Phase verification and physical-device UAT are still outstanding.
-- No family-material OCR benchmark exists yet (Phase 2).
+- Phase 2 reading uses self-hosted Tesseract approved without real handwritten samples (owner accepted the risk, 2026-10-23); expect cursive pages to fail the quality gate and fall back to typing.
 
 ### Quick Tasks Completed
 
