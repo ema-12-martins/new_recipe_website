@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BackLink } from "@/components/back-link";
 import { buttonVariants } from "@/components/ui/button";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { RecipeChecklist } from "@/components/recipe-checklist";
@@ -35,14 +36,8 @@ export default async function RecipePage({
         recipe={recipe}
         photoIds={photos.map((photo) => photo.id)}
       />
-      <Link
-        href={`/${locale}/recipes`}
-        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
-      >
-        {recipes.backToCookbook}
-      </Link>
-
       <div className="recipe-sheet space-y-6">
+        <BackLink href={`/${locale}/recipes`}>{recipes.backToCookbook}</BackLink>
         <h1 className="text-3xl font-bold break-words whitespace-pre-wrap">{recipe.title}</h1>
 
         <RecipeChecklist

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BackLink } from "@/components/back-link";
 import { RecipeForm } from "@/components/recipe-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -26,14 +26,9 @@ export default async function EditRecipePage({
 
   return (
     <>
-      <Link
-        href={`/${locale}/recipes/${recipe.id}`}
-        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
-      >
-        {recipe.title}
-      </Link>
-      <h1 className="text-3xl font-bold">{recipes.editHeading}</h1>
-      <div className="paper-panel">
+      <div className="paper-panel space-y-6">
+        <BackLink href={`/${locale}/recipes/${recipe.id}`}>{recipes.backToRecipe}</BackLink>
+        <h1 className="text-3xl font-bold">{recipes.editHeading}</h1>
         {/* Keyed by version so opening the latest version after a conflict starts a fresh form. */}
         <RecipeForm
           key={`${recipe.id}:${recipe.version}`}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BackLink } from "@/components/back-link";
 import { CreateInviteForm } from "@/components/create-invite-form";
 import { RevokeInviteButton } from "@/components/revoke-invite-button";
 import { buttonVariants } from "@/components/ui/button";
@@ -78,14 +79,10 @@ export default async function MembersPage({
 
   return (
     <>
-      <Link
-        href={`/${locale}/recipes`}
-        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
-      >
-        {recipes.backToCookbook}
-      </Link>
-
-      <h1 className="text-3xl font-bold">{members.heading}</h1>
+      <div className="paper-panel space-y-6">
+        <BackLink href={`/${locale}/recipes`}>{recipes.backToCookbook}</BackLink>
+        <h1 className="text-3xl font-bold">{members.heading}</h1>
+      </div>
 
       {removed === "1" ? (
         <p role="status" className="rounded-md border bg-card px-4 py-3 text-base text-card-foreground">

@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BackLink } from "@/components/back-link";
 import { RecipeForm } from "@/components/recipe-form";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -20,14 +20,9 @@ export default async function NewRecipePage({ params }: { params: Promise<{ loca
 
   return (
     <>
-      <Link
-        href={`/${locale}/recipes`}
-        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
-      >
-        {recipes.backToCookbook}
-      </Link>
-      <h1 className="text-3xl font-bold">{recipes.newHeading}</h1>
-      <div className="paper-panel">
+      <div className="paper-panel space-y-6">
+        <BackLink href={`/${locale}/recipes`}>{recipes.backToCookbook}</BackLink>
+        <h1 className="text-3xl font-bold">{recipes.newHeading}</h1>
         <RecipeForm
           mode="create"
           recipeId={recipeId}

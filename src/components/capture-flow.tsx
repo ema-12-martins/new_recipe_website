@@ -1,8 +1,9 @@
 "use client";
 
-import { Loader2, ScanText, TriangleAlert } from "lucide-react";
+import { ArrowLeft, Loader2, ScanText, TriangleAlert } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { backArrowClassName, backButtonClassName } from "@/components/back-link";
 import { PhotoPicker, type PickedPhoto } from "@/components/photo-picker";
 import { RecipeForm } from "@/components/recipe-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -34,6 +35,8 @@ type CaptureFlowProps = {
   recognition: Dictionary["recognition"];
   /** Read recipe is offered only when an approved provider is configured. */
   recognitionEnabled: boolean;
+  /** Link back to the cookbook, rendered inside the photos panel. */
+  back: React.ReactNode;
 };
 
 type Step = "capture" | "reading" | "failure" | "form";
@@ -54,6 +57,7 @@ export function CaptureFlow({
   capture,
   recognition,
   recognitionEnabled,
+  back,
 }: CaptureFlowProps) {
   const [photos, setPhotos] = useState<PickedPhoto[]>([]);
   const [typed, setTyped] = useState(false);
@@ -149,8 +153,6 @@ export function CaptureFlow({
       </AlertDialog>
 
       <section hidden={!onPhotosStep} className="space-y-6">
-        <h1 className="text-3xl font-bold">{capture.title}</h1>
-
         <div aria-live="polite">
           {step === "reading" ? (
             <Alert className="space-y-3">
@@ -204,6 +206,10 @@ export function CaptureFlow({
 
         {/* Choosing before hydration would be lost, so stay inert until React controls the page. */}
         <fieldset disabled={!hydrated || step === "reading"} className="paper-panel min-w-0 space-y-4">
+          <div className="space-y-6">
+            {back}
+            <h1 className="text-3xl font-bold">{capture.title}</h1>
+          </div>
           <p className="text-base text-muted-foreground">{capture.hint}</p>
           <PhotoPicker photos={photos} onChange={setPhotos} labels={capture} />
           {recognitionEnabled && photos.length > 0 && step !== "failure" ? (
@@ -231,31 +237,30 @@ export function CaptureFlow({
       </section>
 
       <section hidden={step !== "form"} className="space-y-6">
-        <Button
-          type="button"
-          variant="link"
-          className="h-11 px-0 underline"
-          onClick={() => setStep("capture")}
-        >
-          {capture.backToPhotos}
-        </Button>
-        <h1 className="text-3xl font-bold">{capture.manualHeading}</h1>
-        {form.draft ? (
-          <Alert className="bg-secondary text-secondary-foreground">
-            <ScanText aria-hidden />
-            <AlertTitle
-              ref={draftHeading}
-              tabIndex={-1}
-              className="font-display text-lg font-bold outline-none"
-            >
-              {recognition.draftTitle}
-            </AlertTitle>
-            <AlertDescription className="text-base text-secondary-foreground">
-              {recognition.draftBody}
-            </AlertDescription>
-          </Alert>
-        ) : null}
-        <div className="paper-panel">
+        <div className="paper-panel space-y-6">
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className={backButtonClassName} onClick={() => setStep("capture")}>
+              <ArrowLeft aria-hidden className={backArrowClassName} />
+              <span className="truncate">{capture.backToPhotos}</span>
+            </button>
+            {back}
+          </div>
+          <h1 className="text-3xl font-bold">{capture.manualHeading}</h1>
+          {form.draft ? (
+            <Alert className="bg-secondary text-secondary-foreground">
+              <ScanText aria-hidden />
+              <AlertTitle
+                ref={draftHeading}
+                tabIndex={-1}
+                className="font-display text-lg font-bold outline-none"
+              >
+                {recognition.draftTitle}
+              </AlertTitle>
+              <AlertDescription className="text-base text-secondary-foreground">
+                {recognition.draftBody}
+              </AlertDescription>
+            </Alert>
+          ) : null}
           <RecipeForm
             key={form.key}
             mode="create"

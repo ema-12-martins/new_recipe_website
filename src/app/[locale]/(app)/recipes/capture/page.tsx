@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BackLink } from "@/components/back-link";
 import { CaptureFlow } from "@/components/capture-flow";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -26,13 +26,8 @@ export default async function CaptureRecipePage({
 
   return (
     <>
-      <Link
-        href={`/${locale}/recipes`}
-        className="inline-block py-3 text-sm font-bold underline underline-offset-4"
-      >
-        {recipes.backToCookbook}
-      </Link>
       <CaptureFlow
+        back={<BackLink href={`/${locale}/recipes`}>{recipes.backToCookbook}</BackLink>}
         locale={locale}
         cookbookId={membership.cookbookId}
         recipeId={recipeId}
