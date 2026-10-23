@@ -2,6 +2,42 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### App access and first-owner setup
+
+Owning the GitHub repository or Vercel deployment does not create an app account.
+The cookbook uses separate Supabase email/password accounts and cookbook memberships.
+There is no public registration: the first owner sets up the cookbook, then invites
+family members.
+
+- For a new database, open `/en/setup` (or `/pt/setup`), enter the server's
+  `OWNER_SETUP_CODE`, and choose your own email and password (at least 8 characters).
+  The setup code is configured in the server environment; never publish it.
+- Once a cookbook exists, setup is locked. Use `/en/sign-in` (or `/pt/sign-in`)
+  with the existing owner's credentials. For a lost owner password, the operator
+  must reset it in the Supabase dashboard; do not delete the cookbook to regain access.
+- The current deployment at https://newrecipewebsite.vercel.app uses the DEV
+  Supabase database. Automated integration/E2E tests can wipe its accounts and
+  recipes and replace the owner with a generated test account. Test credentials
+  are temporary, not a permanent owner login. Do not store real family recipes there.
+- Before real use, configure a separate production Supabase project, apply the
+  migrations, point Vercel Production at it, and complete first-owner setup with
+  your own credentials. Keep database-reset tests restricted to DEV.
+
+### Testing invite links
+
+An owner creates a one-time invite on the Members page. Opening the link does not
+use it up; it expires after seven days or becomes invalid when revoked or redeemed.
+Someone already signed in can create the invited account without signing out.
+Their current session stays unchanged in all normal tabs. To use the new account
+at the same time, open a private window or a different browser and sign in there.
+Signed-out invitees are signed in automatically after creating their account.
+
+If invite validation is unavailable, retry rather than replacing the link. Check
+server logs for `Invite availability lookup failed.` and its status/code. Verify
+that Vercel's Supabase URL, publishable key, and server-only secret key all belong
+to the same project and that its invite migration has been applied. Never paste
+keys, passwords, or full invite URLs into logs or support reports.
+
 First, run the development server:
 
 ```bash

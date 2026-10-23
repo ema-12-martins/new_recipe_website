@@ -196,17 +196,17 @@ test.describe("invite links", () => {
     await context.close();
   });
 
-  test("opening an invite while signed in asks to sign out first, then offers the invite", async ({
+  test("an invite creates another account in a second tab without replacing the current session", async ({
     page,
     browser,
     baseURL,
   }, testInfo) => {
     test.setTimeout(60_000);
     const link = await createInviteLink(page, `Sessão ${unique(testInfo, "convite")}`);
+    const sessionCheckLink = await createInviteLink(page, `Verificar ${unique(testInfo, "convite")}`);
     const email = `${unique(testInfo, "outra")}@example.com`;
     await createTestUser({ email, password: PASSWORD, role: "member" });
 
-    // A separate device: signing out revokes the session, and the owner's is shared by other tests.
     const { context, page: device } = await openDevice(browser, baseURL, testInfo);
     await device.goto("/pt/sign-in");
     await device.getByLabel(pt.auth.signIn.email, { exact: true }).fill(email);
@@ -214,14 +214,67 @@ test.describe("invite links", () => {
     await device.getByRole("button", { name: pt.auth.signIn.submit, exact: true }).click();
     await device.waitForURL("**/pt/recipes");
 
-    const invitePath = new URL(link).pathname;
-    await device.goto(invitePath);
-    await expect(device.getByText(join.signedInAs.replace("{email}", email))).toBeVisible();
-    await expect(device.getByLabel(join.email, { exact: true })).toHaveCount(0);
+    const invitedEmail = `${unique(testInfo, "novo")}@example.com`;
+    const inviteTab = await context.newPage();
+    await inviteTab.goto(new URL(link).pathname);
+    await expect(inviteTab.getByText(join.signedInAs.replace("{email}", email))).toBeVisible();
+    await expect(inviteTab.getByLabel(join.email, { exact: true })).toBeVisible();
 
-    await device.getByRole("button", { name: pt.auth.signOut, exact: true }).click();
-    await device.waitForURL(`**${invitePath}`);
+    await inviteTab.getByLabel(join.email, { exact: true }).fill(invitedEmail);
+    await inviteTab.getByLabel(join.password, { exact: true }).fill(PASSWORD);
+    await inviteTab.getByRole("button", { name: join.submit, exact: true }).click();
+    await expect(inviteTab.getByText(join.created.replace("{email}", invitedEmail))).toBeVisible();
+    await expect(inviteTab.getByLabel(join.email, { exact: true })).toHaveCount(0);
+
+    await device.reload();
+    await device.goto(new URL(sessionCheckLink).pathname);
+    await expect(device.getByText(join.signedInAs.replace("{email}", email))).toBeVisible();
+    await inviteTab.getByRole("link", { name: join.returnToCookbook, exact: true }).click();
+    await inviteTab.waitForURL("**/pt/recipes");
+    await expect(inviteTab.getByRole("button", { name: pt.auth.signOut, exact: true })).toBeVisible();
+
+    const newMember = await openDevice(browser, baseURL, testInfo);
+    await newMember.page.goto("/pt/sign-in");
+    await newMember.page.getByLabel(pt.auth.signIn.email, { exact: true }).fill(invitedEmail);
+    await newMember.page.getByLabel(pt.auth.signIn.password, { exact: true }).fill(PASSWORD);
+    await newMember.page.getByRole("button", { name: pt.auth.signIn.submit, exact: true }).click();
+    await newMember.page.waitForURL("**/pt/recipes");
+    await newMember.page.goto(new URL(sessionCheckLink).pathname);
+    await expect(
+      newMember.page.getByText(join.signedInAs.replace("{email}", invitedEmail)),
+    ).toBeVisible();
+
+    await newMember.page.goto(new URL(link).pathname);
+    await expect(newMember.page.getByText(join.invalid)).toBeVisible();
+    await expect(newMember.page.getByLabel(join.email, { exact: true })).toHaveCount(0);
+    await newMember.context.close();
+    await context.close();
+  });
+
+  test("a fresh invite remains usable after viewing it signed in and signing out", async ({
+    page,
+    browser,
+    baseURL,
+  }, testInfo) => {
+    test.setTimeout(60_000);
+    const link = await createInviteLink(page, `Sair ${unique(testInfo, "convite")}`);
+    const email = `${unique(testInfo, "sessao")}@example.com`;
+    await createTestUser({ email, password: PASSWORD, role: "member" });
+    const { context, page: device } = await openDevice(browser, baseURL, testInfo);
+    await device.goto("/pt/sign-in");
+    await device.getByLabel(pt.auth.signIn.email, { exact: true }).fill(email);
+    await device.getByLabel(pt.auth.signIn.password, { exact: true }).fill(PASSWORD);
+    await device.getByRole("button", { name: pt.auth.signIn.submit, exact: true }).click();
+    await device.waitForURL("**/pt/recipes");
+
+    await device.goto(new URL(link).pathname);
     await expect(device.getByLabel(join.email, { exact: true })).toBeVisible();
+    await device.getByRole("link", { name: join.returnToCookbook, exact: true }).click();
+    await device.getByRole("button", { name: pt.auth.signOut, exact: true }).click();
+    await device.waitForURL("**/pt/sign-in");
+
+    await joinThroughUi(device, link, `${unique(testInfo, "convidado")}@example.com`);
+    await device.waitForURL("**/pt/recipes");
     await context.close();
   });
 });

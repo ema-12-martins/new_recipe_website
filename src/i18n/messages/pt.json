@@ -138,13 +138,16 @@
       "password": "Palavra-passe (mínimo 8 caracteres)",
       "submit": "Criar conta e entrar",
       "invalid": "Este convite já não é válido — peça um novo link ao dono.",
-      "signedInAs": "Tem sessão iniciada como {email}. Termine a sessão para usar este convite.",
+      "signedInAs": "Tem sessão iniciada como {email}. Pode criar outra conta aqui sem alterar a sessão atual.",
+      "created": "Conta criada para {email}. A sua conta atual continua com sessão iniciada. Para usar a nova conta, termine a sessão ou abra uma janela privada do navegador.",
+      "returnToCookbook": "Voltar ao seu livro de receitas",
+      "unavailable": "Não foi possível verificar este convite agora. Tente novamente. O link não foi marcado como inválido.",
+      "retry": "Tentar novamente",
       "errors": {
         "invalid_input": "Verifique o endereço de email e use uma palavra-passe com 8 a 128 caracteres.",
         "invalid_invite": "Este convite já não é válido — peça um novo link ao dono.",
         "email_taken": "Já existe uma conta com este email. Entre com essa conta ou peça ajuda ao dono.",
-        "error": "Não foi possível criar a conta. Tente novamente.",
-        "signed_in": "Termine a sessão atual antes de usar este convite."
+        "error": "Não foi possível criar a conta. Tente novamente."
       }
     }
   },

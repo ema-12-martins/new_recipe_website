@@ -138,13 +138,16 @@
       "password": "Password (at least 8 characters)",
       "submit": "Create account and join",
       "invalid": "This invite is no longer valid — ask the owner for a new link.",
-      "signedInAs": "You are signed in as {email}. Sign out to use this invite.",
+      "signedInAs": "You are signed in as {email}. You can create another account here without changing your current session.",
+      "created": "Account created for {email}. Your current account is still signed in. To use the new account, sign out or open a private browser window.",
+      "returnToCookbook": "Return to your cookbook",
+      "unavailable": "We could not check this invite right now. Please try again. The link has not been marked invalid.",
+      "retry": "Try again",
       "errors": {
         "invalid_input": "Check the email address and use a password of 8 to 128 characters.",
         "invalid_invite": "This invite is no longer valid — ask the owner for a new link.",
         "email_taken": "An account with this email already exists. Sign in with it or ask the owner for help.",
-        "error": "The account could not be created. Please try again.",
-        "signed_in": "Sign out of the current account before using this invite."
+        "error": "The account could not be created. Please try again."
       }
     }
   },

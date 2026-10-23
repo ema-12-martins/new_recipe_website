@@ -2,18 +2,18 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { isAuthSessionMissingError } from "@supabase/supabase-js";
 
 import { LOCALE_COOKIE, defaultLocale, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { redeemInvite } from "@/lib/invites/redeem";
-import { isInviteTokenFormat } from "@/lib/invites/token";
 import { createClient } from "@/lib/supabase/server";
 
-export type JoinState = { error?: string; email?: string };
+export type JoinState = { error?: string; email?: string; created?: boolean };
 
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
-/** Creates the invitee's account, joins it to the cookbook and signs it in on this device. */
+/** Creates the invitee's account without replacing an existing browser session. */
 export async function joinAction(_prevState: JoinState, formData: FormData): Promise<JoinState> {
   const rawLocale = formData.get("locale");
   const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
@@ -25,12 +25,16 @@ export async function joinAction(_prevState: JoinState, formData: FormData): Pro
   const supabase = await createClient();
   const {
     data: { user },
+    error: sessionError,
   } = await supabase.auth.getUser();
-  // Never join while another account is signed in on this device.
-  if (user) return { error: errors.signed_in, email };
+  if (sessionError && !isAuthSessionMissingError(sessionError)) {
+    return { error: errors.error, email };
+  }
 
   const result = await redeemInvite({ token: formData.get("token"), email, password, locale });
   if (!result.ok) return { error: errors[result.reason], email };
+
+  if (user) return { created: true, email: email.trim() };
 
   const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
   // The account exists and has joined; the person can still sign in normally.
@@ -40,12 +44,4 @@ export async function joinAction(_prevState: JoinState, formData: FormData): Pro
   cookieStore.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax", maxAge: ONE_YEAR_SECONDS });
 
   redirect(`/${locale}/recipes`);
-}
-
-/** Signs out on this device only and returns to the same invite link. */
-export async function signOutForInviteAction(locale: string, token: string): Promise<void> {
-  const target = isLocale(locale) ? locale : defaultLocale;
-  const supabase = await createClient();
-  await supabase.auth.signOut({ scope: "local" });
-  redirect(isInviteTokenFormat(token) ? `/${target}/join/${token}` : `/${target}/sign-in`);
 }

@@ -1,14 +1,12 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 import { JoinForm } from "@/components/join-form";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { Button } from "@/components/ui/button";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getInviteState } from "@/lib/invites/redeem";
 import { createClient } from "@/lib/supabase/server";
-
-import { signOutForInviteAction } from "./actions";
 
 /** Guided join through a one-time invite link (D-07, D-29). */
 export default async function JoinPage({
@@ -19,7 +17,7 @@ export default async function JoinPage({
   const { locale, token } = await params;
   if (!isLocale(locale)) notFound();
 
-  const { common, auth, members } = getDictionary(locale);
+  const { common, members } = getDictionary(locale);
   const join = members.join;
 
   const supabase = await createClient();
@@ -27,21 +25,18 @@ export default async function JoinPage({
     data: { user },
   } = await supabase.auth.getUser();
 
+  const inviteState = await getInviteState(token);
   let body: React.ReactNode;
-  if (user) {
+  if (inviteState === "unavailable") {
     body = (
       <div className="space-y-4">
-        <p role="status" className="text-base">
-          {join.signedInAs.replace("{email}", user.email ?? "")}
-        </p>
-        <form action={signOutForInviteAction.bind(null, locale, token)}>
-          <Button type="submit" variant="outline" className="h-11">
-            {auth.signOut}
-          </Button>
-        </form>
+        <p role="alert">{join.unavailable}</p>
+        <a href={`/${locale}/join/${token}`} className="font-medium underline underline-offset-4">
+          {join.retry}
+        </a>
       </div>
     );
-  } else if ((await getInviteState(token)) === "invalid") {
+  } else if (inviteState === "invalid") {
     body = (
       <p role="status" className="text-base">
         {join.invalid}
@@ -51,6 +46,11 @@ export default async function JoinPage({
     body = (
       <>
         <p className="text-base text-muted-foreground">{join.intro}</p>
+        {user ? (
+          <p role="status" className="text-sm text-muted-foreground">
+            {join.signedInAs.replace("{email}", user.email ?? "")}
+          </p>
+        ) : null}
         <JoinForm
           locale={locale}
           token={token}
@@ -59,6 +59,7 @@ export default async function JoinPage({
             emailNote: join.emailNote,
             password: join.password,
             submit: join.submit,
+            created: join.created,
           }}
         />
       </>
@@ -77,6 +78,11 @@ export default async function JoinPage({
       </div>
 
       {body}
+      {user ? (
+        <Link href={`/${locale}/recipes`} className="inline-block underline underline-offset-4">
+          {join.returnToCookbook}
+        </Link>
+      ) : null}
     </main>
   );
 }

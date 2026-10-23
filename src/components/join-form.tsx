@@ -13,6 +13,7 @@ export type JoinLabels = {
   emailNote: string;
   password: string;
   submit: string;
+  created: string;
 };
 
 const noopSubscribe = () => () => {};
@@ -33,6 +34,10 @@ export function JoinForm({
     () => true,
     () => false,
   );
+
+  if (state.created) {
+    return <p role="status">{labels.created.replace("{email}", state.email ?? "")}</p>;
+  }
 
   return (
     <form action={formAction} className="space-y-4" noValidate>

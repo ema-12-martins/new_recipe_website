@@ -14,7 +14,7 @@ export type RedeemInviteResult =
 const fail = (reason: RedeemInviteFailure): RedeemInviteResult => ({ ok: false, reason });
 
 async function isUsable(tokenHash: string): Promise<boolean | null> {
-  const { data, error } = await createAdminClient()
+  const { data, error, status } = await createAdminClient()
     .from("invites")
     .select("id")
     .eq("token_hash", tokenHash)
@@ -22,14 +22,19 @@ async function isUsable(tokenHash: string): Promise<boolean | null> {
     .is("revoked_at", null)
     .gt("expires_at", new Date().toISOString())
     .maybeSingle();
-  if (error) return null;
+  if (error) {
+    console.error("Invite availability lookup failed.", { code: error.code, status });
+    return null;
+  }
   return data !== null;
 }
 
 /** Whether an invite link can still be used. The redeem_invite function stays the authority. */
-export async function getInviteState(token: string): Promise<"valid" | "invalid"> {
+export async function getInviteState(token: string): Promise<"valid" | "invalid" | "unavailable"> {
   if (!isInviteTokenFormat(token)) return "invalid";
-  return (await isUsable(hashInviteToken(token))) ? "valid" : "invalid";
+  const usable = await isUsable(hashInviteToken(token));
+  if (usable === null) return "unavailable";
+  return usable ? "valid" : "invalid";
 }
 
 /**
