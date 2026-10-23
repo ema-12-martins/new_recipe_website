@@ -30,6 +30,8 @@ export default defineConfig({
     url: `${baseURL}/pt/setup`,
     reuseExistingServer: false,
     timeout: 180_000,
+    // Deterministic photo reading for recipe-draft.spec.ts; merged with process.env.
+    env: { RECOGNITION_PROVIDER: "stub" },
   },
   projects: [
     {

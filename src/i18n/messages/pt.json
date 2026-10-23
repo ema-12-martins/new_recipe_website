@@ -206,6 +206,20 @@
       "stay": "Continuar a editar"
     }
   },
+  "recognition": {
+    "read": "Ler receita",
+    "readingTitle": "A ler a receita…",
+    "readingHint": "Pode demorar até um minuto.",
+    "stop": "Parar leitura",
+    "offline": "Ler fotografias precisa de ligação à internet. Pode escrever a receita à mesma.",
+    "failureTitle": "Não conseguimos ler esta receita",
+    "failureBody": "As fotografias podem estar desfocadas ou escuras, ou o serviço pode estar indisponível. Nada foi guardado. Tente novamente ou escreva a receita.",
+    "tryAgain": "Tentar novamente",
+    "enterManually": "Escrever manualmente",
+    "draftTitle": "Rascunho – ainda não guardado",
+    "draftBody": "Lemos isto a partir das suas fotografias. Confira cada linha com a letra original antes de guardar; as quantidades e as unidades podem estar erradas.",
+    "discardAndRetry": "Descartar e tentar novamente"
+  },
   "photos": {
     "heading": "Fotografias originais",
     "alt": "Fotografia original {n} de {total}",

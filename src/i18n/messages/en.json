@@ -206,6 +206,20 @@
       "stay": "Keep editing"
     }
   },
+  "recognition": {
+    "read": "Read recipe",
+    "readingTitle": "Reading your recipe…",
+    "readingHint": "This can take up to a minute.",
+    "stop": "Stop reading",
+    "offline": "Reading photos needs an internet connection. You can still type the recipe yourself.",
+    "failureTitle": "We couldn't read this recipe",
+    "failureBody": "The photos may be blurry or too dark, or the service is unavailable. Nothing has been saved. Try again or type the recipe yourself.",
+    "tryAgain": "Try again",
+    "enterManually": "Enter it manually",
+    "draftTitle": "Draft – not saved yet",
+    "draftBody": "We read this from your photos. Check every line against the handwriting before saving; amounts and units may be wrong.",
+    "discardAndRetry": "Discard and try again"
+  },
   "photos": {
     "heading": "Original photos",
     "alt": "Original photo {n} of {total}",
