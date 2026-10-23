@@ -1,5 +1,5 @@
----
-status: verifying
+﻿---
+status: resolved
 trigger: "Invite links demand sign-out when another account is open, then appear invalid even after signing out."
 created: 2026-10-23
 updated: 2026-10-23
@@ -22,7 +22,7 @@ updated: 2026-10-23
 hypothesis: Vercel's SUPABASE_SECRET_KEY is set but rejected by the DEV project (publishable key pasted as secret -> 42501, or a stale/rotated/other-project key -> "Invalid API key").
 test: Read the "Invite availability lookup failed." log line (code/status) in Vercel runtime logs, correct SUPABASE_SECRET_KEY, redeploy, retry a fresh link.
 expecting: After correcting the key, a fresh link shows the email form both signed out and signed in.
-next_action: Operator opens Vercel > Settings > Environment Variables, replaces Production SUPABASE_SECRET_KEY with the DEV project's sb_secret_ key (no quotes), redeploys, then re-runs the well-formed-token live probe.
+next_action: None. Resolved and verified live on 2026-10-23 11:50.
 
 ## Evidence
 
@@ -51,9 +51,9 @@ next_action: Operator opens Vercel > Settings > Environment Variables, replaces 
 - No subagent or ask-user tools are available in this runtime; investigate directly
   and use plain-text questions for any necessary user decisions.
 - 2026-10-23 re-report: operator screenshot of the join page still shows the old
-  "Termine a sessão para usar este convite." copy with a Sair button. That string
+  "Termine a sessÃ£o para usar este convite." copy with a Sair button. That string
   no longer exists in the working tree (now "Pode criar outra conta aqui sem
-  alterar a sessão atual."), confirming the tested app runs pre-fix code. Fix is
+  alterar a sessÃ£o atual."), confirming the tested app runs pre-fix code. Fix is
   still uncommitted. Re-ran targeted checks on the working tree: 8/8 unit tests in
   join-action/invite-state pass, tsc --noEmit clean, ESLint clean on join files.
 
@@ -81,7 +81,7 @@ next_action: Operator opens Vercel > Settings > Environment Variables, replaces 
   variable cannot be changed from here.
 
 - 2026-10-23 11:35 re-report with screenshots: owner creates a link in one tab,
-  opens it in a second tab and sees "Não foi possível verificar este convite agora".
+  opens it in a second tab and sees "NÃ£o foi possÃ­vel verificar este convite agora".
   Two tabs are not the cause: a well-formed, never-issued 43-char token also shows
   "unavailable" signed out. (A malformed probe token shows "invalid" without any
   query, so earlier probes must use the real token format.)
@@ -105,7 +105,7 @@ next_action: Operator opens Vercel > Settings > Environment Variables, replaces 
 
 root_cause: (1) Signed-in visitors were explicitly blocked by both the join page and server action (fixed in 27a5ce0, deployed). (2) On Vercel, SUPABASE_SECRET_KEY is present but rejected by the DEV project, so every invite lookup/redeem fails; previously this was mislabelled "invalid link". Requires an operator environment fix.
 fix: Allow bearer-invite registration while signed in, preserving the current browser session and explaining how to use the new account separately. Keep signed-out auto-login. Distinguish unavailable validation from invalid links, provide retry, and log only backend status/code (never raw tokens or credentials). Update Portuguese/English copy, regression tests, and README guidance.
-verification: Local production build and targeted unit/browser checks pass; code fix is deployed (27a5ce0). Live invite flow remains blocked until the Vercel secret is corrected and redeployed.
+verification: 2026-10-23 11:50 live, after the operator replaced the Vercel Production SUPABASE_SECRET_KEY with the DEV sb_secret_ key and redeployed (Vercel success 10:48:31Z): a well-formed unknown token shows "no longer valid"; real browser, one context: owner signs in in tab 1, creates an invite, opens it in tab 2, sees the join form with the signed-in note, creates an account; the owner stays signed in in tab 1; the new account signs in as member; reusing the link shows invalid. Probe user and invite deleted afterwards.
 
 ## Checkpoint
 
