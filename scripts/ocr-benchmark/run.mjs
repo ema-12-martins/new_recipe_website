@@ -105,6 +105,8 @@ async function main() {
       });
     }
   }
+  // Providers that keep local workers (Tesseract) must release them so the process can exit.
+  await provider.close?.();
 
   const scored = results.filter((result) => !result.failed);
   const latencies = results.map((result) => result.latencyMs);
