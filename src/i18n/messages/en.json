@@ -70,6 +70,13 @@
     "tickHint": "Tap to cross off what you have ready.",
     "stepHint": "Tap the step you are on.",
     "currentStep": "doing now",
+    "search": {
+      "label": "Search recipes",
+      "placeholder": "Search by name or ingredient",
+      "clear": "Clear the search",
+      "found": { "one": "{n} recipe found", "other": "{n} recipes found" },
+      "none": "No recipes found for “{query}”. Try another word."
+    },
     "card": {
       "ingredients": { "one": "{n} ingredient", "other": "{n} ingredients" },
       "steps": { "one": "{n} step", "other": "{n} steps" },

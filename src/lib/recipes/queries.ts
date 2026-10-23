@@ -7,6 +7,8 @@ import { parseRecipeRow, type RecipeRecord } from "./schema";
 export type RecipeListItem = {
   id: string;
   title: string;
+  /** Used only to search; the card shows a count. */
+  ingredients: string[];
   ingredientCount: number;
   stepCount: number;
   photoCount: number;
@@ -34,6 +36,7 @@ export async function listRecipes(locale: string): Promise<RecipeListItem[]> {
   const items = (data as RecipeListRow[]).map((row) => ({
     id: row.id,
     title: row.title,
+    ingredients: row.ingredients ?? [],
     ingredientCount: row.ingredients?.length ?? 0,
     stepCount: row.steps?.length ?? 0,
     photoCount: row.recipe_photos?.[0]?.count ?? 0,

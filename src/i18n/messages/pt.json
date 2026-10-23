@@ -70,6 +70,13 @@
     "tickHint": "Toque para riscar o que já juntou.",
     "stepHint": "Toque no passo em que vai.",
     "currentStep": "a fazer agora",
+    "search": {
+      "label": "Pesquisar receitas",
+      "placeholder": "Pesquisar por nome ou ingrediente",
+      "clear": "Limpar a pesquisa",
+      "found": { "one": "{n} receita encontrada", "other": "{n} receitas encontradas" },
+      "none": "Nenhuma receita encontrada para «{query}». Experimente outra palavra."
+    },
     "card": {
       "ingredients": { "one": "{n} ingrediente", "other": "{n} ingredientes" },
       "steps": { "one": "{n} passo", "other": "{n} passos" },
